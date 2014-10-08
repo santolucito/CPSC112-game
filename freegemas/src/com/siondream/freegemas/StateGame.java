@@ -646,8 +646,8 @@ public class StateGame extends State {
 		
 		if (_state != State.ShowingScoreTable) {
 			// Go through all of the squares
-	        for (int i = 0; i < 8; ++i) {
-	            for (int j = 0; j < 8; ++j) {
+	        for (int i = 0; i < _board.size; ++i) {
+	            for (int j = 0; j < _board.size; ++j) {
 
 	                // Check the type of each square and
 	                // save the proper image in the img pointer
@@ -919,8 +919,8 @@ public class StateGame extends State {
 	}
 
 	private void gemsOutScreen() {
-	    for(int x = 0; x < 8; ++x){
-	        for(int y = 0; y < 8; ++y){
+	    for(int x = 0; x < _board.size; ++x){
+	        for(int y = 0; y < _board.size; ++y){
 	            _board.getSquare(x, y).mustFall = true;
 	            _board.getSquare(x, y).origY = y;
 	            _board.getSquare(x, y).destY = 9 + MathUtils.random(1, 7);
@@ -952,8 +952,8 @@ public class StateGame extends State {
 	}
 	
 	private boolean overGem(int mX, int mY) {
-		return (mX > gemsInitial.x && mX < gemsInitial.x + 76 * 8 &&
-	            mY > gemsInitial.y && mY < gemsInitial.y + 76 * 8);
+		return (mX > gemsInitial.x && mX < gemsInitial.x + 76 * _board.size &&
+	            mY > gemsInitial.y && mY < gemsInitial.y + 76 * _board.size);
 	}
 	
 	private Coord getCoord(int mX, int mY) {

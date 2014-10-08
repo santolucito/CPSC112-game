@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class Board {
 	private Square[][] _squares;
-	private int size = 8;
+	public int size = 8;
 	
 	// Aux 
 	private MultipleMatch _matches = new MultipleMatch();
