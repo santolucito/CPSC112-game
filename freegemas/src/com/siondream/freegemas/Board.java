@@ -8,8 +8,8 @@ public class Board {
 	
 	// Aux 
 	private MultipleMatch _matches = new MultipleMatch();
-	private Match[][] _columns = new Match[8][6];
-	private Match[][] _rows = new Match[8][6];
+	private Match[][] _columns = new Match[8][8];
+	private Match[][] _rows = new Match[8][8];
 	private Coord[] _matchCoords = new Coord[1000];
 	private Coord[] _solCoords = new Coord[1000];
 	private Array<Coord> _results = new Array<Coord>();
@@ -18,7 +18,7 @@ public class Board {
 		_squares = new Square[8][8];
 		
 		for (int x = 0; x < 8; ++x) {
-			for (int y = 0; y < 6; ++y) {
+			for (int y = 0; y < 8; ++y) {
 				_columns[x][y] = new Match();
 				_rows[x][y] = new Match();
 			}
@@ -31,7 +31,7 @@ public class Board {
 	}
 	
 	public Square getSquare(int x, int y) {
-		if (x < 0 || x > 7 || y < 0 || y > 7) {
+		if (x < 0 || x >= 8 || y < 0 || y >= 8) {
 			return null;
 		}
 		else {
@@ -88,6 +88,11 @@ public class Board {
 			else if (solutions().size == 0) {
 				System.out.println("Generated board doesn't have solutions, repeating...");
 				repeat = true;
+			}
+			for(int i=0;i<8;i++){
+				for(int j=0;j<8;j++){
+					System.out.print("_row["+i+"]["+j+"] " + _rows[i][j]+"\n"); 
+				}
 			}
 		} while(repeat);
 		
@@ -169,7 +174,7 @@ public class Board {
 	    // First, we check each row (horizontal)
 	    for (int y = 0; y < 8; ++y) {
 
-	        for (int x = 0; x < 6; ++x) {
+	        for (int x = 0; x < 8; ++x) {
 
 	            Match currentRow = _rows[y][x];
 	            currentRow.clear();
@@ -200,7 +205,7 @@ public class Board {
 	    }
 
 	    for (int x = 0; x < 8; ++x) {
-	        for (int y = 0; y < 6; ++y) {
+	        for (int y = 0; y < 8; ++y) {
 
 	            Match currentColumn = _columns[x][y];
 	            currentColumn.clear();
@@ -266,7 +271,7 @@ public class Board {
 	            }
 
 	            // Swap with the one below and check
-	            if (y < 7) {
+	            if (y <= 8) {
 	                swap(x, y, x, y + 1);
 	                if (check().size != 0) {
 	                	_solCoords[currCoord].x = x;
@@ -292,7 +297,7 @@ public class Board {
 	            }
 
 	            // Swap with the one on the right and check
-	            if (x < 7) {
+	            if (x <= 8) {
 	                swap(x, y, x + 1, y);
 	                if (check().size != 0) {
 	                	_solCoords[currCoord].x = x;
