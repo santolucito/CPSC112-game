@@ -5,20 +5,21 @@ import com.badlogic.gdx.utils.Array;
 
 public class Board {
 	private Square[][] _squares;
+	private int size = 8;
 	
 	// Aux 
 	private MultipleMatch _matches = new MultipleMatch();
-	private Match[][] _columns = new Match[8][8];
-	private Match[][] _rows = new Match[8][8];
+	private Match[][] _columns = new Match[size][size];
+	private Match[][] _rows = new Match[size][size];
 	private Coord[] _matchCoords = new Coord[1000];
 	private Coord[] _solCoords = new Coord[1000];
 	private Array<Coord> _results = new Array<Coord>();
 	
 	public Board() {
-		_squares = new Square[8][8];
+		_squares = new Square[size][size];
 		
-		for (int x = 0; x < 8; ++x) {
-			for (int y = 0; y < 8; ++y) {
+		for (int x = 0; x < size; ++x) {
+			for (int y = 0; y < size; ++y) {
 				_columns[x][y] = new Match();
 				_rows[x][y] = new Match();
 			}
@@ -31,7 +32,7 @@ public class Board {
 	}
 	
 	public Square getSquare(int x, int y) {
-		if (x < 0 || x >= 8 || y < 0 || y >= 8) {
+		if (x < 0 || x >= size || y < 0 || y >= size) {
 			return null;
 		}
 		else {
@@ -44,10 +45,10 @@ public class Board {
 	}
 	
 	public void swap(int x1, int y1, int x2, int y2) {
-//		if (x1 >= 0 && x1 < 8 &&
-//			y1 >= 0 && y1 < 8 &&
-//			x2 >= 0 && x2 < 8 &&
-//			y2 >= 0 && y2 < 8) {
+//		if (x1 >= 0 && x1 < size &&
+//			y1 >= 0 && y1 < size &&
+//			x2 >= 0 && x2 < size &&
+//			y2 >= 0 && y2 < size) {
 			
 			Square temp = _squares[x1][y1];
 			_squares[x1][y1] = _squares[x2][y2]; 
@@ -56,8 +57,8 @@ public class Board {
 	}
 	
 	public void del(int x, int y) {
-//		if (x >= 0 && x < 8 &&
-//			y >= 0 && y < 8) {
+//		if (x >= 0 && x < size &&
+//			y >= 0 && y < size) {
 			
 			_squares[x][y].setType(Square.Type.sqEmpty);
 //		}
@@ -70,8 +71,8 @@ public class Board {
 			repeat = false;
 			System.out.println("### Generating...");
 			
-			for (int i = 0; i < 8; ++i) {
-				for (int j = 0; j < 8; ++j) {
+			for (int i = 0; i < size; ++i) {
+				for (int j = 0; j < size; ++j) {
 					_squares[i][j] = new Square(Square.numToType(MathUtils.random(1, 7)));
 	                _squares[i][j].mustFall = true;
 	                _squares[i][j].origY = (int)MathUtils.random(-7, -1);
@@ -89,8 +90,8 @@ public class Board {
 				System.out.println("Generated board doesn't have solutions, repeating...");
 				repeat = true;
 			}
-			for(int i=0;i<8;i++){
-				for(int j=0;j<8;j++){
+			for(int i=0;i<size;i++){
+				for(int j=0;j<size;j++){
 					System.out.print("_row["+i+"]["+j+"] " + _rows[i][j]+"\n"); 
 				}
 			}
@@ -100,7 +101,7 @@ public class Board {
 	}
 	
 	public void calcFallMovements() {
-		for (int x = 0; x < 8; ++x) {
+		for (int x = 0; x < size; ++x) {
 			// From bottom to top
 			for (int y = 7; y >= 0; --y) {
 				// origY stores the initial position in the fall
@@ -123,7 +124,7 @@ public class Board {
 	}
 	
 	public void applyFall() {
-		for (int x = 0; x < 8; ++x) {
+		for (int x = 0; x < size; ++x) {
 			// From bottom to top in order not to overwrite squares
 			for (int y = 7; y >= 0; --y) {
 				if (_squares[x][y].mustFall == true &&
@@ -143,18 +144,18 @@ public class Board {
 	}
 	
 	public void fillSpaces() {
-		for(int x = 0; x < 8; ++x){
+		for(int x = 0; x < size; ++x){
 	        // Count how many jumps do we have to fall
 	        int jumps = 0;
 
-	        for(int y = 0; y < 8; ++y){
+	        for(int y = 0; y < size; ++y){
 	            if(!_squares[x][y].equals(Square.Type.sqEmpty)) {
 	            	break;
 	            }
 	            ++jumps;
 	        }
 
-	        for(int y = 0; y < 8; ++y){
+	        for(int y = 0; y < size; ++y){
 	            if(_squares[x][y].equals(Square.Type.sqEmpty)) {
 	                _squares[x][y].setType(Square.numToType(MathUtils.random(1, 7)));
 	                _squares[x][y].mustFall = true;  
@@ -172,9 +173,9 @@ public class Board {
 	    int currCoord = 0;
 	    
 	    // First, we check each row (horizontal)
-	    for (int y = 0; y < 8; ++y) {
+	    for (int y = 0; y < size; ++y) {
 
-	        for (int x = 0; x < 8; ++x) {
+	        for (int x = 0; x < size; ++x) {
 
 	            Match currentRow = _rows[y][x];
 	            currentRow.clear();
@@ -183,7 +184,7 @@ public class Board {
 	            currentRow.add(_matchCoords[currCoord]);
 	            ++currCoord;
 
-	            for (k = x + 1; k < 8; ++k) {
+	            for (k = x + 1; k < size; ++k) {
 	                if (_squares[x][y].equals(_squares[k][y]) &&
 	                   !_squares[x][y].equals(Square.Type.sqEmpty)) {
 	                	_matchCoords[currCoord].x = k;
@@ -204,8 +205,8 @@ public class Board {
 	        }   
 	    }
 
-	    for (int x = 0; x < 8; ++x) {
-	        for (int y = 0; y < 8; ++y) {
+	    for (int x = 0; x < size; ++x) {
+	        for (int y = 0; y < size; ++y) {
 
 	            Match currentColumn = _columns[x][y];
 	            currentColumn.clear();
@@ -214,7 +215,7 @@ public class Board {
 	            currentColumn.add(_matchCoords[currCoord]);
 	            ++currCoord;
 
-	            for (k = y + 1; k < 8; ++k) {
+	            for (k = y + 1; k < size; ++k) {
 	                if (_squares[x][y].equals(_squares[x][k]) &&
 	                	!_squares[x][y].equals(Square.Type.sqEmpty)) {
 	                	_matchCoords[currCoord].x = x;
@@ -254,8 +255,8 @@ public class Board {
 	       Check all possible boards
 	       (49 * 4) + (32 * 2) although there are many duplicates
 	    */
-	    for(int x = 0; x < 8; ++x){
-	        for(int y = 0; y < 8; ++y){
+	    for(int x = 0; x < size; ++x){
+	        for(int y = 0; y < size; ++y){
 	        
 	            // Swap with the one above and check
 	            if (y > 0) {
@@ -271,7 +272,7 @@ public class Board {
 	            }
 
 	            // Swap with the one below and check
-	            if (y <= 8) {
+	            if (y < size-1) {
 	                swap(x, y, x, y + 1);
 	                if (check().size != 0) {
 	                	_solCoords[currCoord].x = x;
@@ -297,7 +298,7 @@ public class Board {
 	            }
 
 	            // Swap with the one on the right and check
-	            if (x <= 8) {
+	            if (x < size-1) {
 	                swap(x, y, x + 1, y);
 	                if (check().size != 0) {
 	                	_solCoords[currCoord].x = x;
@@ -315,8 +316,8 @@ public class Board {
 	}
 	
 	public void endAnimation() {
-		for(int x = 0; x < 8; ++x){
-	        for(int y = 0; y < 8; ++y){
+		for(int x = 0; x < size; ++x){
+	        for(int y = 0; y < size; ++y){
 	            _squares[x][y].mustFall = false;
 	            _squares[x][y].origY = y;
 	            _squares[x][y].destY = 0;
@@ -327,8 +328,8 @@ public class Board {
 	public String toString() {
 		String string = "";
 		
-		for (int i = 0; i < 8; ++i) {
-			for (int j = 0; j < 8; ++j) {
+		for (int i = 0; i < size; ++i) {
+			for (int j = 0; j < size; ++j) {
 				string += "(" + _squares[i][j].origY + ", " + _squares[i][j].destY + ")  ";
 			}
 			
