@@ -8,6 +8,7 @@ public class Board {
 	public final int size = 8;
 	
 	// Aux 
+	//test
 	private MultipleMatch _matches = new MultipleMatch();
 	private Match[][] _columns = new Match[size][size];
 	private Match[][] _rows = new Match[size][size];
