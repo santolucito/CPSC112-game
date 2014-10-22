@@ -31,6 +31,7 @@ public class GemsAnimation {
 		_imgGems[5] = new TextureRegion(assetManager.get("data/gemYellow.png", Texture.class));
 		_imgGems[6] = new TextureRegion(assetManager.get("data/gemBlue.png", Texture.class));
 		
+		//TODO refactor 76 with board size
 		for (int i = 0; i < 7; ++i) {
 			_imgGems[i].flip(false, true);
 			_posX[i] = Freegemas.VIRTUAL_WIDTH / 2 - (76 * 7) / 2 + i * 76;
