@@ -3,9 +3,9 @@ CPSC112-game
 
 This is intended as an instruction module to teach intro students about
 loops, arrays, objects, and the like.
-This is based off David Saltares's code [here](https://github.com/siondream/freegemas-gdx)
-Which is based off José Tomás Tocino García's code [here](http://code.google.com/p/freegemas/)
-Which is based off the classic game of Bejeweled.
+This is based off David Saltares's [code](https://github.com/siondream/freegemas-gdx),
+which is based off José Tomás Tocino García's [code](http://code.google.com/p/freegemas/),
+which is based off the classic game of Bejeweled.
 
 ###Assignments###
 
