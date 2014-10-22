@@ -697,8 +697,8 @@ public class StateGame extends State {
 	                    // decreasing its speed
 	                    if (_state == State.InitialGems) {
 	                        imgY = Animation.easeOutQuad(_animTime,
-							                             gemsInitial.y + _board.getSquares()[i][j].origY * tile_size,
-							                             _board.getSquares()[i][j].destY * tile_size,
+							                             gemsInitial.y + _board.getSquares()[i][j].fallStartPosY * tile_size,
+							                             _board.getSquares()[i][j].fallDistance * tile_size,
 							                             _animTotalInitTime);                            
 	                    }
 
@@ -706,8 +706,8 @@ public class StateGame extends State {
 	                    // increasing their speed
 	                    else if (_state == State.DisappearingBoard || _state == State.TimeFinished) {
 	                        imgY = Animation.easeInQuad(_animTime,
-	                        						     gemsInitial.y + _board.getSquares()[i][j].origY * tile_size,
-							                            _board.getSquares()[i][j].destY * tile_size,
+	                        						     gemsInitial.y + _board.getSquares()[i][j].fallStartPosY * tile_size,
+							                            _board.getSquares()[i][j].fallDistance * tile_size,
 							                            _animTotalInitTime); 
 	                    }
 
@@ -717,8 +717,8 @@ public class StateGame extends State {
 	                    		  && _board.getSquare(i, j).mustFall) {
 	                        
 	                    	imgY = Animation.easeOutQuad(_animTime,
-							                             gemsInitial.y + _board.getSquares()[i][j].origY * tile_size,
-							                             _board.getSquares()[i][j].destY * tile_size,
+							                             gemsInitial.y + _board.getSquares()[i][j].fallStartPosY * tile_size,
+							                             _board.getSquares()[i][j].fallDistance * tile_size,
 							                             _animTotalTime); 
 	                    }                    
 
@@ -925,8 +925,8 @@ public class StateGame extends State {
 	    for(int x = 0; x < _board.size; ++x){
 	        for(int y = 0; y < _board.size; ++y){
 	            _board.getSquare(x, y).mustFall = true;
-	            _board.getSquare(x, y).origY = y;
-	            _board.getSquare(x, y).destY = 9 + MathUtils.random(1, 7);
+	            _board.getSquare(x, y).fallStartPosY = y;
+	            _board.getSquare(x, y).fallDistance = 9 + MathUtils.random(1, 7);
 	        }
 	    }
 	}

@@ -71,13 +71,14 @@ public class Board {
 		do {
 			repeat = false;
 			System.out.println("### Generating...");
-			
-			for (int i = 0; i < size; ++i) {
-				for (int j = 0; j < size; ++j) {
-					_squares[i][j] = new Square(Square.numToType(MathUtils.random(1, 7)));
-	                _squares[i][j].mustFall = true;
-	                _squares[i][j].origY = (int)MathUtils.random(-7, -1);
-	                _squares[i][j].destY = j - _squares[i][j].origY;
+
+			for (int y = 0; y < size; ++y) {
+				for (int x = 0; x < size; ++x) {
+					//TODO refactor all of this into constructor
+					_squares[x][y] = new Square(Square.numToType(MathUtils.random(1, 7)));
+	                _squares[x][y].mustFall = true;
+	                _squares[x][y].fallStartPosY = y-size;//(int)MathUtils.random(-7, -1);
+	                _squares[x][y].fallDistance = size;//j - _squares[i][j].origY;
 	                
 				}
 			}
@@ -91,7 +92,7 @@ public class Board {
 				System.out.println("Generated board doesn't have solutions, repeating...");
 				repeat = true;
 			}
-			//System.out.print(this);
+			System.out.print(this);
 		} while(repeat);
 		
 		System.out.println("The generated board has no matches but some possible solutions.");
@@ -101,16 +102,16 @@ public class Board {
 		for (int x = 0; x < size; ++x) {
 			// From bottom to top
 			for (int y = size-1; y >= 0; --y) {
-				// origY stores the initial position in the fall
-				_squares[x][y].origY = y;
+				// fallStartPosY stores the initial position in the fall
+				_squares[x][y].fallStartPosY = y;
 				
 				// If square is empty, make all the squares above it fall
 				if (_squares[x][y].equals(Square.Type.sqEmpty)) {
 					for (int k = y - 1; k >= 0; --k) {
 						_squares[x][k].mustFall = true;
-						_squares[x][k].destY++;
+						_squares[x][k].fallDistance++;
 						
-						if (_squares[x][k].destY > size-1)
+						if (_squares[x][k].fallDistance > size-1)
 						{
 							System.out.println("WARNING");
 						}
@@ -126,7 +127,7 @@ public class Board {
 			for (int y = size-1; y >= 0; --y) {
 				if (_squares[x][y].mustFall == true &&
 					!_squares[x][y].equals(Square.Type.sqEmpty)) {
-					int y0 = _squares[x][y].destY;
+					int y0 = _squares[x][y].fallDistance;
 					
 					if (y + y0 > size-1)
 					{
@@ -156,8 +157,8 @@ public class Board {
 	            if(_squares[x][y].equals(Square.Type.sqEmpty)) {
 	                _squares[x][y].setType(Square.numToType(MathUtils.random(1, 7)));
 	                _squares[x][y].mustFall = true;  
-	                _squares[x][y].origY = y - jumps;
-	                _squares[x][y].destY = jumps;
+	                _squares[x][y].fallStartPosY = y - jumps;
+	                _squares[x][y].fallDistance = jumps;
 	            }       
 	        }
 	    }   
@@ -323,25 +324,26 @@ public class Board {
 		for(int x = 0; x < size; ++x){
 	        for(int y = 0; y < size; ++y){
 	            _squares[x][y].mustFall = false;
-	            _squares[x][y].origY = y;
-	            _squares[x][y].destY = 0;
+	            _squares[x][y].fallStartPosY = y;
+	            _squares[x][y].fallDistance = 0;
 	        }
 	    }
 	}
 	
 	public String toString() {
-		String string = "";
+		String output = "";
 		
 		for (int i = 0; i < size; ++i) {
 			for (int j = 0; j < size; ++j) {
-				string += "(" + _squares[i][j].origY + ", " + _squares[i][j].destY + ")  ";
+				//output += "(" + _squares[i][j].fallStartPosY + ", " + _squares[i][j].fallDistance + ")  ";
+				output += "["+_squares[i][j].toString()+"] ";
 			}
 			
-			string += "\n";
+			output += "\n";
 		}
 		
-		string += "\n";
+		output += "\n";
 		
-		return string;
+		return output;
 	}
 }

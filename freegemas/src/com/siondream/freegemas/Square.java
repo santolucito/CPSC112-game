@@ -10,8 +10,8 @@ public class Square  {
 					  sqYellow,
 					  sqBlue};
 	
-	public int origY;
-	public int destY;
+	public int fallStartPosY;
+	public int fallDistance;
 	public boolean mustFall;
 	private Type _type;
 	
@@ -22,8 +22,8 @@ public class Square  {
 	
 	public Square(Square other) {
 		_type = other._type;
-		origY = other.origY;
-		destY = other.destY;
+		fallStartPosY = other.fallStartPosY;
+		fallDistance = other.fallDistance;
 		mustFall = other.mustFall;
 	}
 	
@@ -62,5 +62,8 @@ public class Square  {
 		default:
 			return Type.sqEmpty;
 		}
+	}
+	public String toString() {
+		return this._type.toString();
 	}
 }
