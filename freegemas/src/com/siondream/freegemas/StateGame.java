@@ -450,6 +450,8 @@ public class StateGame extends State {
 				playMatchSound();
 				
 				// Create floating scores for the matching group
+	            _groupedSquares = _board.find_matches();
+
 				createFloatingScores();
 				
 				// Reset animation step
@@ -507,10 +509,10 @@ public class StateGame extends State {
 	            _board.endAnimation();
 
 	            // Check if there are matching groups
-	            _groupedSquares = _board.check();
+	            _groupedSquares = _board.find_matches();
 
 	            // If there are...
-	            if(_groupedSquares.size != 0) {
+	            if(_board.has_matches()) {
 	                // Increase the score multiplier
 	                ++_multiplier;
 
@@ -995,17 +997,17 @@ public class StateGame extends State {
 	private boolean checkClickedSquare(int mX, int mY) {
 	    _selectedSquareSecond = getCoord(mX, mY);
 
-	    // If gem is neighbour
+	    // If gem is neighbor
 	    if(Math.abs(_selectedSquareFirst.x - _selectedSquareSecond.x) 
 	       + Math.abs(_selectedSquareFirst.y - _selectedSquareSecond.y) == 1){ 
 
 	        _board.swap(_selectedSquareFirst.x, _selectedSquareFirst.y,
 	                    _selectedSquareSecond.x, _selectedSquareSecond.y);
 
-	        _groupedSquares = _board.check();
+	        //_groupedSquares = _board.has_matches();
 
 	        // If winning movement
-	        if (_groupedSquares.size != 0) {
+	        if (_board.has_matches()) {
 	            _state = State.ChangingGems;
 	            
 	            _board.swap(_selectedSquareFirst.x, _selectedSquareFirst.y,

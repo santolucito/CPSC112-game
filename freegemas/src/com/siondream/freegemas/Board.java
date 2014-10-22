@@ -81,7 +81,7 @@ public class Board {
 				}
 			}
 			
-			if (check().size != 0) {
+			if (has_matches()) {
 				System.out.println("Generated board has matches, repeating...");
 				repeat = true;
 			}
@@ -90,11 +90,7 @@ public class Board {
 				System.out.println("Generated board doesn't have solutions, repeating...");
 				repeat = true;
 			}
-			for(int i=0;i<size;i++){
-				for(int j=0;j<size;j++){
-					System.out.print("_row["+i+"]["+j+"] " + _rows[i][j]+"\n"); 
-				}
-			}
+			//System.out.print(this);
 		} while(repeat);
 		
 		System.out.println("The generated board has no matches but some possible solutions.");
@@ -103,7 +99,7 @@ public class Board {
 	public void calcFallMovements() {
 		for (int x = 0; x < size; ++x) {
 			// From bottom to top
-			for (int y = 7; y >= 0; --y) {
+			for (int y = size-1; y >= 0; --y) {
 				// origY stores the initial position in the fall
 				_squares[x][y].origY = y;
 				
@@ -113,7 +109,7 @@ public class Board {
 						_squares[x][k].mustFall = true;
 						_squares[x][k].destY++;
 						
-						if (_squares[x][k].destY > 7)
+						if (_squares[x][k].destY > size-1)
 						{
 							System.out.println("WARNING");
 						}
@@ -126,12 +122,12 @@ public class Board {
 	public void applyFall() {
 		for (int x = 0; x < size; ++x) {
 			// From bottom to top in order not to overwrite squares
-			for (int y = 7; y >= 0; --y) {
+			for (int y = size-1; y >= 0; --y) {
 				if (_squares[x][y].mustFall == true &&
 					!_squares[x][y].equals(Square.Type.sqEmpty)) {
 					int y0 = _squares[x][y].destY;
 					
-					if (y + y0 > 7)
+					if (y + y0 > size-1)
 					{
 						System.out.println("WARNING");
 					}
@@ -169,7 +165,7 @@ public class Board {
 	//all uses only refer to use (check().size != 0)
 	//should be able to refactor to return a boolean
 	//then refactor Match bs away completely 
-	public MultipleMatch check() {
+	public MultipleMatch find_matches() {
 	    int k;
     
 	    _matches.clear();
@@ -238,15 +234,19 @@ public class Board {
 	            y = k - 1;
 	        }
 	    }
-
+	    //true if exist matches 
 	    return _matches;
+	}
+	
+	public Boolean has_matches(){
+		return find_matches().size!=0;
 	}
 	
 	public Array<Coord> solutions() {
 		_results.clear();
 		int currCoord = 0;
 		
-	    if(check().size != 0){
+	    if(has_matches()){
 	    	_solCoords[currCoord].x = -1;
 	    	_solCoords[currCoord].y = -1;
 	        _results.add(_solCoords[currCoord]);
@@ -264,7 +264,7 @@ public class Board {
 	            // Swap with the one above and check
 	            if (y > 0) {
 	                swap(x, y, x, y - 1);
-	                if (check().size != 0) {
+	                if (has_matches()) {
 	                	_solCoords[currCoord].x = x;
 	        	    	_solCoords[currCoord].y = y;
 	                    _results.add(_solCoords[currCoord]);
@@ -277,7 +277,7 @@ public class Board {
 	            // Swap with the one below and check
 	            if (y < size-1) {
 	                swap(x, y, x, y + 1);
-	                if (check().size != 0) {
+	                if (has_matches()) {
 	                	_solCoords[currCoord].x = x;
 	        	    	_solCoords[currCoord].y = y;
 	                    _results.add(_solCoords[currCoord]);
@@ -290,7 +290,7 @@ public class Board {
 	            // Swap with the one on the left and check
 	            if (x > 0) {
 	                swap(x, y, x - 1, y);
-	                if (check().size != 0) {
+	                if (has_matches()) {
 	                	_solCoords[currCoord].x = x;
 	        	    	_solCoords[currCoord].y = y;
 	                    _results.add(_solCoords[currCoord]);
@@ -303,7 +303,7 @@ public class Board {
 	            // Swap with the one on the right and check
 	            if (x < size-1) {
 	                swap(x, y, x + 1, y);
-	                if (check().size != 0) {
+	                if (has_matches()) {
 	                	_solCoords[currCoord].x = x;
 	        	    	_solCoords[currCoord].y = y;
 	                    _results.add(_solCoords[currCoord]);
