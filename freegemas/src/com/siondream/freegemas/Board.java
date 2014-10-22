@@ -166,6 +166,9 @@ public class Board {
 	    }   
 	}
 	
+	//all uses only refer to use (check().size != 0)
+	//should be able to refactor to return a boolean
+	//then refactor Match bs away completely 
 	public MultipleMatch check() {
 	    int k;
     
