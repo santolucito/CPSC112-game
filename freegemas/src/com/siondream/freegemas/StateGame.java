@@ -122,6 +122,7 @@ public class StateGame extends State {
 	private Color _imgColor = Color.WHITE.cpy();
 	private Coord _coord = new Coord();
 	
+	private int tile_size = 0;
 	public StateGame(Freegemas freegemas) {
 		super(freegemas);
 		
@@ -143,7 +144,7 @@ public class StateGame extends State {
 		
 		// Creare board
 		_board = new Board();
-		
+		tile_size = 608/_board.size;
 		// Time txt
 		_txtTime = new String("");
 		
@@ -689,15 +690,15 @@ public class StateGame extends State {
 	             // Now, if img is not NULL (there's something to draw)
 	                if (img != null) {
 	                    // Default positions
-	                    float imgX = gemsInitial.x + i * 76;
-	                    float imgY = gemsInitial.y + j * 76;	                   
+	                    float imgX = gemsInitial.x + i * tile_size;
+	                    float imgY = gemsInitial.y + j * tile_size;	                   
 	                    
 	                    // In the initial state, the gems fall vertically
 	                    // decreasing its speed
 	                    if (_state == State.InitialGems) {
 	                        imgY = Animation.easeOutQuad(_animTime,
-							                             gemsInitial.y + _board.getSquares()[i][j].origY * 76,
-							                             _board.getSquares()[i][j].destY * 76,
+							                             gemsInitial.y + _board.getSquares()[i][j].origY * tile_size,
+							                             _board.getSquares()[i][j].destY * tile_size,
 							                             _animTotalInitTime);                            
 	                    }
 
@@ -705,8 +706,8 @@ public class StateGame extends State {
 	                    // increasing their speed
 	                    else if (_state == State.DisappearingBoard || _state == State.TimeFinished) {
 	                        imgY = Animation.easeInQuad(_animTime,
-	                        						     gemsInitial.y + _board.getSquares()[i][j].origY * 76,
-							                            _board.getSquares()[i][j].destY * 76,
+	                        						     gemsInitial.y + _board.getSquares()[i][j].origY * tile_size,
+							                            _board.getSquares()[i][j].destY * tile_size,
 							                            _animTotalInitTime); 
 	                    }
 
@@ -716,8 +717,8 @@ public class StateGame extends State {
 	                    		  && _board.getSquare(i, j).mustFall) {
 	                        
 	                    	imgY = Animation.easeOutQuad(_animTime,
-							                             gemsInitial.y + _board.getSquares()[i][j].origY * 76,
-							                             _board.getSquares()[i][j].destY * 76,
+							                             gemsInitial.y + _board.getSquares()[i][j].origY * tile_size,
+							                             _board.getSquares()[i][j].destY * tile_size,
 							                             _animTotalTime); 
 	                    }                    
 
@@ -726,13 +727,13 @@ public class StateGame extends State {
 	                        if(i == _selectedSquareFirst.x &&  j == _selectedSquareFirst.y) {
 
 	                            imgX = Animation.easeOutQuad(_animTime,
-	                            							 gemsInitial.x + i * 76,
-	                            		                     (_selectedSquareSecond.x - _selectedSquareFirst.x) * 76,
+	                            							 gemsInitial.x + i * tile_size,
+	                            		                     (_selectedSquareSecond.x - _selectedSquareFirst.x) * tile_size,
 	                            		                     _animTotalTime);
 
 	                            imgY = Animation.easeOutQuad(_animTime,
-	                            							 gemsInitial.y + j * 76,
-	                            							 (_selectedSquareSecond.y - _selectedSquareFirst.y) * 76,
+	                            							 gemsInitial.y + j * tile_size,
+	                            							 (_selectedSquareSecond.y - _selectedSquareFirst.y) * tile_size,
 	                            							 _animTotalTime);
 
 	                        }
@@ -740,13 +741,13 @@ public class StateGame extends State {
 	                        else if (i == _selectedSquareSecond.x && j == _selectedSquareSecond.y){
 
 	                            imgX = Animation.easeOutQuad(_animTime,
-	                            							 gemsInitial.x + i * 76,
-	                            							 (_selectedSquareFirst.x - _selectedSquareSecond.x) * 76,
+	                            							 gemsInitial.x + i * tile_size,
+	                            							 (_selectedSquareFirst.x - _selectedSquareSecond.x) * tile_size,
 	                            							 _animTotalTime);
 
 	                            imgY = Animation.easeOutQuad(_animTime,
-	                            							 gemsInitial.y + j * 76,
-	                            							 (_selectedSquareFirst.y - _selectedSquareSecond.y) * 76,
+	                            							 gemsInitial.y + j * tile_size,
+	                            							 (_selectedSquareFirst.y - _selectedSquareSecond.y) * tile_size,
 	                            							 _animTotalTime);
 	                        }
 	                    }
@@ -774,8 +775,8 @@ public class StateGame extends State {
 	                // Draw the selector over that gem
 	            	Coord coord = getCoord((int)_mousePos.x, (int)_mousePos.y);
 	                batch.draw(_imgSelector,
-	                		  (int)gemsInitial.x + coord.x * 76,
-	                		  (int)gemsInitial.y + coord.y * 76);
+	                		  (int)gemsInitial.x + coord.x * tile_size,
+	                		  (int)gemsInitial.y + coord.y * tile_size);
 	            }
 	            
 	            
@@ -785,8 +786,8 @@ public class StateGame extends State {
 	                // Draw the tinted selector over it
 	            	batch.setColor(1.0f, 0.0f, 1.0f, 1.0f);
 	                batch.draw(_imgSelector,
-	                		   (int)gemsInitial.x + _selectedSquareFirst.x * 76,
-	                		   (int)gemsInitial.y + _selectedSquareFirst.y * 76);
+	                		   (int)gemsInitial.x + _selectedSquareFirst.x * tile_size,
+	                		   (int)gemsInitial.y + _selectedSquareFirst.y * tile_size);
 	                batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 	            }
 	        }
@@ -796,8 +797,8 @@ public class StateGame extends State {
 	            // Get the opacity percentage
 	            float p = (float)(_showingHint / _animHintTotalTime);
 
-	            float x = gemsInitial.x + _coordHint.x * 76;
-	            float y = gemsInitial.y + _coordHint.y * 76;
+	            float x = gemsInitial.x + _coordHint.x * tile_size;
+	            float y = gemsInitial.y + _coordHint.y * tile_size;
 
 	            _imgColor.a = 1.0f - p;
 	            batch.setColor(_imgColor);
@@ -954,13 +955,13 @@ public class StateGame extends State {
 	}
 	
 	private boolean overGem(int mX, int mY) {
-		return (mX > gemsInitial.x && mX < gemsInitial.x + 76 * _board.size &&
-	            mY > gemsInitial.y && mY < gemsInitial.y + 76 * _board.size);
+		return (mX > gemsInitial.x && mX < gemsInitial.x + tile_size * _board.size &&
+	            mY > gemsInitial.y && mY < gemsInitial.y + tile_size * _board.size);
 	}
 	
 	private Coord getCoord(int mX, int mY) {
-		_coord.x = (mX - (int)gemsInitial.x) / 76;
-		_coord.y = (mY - (int)gemsInitial.y) / 76;
+		_coord.x = (mX - (int)gemsInitial.x) / tile_size;
+		_coord.y = (mY - (int)gemsInitial.y) / tile_size;
 		return _coord;
 	}
 	
@@ -979,13 +980,13 @@ public class StateGame extends State {
 	    	_floatingScores.add(new FloatingScore(_parent,
 	    										  _fontScore,
 	    										  matchSize * 5 * _multiplier,
-	    										  gemsInitial.x + match.getMidSquare().x * 76 + 5,
-	    										  gemsInitial.y + match.getMidSquare().y * 76 + 5));
+	    										  gemsInitial.x + match.getMidSquare().x * tile_size + 5,
+	    										  gemsInitial.y + match.getMidSquare().y * tile_size + 5));
 	    	
 	    	// Create a particle effect for each matching square
 	    	for (int j = 0; j < matchSize; ++j) {
 	    		PooledEffect newEffect = _effectPool.obtain();
-	    		newEffect.setPosition(gemsInitial.x + match.get(j).x * 76 + 38, gemsInitial.y + match.get(j).y * 76 + 38);
+	    		newEffect.setPosition(gemsInitial.x + match.get(j).x * tile_size + 38, gemsInitial.y + match.get(j).y * tile_size + 38);
 	    		newEffect.start();
 	    		_effects.add(newEffect);
 	    	}
