@@ -471,10 +471,12 @@ public class StateGame extends State {
 				// Redraw scoreboard with new points
 				redrawScoreBoard();
 				
+				
+				//move this to Board?
 				// Delete squares that were matched on the board
 				for (int i = 0; i < _groupedSquares.size; ++i) {
 					for (int j = 0; j < _groupedSquares.get(i).size; ++j) {
-						_board.del((int)_groupedSquares.get(i).get(j).x,
+						_board.deleteSquare((int)_groupedSquares.get(i).get(j).x,
 								   (int)_groupedSquares.get(i).get(j).y);
 					}
 				}
@@ -544,7 +546,7 @@ public class StateGame extends State {
 	            _state = State.InitialGems;
 
 	            // Generate a brand new board
-	            _board.generate();
+	            _board.fillInitialBoard();
 
 	            // Reset animation counter
 	            _animTime = 0;
@@ -1047,7 +1049,7 @@ public class StateGame extends State {
 		_points = 0;
 		
 		// Generate board
-		_board.generate();
+		_board.fillInitialBoard();
 		
 		// Redraw the scoreboard
 		redrawScoreBoard();
