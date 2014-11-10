@@ -17,7 +17,7 @@ public class Square  {
 	
 	public Square(Type type) {
 		_type = type;
-		mustFall = false;
+		mustFall = true;
 	}
 	
 	public Square(Square other) {

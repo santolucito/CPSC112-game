@@ -8,10 +8,7 @@ public class Board {
 	public final int size = 8;
 
 	// Aux 
-	//test
 	private MultipleMatch _matches = new MultipleMatch();
-	private Match[][] _columns = new Match[size][size];
-	private Match[][] _rows = new Match[size][size];
 	private Coord[] _matchCoords = new Coord[1000];
 	private Coord[] _solCoords = new Coord[1000];
 	private Array<Coord> _results = new Array<Coord>();
@@ -21,18 +18,10 @@ public class Board {
 
 
 		//this all will be removed
-		for (int x = 0; x < size; ++x) {
-			for (int y = 0; y < size; ++y) {
-				_columns[x][y] = new Match();
-				_rows[x][y] = new Match();
-			}
-		}
-
 		for (int x = 0; x < 1000; ++x) {
 			_matchCoords[x] = new Coord();
 			_solCoords[x] = new Coord();
 		}
-		//
 	}
 
 	public void swap(int x1, int y1, int x2, int y2) {
@@ -49,11 +38,11 @@ public class Board {
 
 			for (int y = 0; y < size; ++y) {
 				for (int x = 0; x < size; ++x) {
-					//TODO refactor all of this into constructor
 					_squares[x][y] = new Square(Square.numToType(MathUtils.random(1, 7)));
-					_squares[x][y].mustFall = true;
-					_squares[x][y].fallStartPosY = y-size;//(int)MathUtils.random(-7, -1);
-					_squares[x][y].fallDistance = size;//j - _squares[i][j].origY;
+					_squares[x][y].fallStartPosY = y-size;
+													//(int)MathUtils.random(-7, -1);
+					_squares[x][y].fallDistance = size;
+													//y - _squares[x][y].fallStartPosY;
 				}
 			}
 
@@ -74,7 +63,6 @@ public class Board {
 				x=lastMatchPosition-1;
 			}
 		}		
-
 		//check for matches in each column
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
@@ -85,7 +73,13 @@ public class Board {
 
 		return _matches;
 	}
+	
+	public Boolean has_matches(){
+		return find_matches().size!=0;
+	}
 
+	//should switch out Match for array of Coord
+	//and Multiple match for two dimensional array of Coords
 	public int buildPossibleMatchHorizontal(int x, int y) {
 		Match possibleMatch = new Match();
 		possibleMatch.add(new Coord(x,y));
@@ -181,9 +175,6 @@ public class Board {
 		}   
 	}
 
-	public Boolean has_matches(){
-		return find_matches().size!=0;
-	}
 
 	public Array<Coord> solutions() {
 		_results.clear();
