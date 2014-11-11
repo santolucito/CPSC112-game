@@ -2,11 +2,11 @@ package com.siondream.freegemas;
 
 import java.util.ArrayList;
 
-public class MultipleMatch extends ArrayList<Match> {
+public class ListOfMatches extends ArrayList<Match> {
 	
 	private static final long serialVersionUID = 1L;
 
-	public MultipleMatch() {
+	public ListOfMatches() {
 		super();
 	}
 	

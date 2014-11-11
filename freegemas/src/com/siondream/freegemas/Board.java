@@ -1,17 +1,18 @@
 package com.siondream.freegemas;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Array;
 
 public class Board {
 	private Square[][] _squares;
 	public final int size = 8;
 
 	// Aux 
-	private MultipleMatch _matches = new MultipleMatch();
+	private ListOfMatches _matches = new ListOfMatches();
 	private Coord[] _matchCoords = new Coord[1000];
 	private Coord[] _solCoords = new Coord[1000];
-	private Array<Coord> _results = new Array<Coord>();
+	private ArrayList<Coord> _results = new ArrayList<Coord>();
 
 	public Board() {
 		_squares = new Square[size][size];
@@ -45,13 +46,13 @@ public class Board {
 				}
 			}
 
-		} while(has_matches() || solutions().size == 0);
+		} while(has_matches() || solutions().size() == 0);
 
 		System.out.println("The generated board has no matches and some possible solutions.");
 	}
 
 	//return an array of arrays of matching locations
-	public MultipleMatch find_matches() {
+	public ListOfMatches find_matches() {
 		
 		_matches.clear();
 
@@ -89,7 +90,7 @@ public class Board {
 			possibleMatch.add(new Coord(scanPosition,y));	
 			scanPosition++;
 		}
-		if(possibleMatch.size>=3){
+		if(possibleMatch.size()>=3){
 			_matches.add(possibleMatch);
 		}
 		return scanPosition-1;
@@ -103,7 +104,7 @@ public class Board {
 			possibleMatch.add(new Coord(x,scanPosition));	
 			scanPosition++;
 		}
-		if(possibleMatch.size>=3){
+		if(possibleMatch.size()>=3){
 			_matches.add(possibleMatch);
 		}
 		return scanPosition-1;
@@ -175,7 +176,7 @@ public class Board {
 	}
 
 
-	public Array<Coord> solutions() {
+	public ArrayList<Coord> solutions() {
 		_results.clear();
 		int currCoord = 0;
 
@@ -253,10 +254,10 @@ public class Board {
 
 
 	public void deleteMatches() {
-		MultipleMatch matches = find_matches();
+		ListOfMatches matches = find_matches();
 		for (int i = 0; i < matches.size(); ++i) {
-			for (int j = 0; j < matches.get(i).size; ++j) {
-				if(j==3 && matches.get(i).size==4){
+			for (int j = 0; j < matches.get(i).size(); ++j) {
+				if(j==3 && matches.get(i).size()==4){
 					makeSpecialSquare(matches.get(i).get(j).x,
 									  matches.get(i).get(j).y);
 				}

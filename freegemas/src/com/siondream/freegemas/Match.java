@@ -15,11 +15,9 @@ public class Match extends ArrayList<Coord> {
 	}
 	
 	public Coord getMidSquare() {
-		if (size() > 0)
-		{
+		if (size() > 0)	{
 			return get(size() / 2);
 		}
-		
 		return null;
 	}
 	

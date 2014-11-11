@@ -57,7 +57,7 @@ public class StateGame extends State {
 	private double _animTotalInitTime;
 	
 	// Points and gems matches
-	private MultipleMatch _groupedSquares;
+	private ListOfMatches _groupedSquares;
 	private int _points;
 	private int _multiplier = 0;
 	private String _txtTime;
