@@ -80,8 +80,6 @@ public class Board {
 		return find_matches().size()!=0;
 	}
 
-	//should switch out Match for array of Coord
-	//and Multiple match for two dimensional array of Coords
 	//given x and y, iterate down the row looking for matches
 	//return the last position that matched the given coord
 	public int buildPossibleMatchHorizontal(int x, int y) {
@@ -114,7 +112,7 @@ public class Board {
 			if(ctr>=possibleMatch.length){
 				possibleMatch = expandArray(possibleMatch);
 			}
-			possibleMatch[ctr] = new Coord(scanPosition,y);
+			possibleMatch[ctr] = new Coord(x,scanPosition);
 			ctr++;	
 			scanPosition++;
 		}
@@ -123,14 +121,7 @@ public class Board {
 		}
 		return scanPosition-1;
 	}
-
-
-	private Match convert(Coord[] possibleMatch2) {
-		ArrayList<Coord> temp = (new ArrayList<Coord>(Arrays.asList(possibleMatch2)));
-		temp.trimToSize();
-		return new Match(temp);
-	}
-
+	
 	private Coord[] expandArray(Coord[] possibleMatch2) {
 		Coord[] newArray = new Coord[possibleMatch2.length+1];
 		for(int i=0; i<possibleMatch2.length; i++){
@@ -138,6 +129,67 @@ public class Board {
 		}
 		return newArray;
 	}
+
+	private Match convert(Coord[] possibleMatch2) {
+		ArrayList<Coord> temp = (new ArrayList<Coord>(Arrays.asList(possibleMatch2)));
+		temp.trimToSize();
+		return new Match(temp);
+	}
+
+	public void fillSpaces() {
+		for(int x = 0; x < size; ++x){
+			// Count how many jumps do we have to fall
+			int jumps = 0;
+
+			for(int y = 0; y < size; ++y){
+				if(!_squares[x][y].equals(Square.Type.sqEmpty)) {
+					break;
+				}
+				jumps++;
+			}
+
+			for(int y = 0; y < size; ++y){
+				if(_squares[x][y].equals(Square.Type.sqEmpty)) {
+					_squares[x][y].setType(Square.numToType(MathUtils.random(3, 7)));
+					_squares[x][y].mustFall = true;
+					_squares[x][y].fallStartPosY = y - jumps;
+					_squares[x][y].fallDistance = jumps;
+				}       
+			}
+		}   
+	}
+
+
+	
+
+	//TODO
+	public void deleteMatches() {
+		ListOfMatches matches = find_matches();
+		for (int i = 0; i < matches.size(); ++i) {
+			for (int j = 0; j < matches.get(i).size(); ++j) {
+				if(j==3 && matches.get(i).size()==4){
+					makeSpecialSquare(matches.get(i).get(j).x,
+									  matches.get(i).get(j).y);
+				}
+				else{
+					deleteSquare(matches.get(i).get(j).x,
+								matches.get(i).get(j).y);
+				}
+			}
+		}		
+	}
+	
+	public void deleteSquare(int x, int y) {	
+		_squares[x][y].setType(Square.Type.sqEmpty);
+	}
+
+	public void makeSpecialSquare(int x, int y) {	
+		_squares[x][y].setType(Square.Type.sqWhite);
+	}
+	
+	
+	
+	//NO NEED TO EDIT BELOW THIS LINE
 
 	public void calcFallMovements() {
 		for (int x = 0; x < size; ++x) {
@@ -180,30 +232,6 @@ public class Board {
 			}
 		}
 	}
-
-	public void fillSpaces() {
-		for(int x = 0; x < size; ++x){
-			// Count how many jumps do we have to fall
-			int jumps = 0;
-
-			for(int y = 0; y < size; ++y){
-				if(!_squares[x][y].equals(Square.Type.sqEmpty)) {
-					break;
-				}
-				++jumps;
-			}
-
-			for(int y = 0; y < size; ++y){
-				if(_squares[x][y].equals(Square.Type.sqEmpty)) {
-					_squares[x][y].setType(Square.numToType(MathUtils.random(3, 7)));
-					_squares[x][y].mustFall = true;
-					_squares[x][y].fallStartPosY = y - jumps;
-					_squares[x][y].fallDistance = jumps;
-				}       
-			}
-		}   
-	}
-
 
 	public ArrayList<Coord> solutions() {
 		_results.clear();
@@ -280,36 +308,7 @@ public class Board {
 
 		return _results;
 	}
-
-	//TODO
-	public void deleteMatches() {
-		ListOfMatches matches = find_matches();
-		for (int i = 0; i < matches.size(); ++i) {
-			for (int j = 0; j < matches.get(i).size(); ++j) {
-				if(j==3 && matches.get(i).size()==4){
-					makeSpecialSquare(matches.get(i).get(j).x,
-									  matches.get(i).get(j).y);
-				}
-				else{
-					deleteSquare(matches.get(i).get(j).x,
-								matches.get(i).get(j).y);
-				}
-			}
-		}		
-	}
 	
-	public void deleteSquare(int x, int y) {	
-		_squares[x][y].setType(Square.Type.sqEmpty);
-	}
-
-	public void makeSpecialSquare(int x, int y) {	
-		_squares[x][y].setType(Square.Type.sqWhite);
-	}
-	
-	
-	
-	//NO NEED TO EDIT BELOW THIS LINE
-
 	public void endAnimation() {
 		for(int x = 0; x < size; ++x){
 			for(int y = 0; y < size; ++y){
