@@ -1,5 +1,7 @@
 package com.siondream.freegemas;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
@@ -528,7 +530,7 @@ public class StateGame extends State {
 	            }
 
 	            // If there are neither current solutions nor possible future solutions
-	            else if(_board.solutions().size == 0) {
+	            else if(_board.solutions().size() == 0) {
 	                // Make the board disappear
 	                _state = State.DisappearingBoard;
 	                gemsOutScreen();
@@ -1025,7 +1027,7 @@ public class StateGame extends State {
 	}
 	
 	private void showHint() {
-		Array<Coord> solutions = _board.solutions();
+		ArrayList<Coord> solutions = _board.solutions();
 		_coordHint = solutions.get(0);
 		_showingHint = _animHintTotalTime;
 	}
