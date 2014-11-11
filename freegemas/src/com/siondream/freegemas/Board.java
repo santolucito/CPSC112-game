@@ -1,6 +1,7 @@
 package com.siondream.freegemas;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.badlogic.gdx.math.MathUtils;
 
@@ -25,6 +26,7 @@ public class Board {
 		}
 	}
 
+	//TODO
 	public void swap(int x1, int y1, int x2, int y2) {
 		Square temp = _squares[x1][y1];
 		_squares[x1][y1] = _squares[x2][y2]; 
@@ -51,9 +53,9 @@ public class Board {
 		System.out.println("The generated board has no matches and some possible solutions.");
 	}
 
+	
 	//return an array of arrays of matching locations
 	public ListOfMatches find_matches() {
-		
 		_matches.clear();
 
 		//check for matches in each row
@@ -83,33 +85,60 @@ public class Board {
 	//given x and y, iterate down the row looking for matches
 	//return the last position that matched the given coord
 	public int buildPossibleMatchHorizontal(int x, int y) {
-		Match possibleMatch = new Match();
-		possibleMatch.add(new Coord(x,y));
+		Coord[] possibleMatch = new Coord[3];
+		possibleMatch[0] = new Coord(x,y);
+		
+		int ctr=1;
 		int scanPosition = x + 1;
 		while (scanPosition < size && _squares[x][y].equals(_squares[scanPosition][y]) ) {
-			possibleMatch.add(new Coord(scanPosition,y));	
+			if(ctr>=possibleMatch.length){
+				possibleMatch = expandArray(possibleMatch);
+			}
+			possibleMatch[ctr] = new Coord(scanPosition,y);
+			ctr++;				
 			scanPosition++;
 		}
-		if(possibleMatch.size()>=3){
-			_matches.add(possibleMatch);
+		if(ctr>=3){
+			_matches.add(convert(possibleMatch));
 		}
 		return scanPosition-1;
 	}
-	
+
 	public int buildPossibleMatchVertical(int x, int y) {
-		Match possibleMatch = new Match();
-		possibleMatch.add(new Coord(x,y));
+		Coord[] possibleMatch = new Coord[3];
+		possibleMatch[0] = new Coord(x,y);
+		
+		int ctr=1;
 		int scanPosition = y + 1;
 		while (scanPosition < size && _squares[x][y].equals(_squares[x][scanPosition]) ) {
-			possibleMatch.add(new Coord(x,scanPosition));	
+			if(ctr>=possibleMatch.length){
+				possibleMatch = expandArray(possibleMatch);
+			}
+			possibleMatch[ctr] = new Coord(scanPosition,y);
+			ctr++;	
 			scanPosition++;
 		}
-		if(possibleMatch.size()>=3){
-			_matches.add(possibleMatch);
+		if(ctr>=3){
+			_matches.add(convert(possibleMatch));
 		}
 		return scanPosition-1;
 	}
-	
+
+
+	private Match convert(Coord[] possibleMatch2) {
+		ArrayList<Coord> temp = (new ArrayList<Coord>(Arrays.asList(possibleMatch2)));
+		temp.trimToSize();
+		return new Match(temp);
+	}
+
+	private Coord[] expandArray(Coord[] possibleMatch2) {
+		Coord[] newArray = new Coord[possibleMatch2.length+1];
+		for(int i=0; i<possibleMatch2.length; i++){
+			newArray[i]=possibleMatch2[i];
+		}
+		return newArray;
+	}
+
 	public void calcFallMovements() {
 		for (int x = 0; x < size; ++x) {
 			// From bottom to top
@@ -252,7 +281,7 @@ public class Board {
 		return _results;
 	}
 
-
+	//TODO
 	public void deleteMatches() {
 		ListOfMatches matches = find_matches();
 		for (int i = 0; i < matches.size(); ++i) {

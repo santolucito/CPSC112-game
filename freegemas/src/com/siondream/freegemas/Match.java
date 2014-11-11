@@ -10,6 +10,10 @@ public class Match extends ArrayList<Coord> {
 		super();
 	}
 	
+	public Match(ArrayList<Coord> arrayList) {
+		super(arrayList);
+	}
+
 	public boolean isMatched(Coord c) {
 		return contains(c);
 	}
