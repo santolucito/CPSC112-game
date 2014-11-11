@@ -20,8 +20,8 @@ public class GemsAnimation {
 		
 		AssetManager assetManager = _game.getAssetManager();
 		
-		_imgGems = new TextureRegion[7];
-		_posX = new int[7];
+		_imgGems = new TextureRegion[8];
+		_posX = new int[8];
 		
 		_imgGems[0] = new TextureRegion(assetManager.get("data/gemWhite.png", Texture.class));
 		_imgGems[1] = new TextureRegion(assetManager.get("data/gemRed.png", Texture.class));
@@ -30,9 +30,10 @@ public class GemsAnimation {
 		_imgGems[4] = new TextureRegion(assetManager.get("data/gemGreen.png", Texture.class));
 		_imgGems[5] = new TextureRegion(assetManager.get("data/gemYellow.png", Texture.class));
 		_imgGems[6] = new TextureRegion(assetManager.get("data/gemBlue.png", Texture.class));
+		_imgGems[7] = new TextureRegion(assetManager.get("data/gemGreenS.png", Texture.class));
 		
 		//TODO refactor 76 with board size
-		for (int i = 0; i < 7; ++i) {
+		for (int i = 0; i < 8; ++i) {
 			_imgGems[i].flip(false, true);
 			_posX[i] = Freegemas.VIRTUAL_WIDTH / 2 - (76 * 7) / 2 + i * 76;
 		}
@@ -49,7 +50,7 @@ public class GemsAnimation {
 
 		SpriteBatch batch = _game.getSpriteBatch();
 		
-        for(int i = 0; i < 7; ++i) {
+        for(int i = 0; i < 8; ++i) {
             double composedTime = _animTime - i * _animTotalTime / 7.0f;
             if (composedTime < 0) {
             	continue;

@@ -113,6 +113,7 @@ public class StateMenu extends State {
 		assetManager.load("data/gemPurple.png", Texture.class);
 		assetManager.load("data/gemOrange.png", Texture.class);
 		assetManager.load("data/gemGreen.png", Texture.class);
+		assetManager.load("data/gemGreenS.png", Texture.class);
 		assetManager.load("data/gemYellow.png", Texture.class);
 		assetManager.load("data/gemBlue.png", Texture.class);
 		
@@ -143,6 +144,7 @@ public class StateMenu extends State {
 		assetManager.unload("data/gemPurple.png");
 		assetManager.unload("data/gemOrange.png");
 		assetManager.unload("data/gemGreen.png");
+		assetManager.unload("data/gemGreenS.png");
 		assetManager.unload("data/gemYellow.png");
 		assetManager.unload("data/gemBlue.png");
 		assetManager.unload("data/select.ogg");

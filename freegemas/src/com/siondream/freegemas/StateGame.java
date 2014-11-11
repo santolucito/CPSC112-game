@@ -1,7 +1,5 @@
 package com.siondream.freegemas;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
@@ -71,6 +69,7 @@ public class StateGame extends State {
 	private TextureRegion _imgPurple;
 	private TextureRegion _imgOrange;
 	private TextureRegion _imgGreen;
+	private TextureRegion _imgGreenS;
 	private TextureRegion _imgYellow;
 	private TextureRegion _imgBlue;
 	private TextureRegion _imgSelector;
@@ -192,6 +191,7 @@ public class StateGame extends State {
 		assetManager.load("data/gemPurple.png", Texture.class);
 		assetManager.load("data/gemOrange.png", Texture.class);
 		assetManager.load("data/gemGreen.png", Texture.class);
+		assetManager.load("data/gemGreenS.png", Texture.class);
 		assetManager.load("data/gemYellow.png", Texture.class);
 		assetManager.load("data/gemBlue.png", Texture.class);
 		assetManager.load("data/iconHint.png", Texture.class);
@@ -219,6 +219,7 @@ public class StateGame extends State {
 		_imgPurple = null;
 		_imgOrange = null;
 		_imgGreen = null;
+		_imgGreenS = null;
 		_imgYellow = null;
 		_imgBlue = null;
 		_imgSelector = null;
@@ -262,6 +263,7 @@ public class StateGame extends State {
 		assetManager.unload("data/gemPurple.png");
 		assetManager.unload("data/gemOrange.png");
 		assetManager.unload("data/gemGreen.png");
+		assetManager.unload("data/gemGreenS.png");
 		assetManager.unload("data/gemYellow.png");
 		assetManager.unload("data/gemBlue.png");
 		assetManager.unload("data/iconHint.png");
@@ -287,11 +289,13 @@ public class StateGame extends State {
 		_imgBoard = new TextureRegion(assetManager.get("data/board.png", Texture.class));
 		_imgSelector = new TextureRegion(assetManager.get("data/selector.png", Texture.class));
 		_imgTimeBackground = new TextureRegion(assetManager.get("data/timeBackground.png", Texture.class));
+		
 		_imgWhite = new TextureRegion(assetManager.get("data/gemWhite.png", Texture.class));
 		_imgRed = new TextureRegion(assetManager.get("data/gemRed.png", Texture.class));
 		_imgPurple = new TextureRegion(assetManager.get("data/gemPurple.png", Texture.class));
 		_imgOrange = new TextureRegion(assetManager.get("data/gemOrange.png", Texture.class));
 		_imgGreen = new TextureRegion(assetManager.get("data/gemGreen.png", Texture.class));
+		_imgGreenS = new TextureRegion(assetManager.get("data/gemGreenS.png", Texture.class));
 		_imgYellow = new TextureRegion(assetManager.get("data/gemYellow.png", Texture.class));
 		_imgBlue = new TextureRegion(assetManager.get("data/gemBlue.png", Texture.class));
 		
@@ -304,6 +308,7 @@ public class StateGame extends State {
 		_imgPurple.flip(false, true);
 		_imgOrange.flip(false, true);
 		_imgGreen.flip(false, true);
+		_imgGreenS.flip(false, true);
 		_imgYellow.flip(false, true);
 		_imgBlue.flip(false, true);
 		
@@ -530,7 +535,7 @@ public class StateGame extends State {
 	            }
 
 	            // If there are neither current solutions nor possible future solutions
-	            else if(_board.solutions().size() == 0) {
+	            else if(_board.solutions().length == 0) {
 	                // Make the board disappear
 	                _state = State.DisappearingBoard;
 	                gemsOutScreen();
@@ -676,7 +681,11 @@ public class StateGame extends State {
 	                case sqGreen:
 	                    img = _imgGreen;
 	                    break;
-
+	                    
+	                case sqGreenS:
+	                    img = _imgGreenS;
+	                    break;
+	                    
 	                case sqYellow:
 	                    img = _imgYellow;
 	                    break;
@@ -797,16 +806,22 @@ public class StateGame extends State {
 	        // If a hint is being shown
 	        if (_showingHint > 0.0) {
 	            // Get the opacity percentage
-	            float p = (float)(_showingHint / _animHintTotalTime);
+	            float p = 0;
+	            		//(float)(_showingHint / _animHintTotalTime);
 
-	            float x = gemsInitial.x + _coordHint.x * tile_size;
-	            float y = gemsInitial.y + _coordHint.y * tile_size;
+	    		Coord[] solutions = _board.solutions();
+	    		for(int i=0; i<solutions.length;i++){
+	    			_coordHint = solutions[i];
+	    		
+	    			float x = gemsInitial.x + _coordHint.x * tile_size;
+	    			float y = gemsInitial.y + _coordHint.y * tile_size;
 
-	            _imgColor.a = 1.0f - p;
-	            batch.setColor(_imgColor);
-	            batch.draw(_imgSelector, x, y);
-	            _imgColor.a = 1.0f;
-	            batch.setColor(_imgColor);
+	    			_imgColor.a = 1.0f - p;
+	            	batch.setColor(_imgColor);
+	            	batch.draw(_imgSelector, x, y);
+	            	_imgColor.a = 1.0f;
+	            	batch.setColor(_imgColor);
+	    		}
 	        }
 		}
 		
@@ -1027,9 +1042,8 @@ public class StateGame extends State {
 	}
 	
 	private void showHint() {
-		ArrayList<Coord> solutions = _board.solutions();
-		_coordHint = solutions.get(0);
-		_showingHint = _animHintTotalTime;
+
+			_showingHint = _animHintTotalTime;
 	}
 	
 	private void playMatchSound() {

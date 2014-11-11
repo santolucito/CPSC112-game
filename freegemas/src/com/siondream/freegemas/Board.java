@@ -11,19 +11,10 @@ public class Board {
 
 	// Aux 
 	private ListOfMatches _matches = new ListOfMatches();
-	private Coord[] _matchCoords = new Coord[1000];
-	private Coord[] _solCoords = new Coord[1000];
-	private ArrayList<Coord> _results = new ArrayList<Coord>();
+	private Coord[] foundSolutions = new Coord[0];
 
 	public Board() {
 		_squares = new Square[size][size];
-
-
-		//this all will be removed
-		for (int x = 0; x < 1000; ++x) {
-			_matchCoords[x] = new Coord();
-			_solCoords[x] = new Coord();
-		}
 	}
 
 	//TODO
@@ -48,12 +39,19 @@ public class Board {
 				}
 			}
 
-		} while(has_matches() || solutions().size() == 0);
+		} while(has_matches() || solutions().length == 0);
 
 		System.out.println("The generated board has no matches and some possible solutions.");
 	}
 
-	
+	private Coord[] expandArray(Coord[] originalArray) {
+		Coord[] newArray = new Coord[originalArray.length+1];
+		for(int i=0; i<originalArray.length; i++){
+			newArray[i]=originalArray[i];
+		}
+		return newArray;
+	}
+
 	//return an array of arrays of matching locations
 	public ListOfMatches find_matches() {
 		_matches.clear();
@@ -88,7 +86,7 @@ public class Board {
 		
 		int ctr=1;
 		int scanPosition = x + 1;
-		while (scanPosition < size && _squares[x][y].equals(_squares[scanPosition][y]) ) {
+		while (scanPosition < size && _squares[scanPosition][y].equals(_squares[x][y])) {
 			if(ctr>=possibleMatch.length){
 				possibleMatch = expandArray(possibleMatch);
 			}
@@ -108,7 +106,7 @@ public class Board {
 		
 		int ctr=1;
 		int scanPosition = y + 1;
-		while (scanPosition < size && _squares[x][y].equals(_squares[x][scanPosition]) ) {
+		while (scanPosition < size &&_squares[x][scanPosition].equals(_squares[x][y])) {
 			if(ctr>=possibleMatch.length){
 				possibleMatch = expandArray(possibleMatch);
 			}
@@ -122,20 +120,67 @@ public class Board {
 		return scanPosition-1;
 	}
 	
-	private Coord[] expandArray(Coord[] possibleMatch2) {
-		Coord[] newArray = new Coord[possibleMatch2.length+1];
-		for(int i=0; i<possibleMatch2.length; i++){
-			newArray[i]=possibleMatch2[i];
+
+	public Coord[] solutions() {
+		foundSolutions = new Coord[0];
+		int ctr=0;
+
+		/* 
+	       Check all possible boards
+	       (49 * 4) + (32 * 2) although there are many duplicates
+		 */
+		for(int x = 0; x < size; ++x){
+			for(int y = 0; y < size; ++y){
+
+				// Swap with the one above and check
+				if (y > 0) {
+					swap(x, y, x, y - 1);
+					if (has_matches()) {
+						foundSolutions = expandArray(foundSolutions);
+						foundSolutions[ctr] = (new Coord(x,y));
+						ctr++;
+					}
+					swap(x, y, x, y - 1);
+				}
+
+				// Swap with the one below and check
+				if (y < size-1) {
+					swap(x, y, x, y + 1);
+					if (has_matches()) {
+						foundSolutions = expandArray(foundSolutions);
+						foundSolutions[ctr] = (new Coord(x,y));
+						ctr++;
+					}
+					swap(x, y, x, y + 1);
+				}
+
+				// Swap with the one on the left and check
+				if (x > 0) {
+					swap(x, y, x - 1, y);
+					if (has_matches()) {
+						foundSolutions = expandArray(foundSolutions);
+						foundSolutions[ctr] = (new Coord(x,y));
+						ctr++;
+					}
+					swap(x, y, x - 1, y);
+				}
+
+				// Swap with the one on the right and check
+				if (x < size-1) {
+					swap(x, y, x + 1, y);
+					if (has_matches()) {
+						foundSolutions = expandArray(foundSolutions);
+						foundSolutions[ctr] = (new Coord(x,y));
+						ctr++;
+					}
+					swap(x, y, x + 1, y);
+				}
+			}
 		}
-		return newArray;
-	}
 
-	private Match convert(Coord[] possibleMatch2) {
-		ArrayList<Coord> temp = (new ArrayList<Coord>(Arrays.asList(possibleMatch2)));
-		temp.trimToSize();
-		return new Match(temp);
+		return foundSolutions;
 	}
-
+	
 	public void fillSpaces() {
 		for(int x = 0; x < size; ++x){
 			// Count how many jumps do we have to fall
@@ -167,7 +212,7 @@ public class Board {
 		ListOfMatches matches = find_matches();
 		for (int i = 0; i < matches.size(); ++i) {
 			for (int j = 0; j < matches.get(i).size(); ++j) {
-				if(j==3 && matches.get(i).size()==4){
+				if(j==3 && matches.get(i).size()>=4){
 					makeSpecialSquare(matches.get(i).get(j).x,
 									  matches.get(i).get(j).y);
 				}
@@ -184,7 +229,7 @@ public class Board {
 	}
 
 	public void makeSpecialSquare(int x, int y) {	
-		_squares[x][y].setType(Square.Type.sqWhite);
+		_squares[x][y].setType(Square.getDualType(_squares[x][y].getType()));
 	}
 	
 	
@@ -233,80 +278,11 @@ public class Board {
 		}
 	}
 
-	public ArrayList<Coord> solutions() {
-		_results.clear();
-		int currCoord = 0;
-
-		if(has_matches()){
-			_solCoords[currCoord].x = -1;
-			_solCoords[currCoord].y = -1;
-			_results.add(_solCoords[currCoord]);
-			++currCoord;
-			return _results;
-		}
-
-		/* 
-	       Check all possible boards
-	       (49 * 4) + (32 * 2) although there are many duplicates
-		 */
-		for(int x = 0; x < size; ++x){
-			for(int y = 0; y < size; ++y){
-
-				// Swap with the one above and check
-				if (y > 0) {
-					swap(x, y, x, y - 1);
-					if (has_matches()) {
-						_solCoords[currCoord].x = x;
-						_solCoords[currCoord].y = y;
-						_results.add(_solCoords[currCoord]);
-						++currCoord;
-					}
-
-					swap(x, y, x, y - 1);
-				}
-
-				// Swap with the one below and check
-				if (y < size-1) {
-					swap(x, y, x, y + 1);
-					if (has_matches()) {
-						_solCoords[currCoord].x = x;
-						_solCoords[currCoord].y = y;
-						_results.add(_solCoords[currCoord]);
-						++currCoord;
-					}
-
-					swap(x, y, x, y + 1);
-				}
-
-				// Swap with the one on the left and check
-				if (x > 0) {
-					swap(x, y, x - 1, y);
-					if (has_matches()) {
-						_solCoords[currCoord].x = x;
-						_solCoords[currCoord].y = y;
-						_results.add(_solCoords[currCoord]);
-						++currCoord;
-					}
-
-					swap(x, y, x - 1, y);
-				}
-
-				// Swap with the one on the right and check
-				if (x < size-1) {
-					swap(x, y, x + 1, y);
-					if (has_matches()) {
-						_solCoords[currCoord].x = x;
-						_solCoords[currCoord].y = y;
-						_results.add(_solCoords[currCoord]);
-						++currCoord;
-					}
-
-					swap(x, y, x + 1, y);
-				}
-			}
-		}
-
-		return _results;
+	
+	private Match convert(Coord[] originalAsArray) {
+		ArrayList<Coord> newAsArrayList = (new ArrayList<Coord>(Arrays.asList(originalAsArray)));
+		newAsArrayList.trimToSize();
+		return new Match(newAsArrayList);
 	}
 	
 	public void endAnimation() {

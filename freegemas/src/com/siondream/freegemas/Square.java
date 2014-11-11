@@ -8,7 +8,8 @@ public class Square  {
 					  sqOrange,
 					  sqGreen,
 					  sqYellow,
-					  sqBlue};
+					  sqBlue,
+					  sqGreenS};
 	
 	public int fallStartPosY;
 	public int fallDistance;
@@ -36,13 +37,39 @@ public class Square  {
 	}
 	
 	public boolean equals(Square other) {
-		return other._type == _type;
+		return (other._type == _type ||
+				other._type == getDualType(_type) ||
+				getDualType(other._type) == _type);
 	}
 	
 	public boolean equals(Type type) {
 		return type == _type;
 	}
 	
+	public static Type getDualType(Type type){
+		switch (type) {
+		case sqEmpty:
+			return Type.sqEmpty;
+		case sqGreen:
+			return Type.sqGreenS;
+		case sqGreenS:
+			return Type.sqGreen;
+		case sqOrange:
+			return Type.sqOrange;
+		case sqPurple:
+			return Type.sqPurple;
+		case sqRed:
+			return Type.sqRed;
+		case sqWhite:
+			return Type.sqWhite;
+		case sqYellow:
+			return Type.sqYellow;
+		case sqBlue:
+			return Type.sqBlue;
+		default:
+			return Type.sqWhite;
+		}
+	}
 	public static Type numToType(int num) {
 		switch (num) {
 		case 1:
@@ -59,6 +86,8 @@ public class Square  {
 			return Type.sqYellow;
 		case 7:
 			return Type.sqBlue;
+		case 15:
+			return Type.sqGreenS;
 		default:
 			return Type.sqEmpty;
 		}
