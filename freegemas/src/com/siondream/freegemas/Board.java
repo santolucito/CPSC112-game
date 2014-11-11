@@ -25,7 +25,6 @@ public class Board {
 	}
 
 	public void swap(int x1, int y1, int x2, int y2) {
-
 		Square temp = _squares[x1][y1];
 		_squares[x1][y1] = _squares[x2][y2]; 
 		_squares[x2][y2] = temp;
@@ -38,7 +37,7 @@ public class Board {
 
 			for (int y = 0; y < size; ++y) {
 				for (int x = 0; x < size; ++x) {
-					_squares[x][y] = new Square(Square.numToType(MathUtils.random(1, 7)));
+					_squares[x][y] = new Square(Square.numToType(MathUtils.random(3, 7)));
 					_squares[x][y].fallStartPosY = y-size;
 													//(int)MathUtils.random(-7, -1);
 					_squares[x][y].fallDistance = size;
@@ -60,14 +59,14 @@ public class Board {
 		for (int y = 0; y < size; y++) {
 			for (int x = 0; x < size; x++) {
 				int lastMatchPosition = buildPossibleMatchHorizontal(x, y);
-				x=lastMatchPosition-1;
+				x=lastMatchPosition;
 			}
 		}		
 		//check for matches in each column
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
 				int lastMatchPosition = buildPossibleMatchVertical(x, y);
-				y=lastMatchPosition-1;
+				y=lastMatchPosition;
 			}
 		}
 
@@ -75,11 +74,13 @@ public class Board {
 	}
 	
 	public Boolean has_matches(){
-		return find_matches().size!=0;
+		return find_matches().size()!=0;
 	}
 
 	//should switch out Match for array of Coord
 	//and Multiple match for two dimensional array of Coords
+	//given x and y, iterate down the row looking for matches
+	//return the last position that matched the given coord
 	public int buildPossibleMatchHorizontal(int x, int y) {
 		Match possibleMatch = new Match();
 		possibleMatch.add(new Coord(x,y));
@@ -91,7 +92,7 @@ public class Board {
 		if(possibleMatch.size>=3){
 			_matches.add(possibleMatch);
 		}
-		return scanPosition;
+		return scanPosition-1;
 	}
 	
 	public int buildPossibleMatchVertical(int x, int y) {
@@ -105,10 +106,8 @@ public class Board {
 		if(possibleMatch.size>=3){
 			_matches.add(possibleMatch);
 		}
-		return scanPosition;
+		return scanPosition-1;
 	}
-	
-
 	
 	public void calcFallMovements() {
 		for (int x = 0; x < size; ++x) {
@@ -166,8 +165,8 @@ public class Board {
 
 			for(int y = 0; y < size; ++y){
 				if(_squares[x][y].equals(Square.Type.sqEmpty)) {
-					_squares[x][y].setType(Square.numToType(MathUtils.random(1, 7)));
-					_squares[x][y].mustFall = true;  
+					_squares[x][y].setType(Square.numToType(MathUtils.random(3, 7)));
+					_squares[x][y].mustFall = true;
 					_squares[x][y].fallStartPosY = y - jumps;
 					_squares[x][y].fallDistance = jumps;
 				}       
@@ -252,8 +251,35 @@ public class Board {
 		return _results;
 	}
 
+
+	public void deleteMatches() {
+		MultipleMatch matches = find_matches();
+		for (int i = 0; i < matches.size(); ++i) {
+			for (int j = 0; j < matches.get(i).size; ++j) {
+				if(j==3 && matches.get(i).size==4){
+					makeSpecialSquare(matches.get(i).get(j).x,
+									  matches.get(i).get(j).y);
+				}
+				else{
+					deleteSquare(matches.get(i).get(j).x,
+								matches.get(i).get(j).y);
+				}
+			}
+		}		
+	}
+	
+	public void deleteSquare(int x, int y) {	
+		_squares[x][y].setType(Square.Type.sqEmpty);
+	}
+
+	public void makeSpecialSquare(int x, int y) {	
+		_squares[x][y].setType(Square.Type.sqWhite);
+	}
+	
+	
 	
 	//NO NEED TO EDIT BELOW THIS LINE
+
 	public void endAnimation() {
 		for(int x = 0; x < size; ++x){
 			for(int y = 0; y < size; ++y){
@@ -262,12 +288,6 @@ public class Board {
 				_squares[x][y].fallDistance = 0;
 			}
 		}
-	}
-	
-	
-	public void deleteSquare(int x, int y) {	
-		_squares[x][y].setType(Square.Type.sqEmpty);
-
 	}
 	
 	public Square getSquare(int x, int y) {
@@ -286,12 +306,11 @@ public class Board {
 				//output += "(" + _squares[i][j].fallStartPosY + ", " + _squares[i][j].fallDistance + ")  ";
 				output += "["+_squares[i][j].toString()+"] ";
 			}
-
 			output += "\n";
 		}
-
 		output += "\n";
 
 		return output;
 	}
+
 }

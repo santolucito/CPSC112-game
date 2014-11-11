@@ -448,7 +448,7 @@ public class StateGame extends State {
 				++_multiplier;
 				
 				// Play matching sounds
-				playMatchSound();
+				//playMatchSound();
 				
 				// Create floating scores for the matching group
 	            _groupedSquares = _board.find_matches();
@@ -473,13 +473,11 @@ public class StateGame extends State {
 				
 				
 				//move this to Board?
+				//if _groupedSquares.size==4 - set one to special
+				//if _groupedSquare.contains(special) - deleteRow()
 				// Delete squares that were matched on the board
-				for (int i = 0; i < _groupedSquares.size; ++i) {
-					for (int j = 0; j < _groupedSquares.get(i).size; ++j) {
-						_board.deleteSquare((int)_groupedSquares.get(i).get(j).x,
-								   (int)_groupedSquares.get(i).get(j).y);
-					}
-				}
+				_board.deleteMatches();
+
 				
 				// Calculate fall movements
 				_board.calcFallMovements();
@@ -523,7 +521,7 @@ public class StateGame extends State {
 	                createFloatingScores();
 
 	                // Play matching sound
-	                playMatchSound();
+	                //playMatchSound();
 
 	                // Go back to the gems-fading state
 	                _state = State.DisappearingGems;
@@ -973,12 +971,12 @@ public class StateGame extends State {
 	
 	private void createFloatingScores() {
 	    // For each match in the group of matched squares
-	    int numMatches = _groupedSquares.size;
+	    int numMatches = _groupedSquares.size();
 	    
 	    for (int i = 0; i < numMatches; ++i) {
 	    	// Create new floating score
 	    	Match match = _groupedSquares.get(i);
-	    	int matchSize = match.size;
+	    	int matchSize = match.size();
 	    	_floatingScores.add(new FloatingScore(_parent,
 	    										  _fontScore,
 	    										  matchSize * 5 * _multiplier,
