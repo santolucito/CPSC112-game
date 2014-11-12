@@ -56,10 +56,11 @@ public class GemsAnimation {
             	continue;
             }
 
+            //150 is just a hack to get all the colleges on there
             if (composedTime < _animTotalTime) {
-                batch.draw(_imgGems[i], _posX[i], Animation.easeOutCubic((float)composedTime, 600.0f, (float)_posY - 600.0f, _animTotalTime));
+                batch.draw(_imgGems[i], _posX[i]-150, Animation.easeOutCubic((float)composedTime, 600.0f, (float)_posY - 600.0f, _animTotalTime));
             }else{
-            	batch.draw(_imgGems[i], _posX[i], _posY);
+            	batch.draw(_imgGems[i], _posX[i]-150, _posY);
             }
         }
 	}
