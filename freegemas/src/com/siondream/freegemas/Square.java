@@ -1,98 +1,97 @@
 package com.siondream.freegemas;
 
 public class Square  {
-	public enum Type {sqEmpty,
-					  sqWhite,
-					  sqRed,
-					  sqPurple,
-					  sqOrange,
-					  sqGreen,
-					  sqYellow,
-					  sqBlue,
-					  sqGreenS};
-	
+	public enum Color {sqEmpty,
+		  sqWhite,
+		  sqRed,
+		  sqPurple,
+		  sqOrange,
+		  sqGreen,
+		  sqYellow,
+		  sqBlue,
+		  sqGreenS}
 	public int fallStartPosY;
 	public int fallDistance;
 	public boolean mustFall;
-	private Type _type;
+	private Color _color;
 	
-	public Square(Type type) {
-		_type = type;
+	public Square(Color color) {
+		_color = color;
 		mustFall = true;
 	}
 	
 	public Square(Square other) {
-		_type = other._type;
+		_color = other._color;
 		fallStartPosY = other.fallStartPosY;
 		fallDistance = other.fallDistance;
 		mustFall = other.mustFall;
 	}
 	
-	public Type getType() {
-		return _type;
+	public Color getType() {
+		return _color;
 	}
 	
-	public void setType(Type type) {
-		_type = type;
+	public void setType(Color type) {
+		_color = type;
 	}
 	
 	public boolean equals(Square other) {
-		return (other._type == _type ||
-				other._type == getDualType(_type) ||
-				getDualType(other._type) == _type);
+		return (other._color == _color ||
+				other._color == getDualType(_color) ||
+				getDualType(other._color) == _color);
 	}
 	
-	public boolean equals(Type type) {
-		return type == _type;
+	public boolean equals(Color type) {
+		return type == _color;
 	}
 	
-	public static Type getDualType(Type type){
+	public static Color getDualType(Color type){
 		switch (type) {
 		case sqEmpty:
-			return Type.sqEmpty;
+			return Color.sqEmpty;
 		case sqGreen:
-			return Type.sqGreenS;
+			return Color.sqGreen;
 		case sqGreenS:
-			return Type.sqGreen;
+			return Color.sqGreenS;
 		case sqOrange:
-			return Type.sqOrange;
+			return Color.sqOrange;
 		case sqPurple:
-			return Type.sqPurple;
+			return Color.sqPurple;
 		case sqRed:
-			return Type.sqRed;
+			return Color.sqRed;
 		case sqWhite:
-			return Type.sqWhite;
+			return Color.sqWhite;
 		case sqYellow:
-			return Type.sqYellow;
+			return Color.sqYellow;
 		case sqBlue:
-			return Type.sqBlue;
+			return Color.sqBlue;
 		default:
-			return Type.sqWhite;
+			return Color.sqWhite;
 		}
 	}
-	public static Type numToType(int num) {
+	public static Color numToType(int num) {
 		switch (num) {
 		case 1:
-			return Type.sqWhite;
+			return Color.sqWhite;
 		case 2:
-			return Type.sqRed;
+			return Color.sqRed;
 		case 3:
-			return Type.sqPurple;
+			return Color.sqPurple;
 		case 4:
-			return Type.sqOrange;
+			return Color.sqOrange;
 		case 5:
-			return Type.sqGreen;
+			return Color.sqGreen;
 		case 6:
-			return Type.sqYellow;
+			return Color.sqYellow;
 		case 7:
-			return Type.sqBlue;
+			return Color.sqBlue;
 		case 15:
-			return Type.sqGreenS;
+			return Color.sqGreenS;
 		default:
-			return Type.sqEmpty;
+			return Color.sqEmpty;
 		}
 	}
 	public String toString() {
-		return this._type.toString();
+		return this._color.toString();
 	}
 }

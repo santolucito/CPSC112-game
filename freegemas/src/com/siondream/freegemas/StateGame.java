@@ -535,7 +535,7 @@ public class StateGame extends State {
 	            }
 
 	            // If there are neither current solutions nor possible future solutions
-	            else if(_board.solutions().length == 0) {
+	            else if(_board.find_solutions().length == 0) {
 	                // Make the board disappear
 	                _state = State.DisappearingBoard;
 	                gemsOutScreen();
@@ -809,7 +809,7 @@ public class StateGame extends State {
 	            float p = 0;
 	            		//(float)(_showingHint / _animHintTotalTime);
 
-	    		Coord[] solutions = _board.solutions();
+	    		Coord[] solutions = _board.find_solutions();
 	    		for(int i=0; i<solutions.length;i++){
 	    			_coordHint = solutions[i];
 	    		
