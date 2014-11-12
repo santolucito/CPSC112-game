@@ -32,7 +32,7 @@ public class Board {
 
 			for (int y = 0; y < size; ++y) {
 				for (int x = 0; x < size; ++x) {
-					_squares[x][y] = new Square(Square.numToType(MathUtils.random(1, 7)));
+					_squares[x][y] = new Square(Square.numToType(MathUtils.random(3, 7)));
 					_squares[x][y].fallStartPosY = y-size;
 													//(int)MathUtils.random(-7, -1);
 					_squares[x][y].fallDistance = size;
@@ -192,14 +192,14 @@ public class Board {
 		ListOfMatches matches = find_matches();
 		for (int i = 0; i < matches.size(); ++i) {
 			for (int j = 0; j < matches.get(i).size(); ++j) {
-				if(j==3 && matches.get(i).size()>=4){
+				/*if(j==3 && matches.get(i).size()>=4){
 					makeSpecialSquare(matches.get(i).get(j).x,
 									  matches.get(i).get(j).y);
 				}
-				else{
+				else{*/
 					deleteSquare(matches.get(i).get(j).x,
 								matches.get(i).get(j).y);
-				}
+				//}
 			}
 		}		
 	}

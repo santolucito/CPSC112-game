@@ -85,8 +85,9 @@ public class StateMenu extends State {
 		_options.add(new Pair(_lang.getString("Timetrial mode"), "StateGame"));
 		//_options.add(new Pair(_lang.getString("How to play"), "StateHowto"));
 		
-		if (Gdx.app.getType() != ApplicationType.WebGL) {
-			//_options.add(new Pair(_lang.getString("Exit"), "StateQuit"));
+		if (Gdx.app.getType() != ApplicationType.WebGL &&
+			Gdx.app.getType() != ApplicationType.Android) {
+			_options.add(new Pair(_lang.getString("Exit"), "StateQuit"));
 		}
 		
 		// Mouse pos
@@ -307,8 +308,8 @@ public class StateMenu extends State {
 	    _parent.getCamera().unproject(_mousePos);
 
 	    if (_mousePos.y >= _menuStart.y - 100 && _mousePos.y < _menuEnd.y + 100) {
-		    return 0;
-	    	//return (int)(_mousePos.y - _menuStart.y) / _menuGap;
+	    	if(_options.size==1) return 0;
+	    	return (int)(_mousePos.y - _menuStart.y) / _menuGap;
 	    }
 	    
 	    return _selectedOption;
