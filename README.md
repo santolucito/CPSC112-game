@@ -49,14 +49,14 @@ The first is that initial board could have matches already in it. In our fillIni
 
 These methods are called from "find_matches", which is called from "has_matches", which is called by fillInitialBoard. When you are ready to get started on these two methods, enable the has_matches method by commenting out the return line.
 
-buildPossibleMatchHorizontal/Vertical is going to take in an 'x' and a 'y' that specify a position on the board, and return the list of matches including that square. For example, if we had the following board calling findMatchVertical(0,0) should return an array [(0,0),(0,1)] and calling findMatchHorizontal(0,0) should return an array [(0,0)].
+buildPossibleMatchHorizontal/Vertical is going to take in an 'x' and a 'y' that specify a position on the board, and return the list of matches including that square. For example, if we had the following board calling findMatchVertical(0,0) should return an array [(0,0),(0,1)] and calling (0,0) should return an array [(0,0)].
 
 ![Alt Board](/Board1.png)
 
+##How to write findMatchHorizontal/Vertical
+There are a few ways to write these methods, but we would like you to do the following.
 
-Notice that we don't know how long our match is going to be when we start. It could be that there is no match so we have length of just one (the given square matches itself). We could also end up with a five-in-a-row match. This means we need to be able to resize our array as needed. We will write an expandArray function that takes an old_array and return a new_array such that "new_array.length==old_array.length+1" and all the elements are copied over from the old_array.
-
-
+Start with an array of length 1, loop down the row/column while there are matches. Each time you find a match, expand the array by one, then fill in that space with a "new Point(x,y)". You will need to fill in the expandArray method that takes an old_array and return a new_array such that "new_array.length==old_array.length+1" and all the elements are copied over from the old_array.
 
 #Part 2
 15 points
@@ -66,6 +66,6 @@ Methods to edit
 
 Great, now you can play the game! There is only one (major) problem left. If you run out of moves you are just stuck. In fact the initial board could even be generated in such a way that there are no solutions right from the beginning. We certainly don't want that.
 
-have you noticed that "Hint" button in the game? It would be nice if it actually worked too. When we click that button, all the squares that can be swapped to create a match should be highlighted. We have taken car of the highlighting, you just need to implement the "findSolutions" method so that it returns a list of all the squares that could be swapped.
+Have you noticed that "Hint" button in the game? It would be nice if it actually worked too. When we click that button, all the squares that can be swapped to create a match should be highlighted. We have taken care of the highlighting, you just need to implement the "findSolutions" method so that it returns a list of all the squares that could be swapped.
 
 We will write this function that finds solutions by swapping every square in every direction and checking to see if it makes a match (this is again a "brute force" approach). Notice that we don't know how big how list of solutions is going to be when we start. That means we can reuse our expandArray function from the last part.
