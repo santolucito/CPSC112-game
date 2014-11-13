@@ -43,15 +43,19 @@ Methods to edit
 - buildPossibleMatchVertical
 - expandArray
 
-Before you get started coding, let's take a look at the program as it is right now. Select frontend-desktop folder, then click the run button in eclipse. Up comes a baord. There are two problems with this board though.
+Before you get started coding, let's take a look at the program as it is right now. Select frontend-desktop folder, then click the run button in eclipse. Up comes an initial board, but there are two problems.
 
-The first is that initial board could have matches already in it. In our fillInitialBoard method, we take a "brute force" approach to this problem. We just keep generating boards until we find one that doesn't have any matches in it initially.  A do-while executes once, then checks the condition to see if it needs to run again (see Section 5.1 from the textbook for more). fillInitialBoard is completed for you, but you need to finish two of the submethods, "buildPossibleMatchHorizontal" and "buildPossibleMatchVertical".
+The first is that initial board could have matches already in it. In our fillInitialBoard method, we are using a "brute force" approach to this problem. We just keep generating boards until we find one that doesn't have any matches in it initially.  A do-while executes once, then checks the condition to see if it needs to run again (see Section 5.1 from the textbook for more). fillInitialBoard is completed for you, but you need to finish two of the submethods, "buildPossibleMatchHorizontal" and "buildPossibleMatchVertical".
 
-These methods are called from "find_matches", which is called from "has_matches", which is called by fillInitialBoard. When you are ready to get started on these two methods, enable the has_matches method.
+These methods are called from "find_matches", which is called from "has_matches", which is called by fillInitialBoard. When you are ready to get started on these two methods, enable the has_matches method by commenting out the return line.
 
-Notice that we don't know how long our match is going to be when we start. It could be that there is no match so we have length of just one (the original). we could also end up with a five-in-a-row match. This means we need to be able to resize our array as needed. We will write an expandArray function for this that takes an array and return a new array such that "new_array.length==old_array.length+1" and all the elements are copied over from the old_array.
+buildPossibleMatchHorizontal/Vertical is going to take in an 'x' and a 'y' that specify a position on the board, and return the list of matches including that square. For example, if we had the following board calling findMatchVertical(0,0) should return an array [(0,0),(0,1)] and calling findMatchHorizontal(0,0) should return an array [(0,0)].
 
-Describe strategy for methods
+![Alt Board](/Board1.png)
+
+
+Notice that we don't know how long our match is going to be when we start. It could be that there is no match so we have length of just one (the given square matches itself). We could also end up with a five-in-a-row match. This means we need to be able to resize our array as needed. We will write an expandArray function that takes an old_array and return a new_array such that "new_array.length==old_array.length+1" and all the elements are copied over from the old_array.
+
 
 
 #Part 2
