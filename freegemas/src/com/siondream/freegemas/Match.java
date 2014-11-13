@@ -1,8 +1,9 @@
 package com.siondream.freegemas;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
-public class Match extends ArrayList<Coord> {
+public class Match extends ArrayList<Point> {
 
 	private static final long serialVersionUID = -978651348070998435L;
 
@@ -10,15 +11,15 @@ public class Match extends ArrayList<Coord> {
 		super();
 	}
 	
-	public Match(ArrayList<Coord> arrayList) {
-		super(arrayList);
+	public Match(ArrayList<Point> newAsArrayList) {
+		super(newAsArrayList);
 	}
 
 	public boolean isMatched(Coord c) {
 		return contains(c);
 	}
 	
-	public Coord getMidSquare() {
+	public Point getMidSquare() {
 		if (size() > 0)	{
 			return get(size() / 2);
 		}

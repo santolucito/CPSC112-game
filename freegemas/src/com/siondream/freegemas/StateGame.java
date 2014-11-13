@@ -1,5 +1,7 @@
 package com.siondream.freegemas;
 
+import java.awt.Point;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
@@ -46,7 +48,7 @@ public class StateGame extends State {
 	// Hints
 	private double _showingHint;
 	private double _animHintTotalTime;
-	private Coord _coordHint;
+	private Point _coordHint;
 	
 	// Game board
 	private Board _board;
@@ -809,7 +811,7 @@ public class StateGame extends State {
 	            float p = 0;
 	            		//(float)(_showingHint / _animHintTotalTime);
 
-	    		Coord[] solutions = _board.findPossibleSwaps();
+	            Point[] solutions = _board.findPossibleSwaps();
 	    		for(int i=0; i<solutions.length;i++){
 	    			
 	    			_coordHint = solutions[i];

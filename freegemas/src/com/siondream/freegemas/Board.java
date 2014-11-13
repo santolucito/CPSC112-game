@@ -1,8 +1,8 @@
 package com.siondream.freegemas;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import java.util.Random;
 
 
@@ -11,7 +11,7 @@ public class Board {
 	public final int size = 8;
 	// Aux 
 	private ListOfMatches _matches = new ListOfMatches();
-	private Coord[] foundSolutions = new Coord[0];
+	private Point[] squaresThatCanBeSwapped = new Point[0];
 	private int variety;
 	public static Random randomGenerator = new Random();
 
@@ -48,7 +48,7 @@ public class Board {
 		//check for matches in each row
 		for (int y = 0; y < size; y++) {
 			for (int x = 0; x < size; x++) {
-				Coord[] built = buildPossibleMatchHorizontal(x, y);
+				Point[] built = buildPossibleMatchHorizontal(x, y);
 				x=x+built.length-1;
 				checkCorrectness(x, built);
 				if(built.length>=3){
@@ -59,7 +59,7 @@ public class Board {
 		//check for matches in each column
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
-				Coord[] built = buildPossibleMatchVertical(x, y);
+				Point[] built = buildPossibleMatchVertical(x, y);
 				y=y+built.length-1;
 				checkCorrectness(y, built);
 				if(built.length>=3){
@@ -74,16 +74,16 @@ public class Board {
 
 	
 	public Boolean has_matches(){
-		return false;
-		//return find_matches().size()!=0;
+		//return false;
+		return find_matches().size()!=0;
 	}
 
 	//given x and y (a position of a square),
 	//iterate down the row looking for matches
 	//return the position of first square that doesnt match the given square
-	public Coord[] buildPossibleMatchHorizontal(int x, int y) {
-		Coord[] possibleMatch = new Coord[1];
-		possibleMatch[0] = new Coord(x,y);
+	public Point[] buildPossibleMatchHorizontal(int x, int y) {
+		Point[] possibleMatch = new Point[1];
+		possibleMatch[0] = new Point(x,y);
 		
 		int ctr=1;
 		int scanPosition = x + 1;
@@ -91,7 +91,7 @@ public class Board {
 			if(ctr>=possibleMatch.length){
 				possibleMatch = expandArray(possibleMatch);
 			}
-			possibleMatch[ctr] = new Coord(scanPosition,y);
+			possibleMatch[ctr] = new Point(scanPosition,y);
 			ctr++;				
 			scanPosition++;
 		}
@@ -99,9 +99,9 @@ public class Board {
 		return possibleMatch;
 	}
 
-	public Coord[] buildPossibleMatchVertical(int x, int y) {
-		Coord[] possibleMatch = new Coord[1];
-		possibleMatch[0] = new Coord(x,y);
+	public Point[] buildPossibleMatchVertical(int x, int y) {
+		Point[] possibleMatch = new Point[1];
+		possibleMatch[0] = new Point(x,y);
 		
 		int ctr=1;
 		int scanPosition = y + 1;
@@ -109,7 +109,7 @@ public class Board {
 			if(ctr>=possibleMatch.length){
 				possibleMatch = expandArray(possibleMatch);
 			}
-			possibleMatch[ctr] = new Coord(x,scanPosition);
+			possibleMatch[ctr] = new Point(x,scanPosition);
 			ctr++;	
 			scanPosition++;
 		}
@@ -118,10 +118,10 @@ public class Board {
 	}
 	
 	//return an array of positions that could be swapped in some direction to create a match 
-	public Coord[] findPossibleSwaps() {
-		foundSolutions = new Coord[1];
-		//foundSolutions[0] = (new Coord(0,0));
-		//if(true) return foundSolutions;
+	public Point[] findPossibleSwaps() {
+		squaresThatCanBeSwapped = new Point[1];
+		//squaresThatCanBeSwapped[0] = (new Point(0,0));
+		//if(true) return squaresThatCanBeSwapped;
 
 		int ctr=0;
 
@@ -136,8 +136,8 @@ public class Board {
 				if (y > 0) {
 					swap(x, y, x, y - 1);
 					if (has_matches()) {
-						foundSolutions = expandArray(foundSolutions);
-						foundSolutions[ctr] = (new Coord(x,y));
+						squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
+						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
 						ctr++;
 					}
 					swap(x, y, x, y - 1);
@@ -147,8 +147,8 @@ public class Board {
 				if (y < size-1) {
 					swap(x, y, x, y + 1);
 					if (has_matches()) {
-						foundSolutions = expandArray(foundSolutions);
-						foundSolutions[ctr] = (new Coord(x,y));
+						squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
+						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
 						ctr++;
 					}
 					swap(x, y, x, y + 1);
@@ -158,8 +158,8 @@ public class Board {
 				if (x > 0) {
 					swap(x, y, x - 1, y);
 					if (has_matches()) {
-						foundSolutions = expandArray(foundSolutions);
-						foundSolutions[ctr] = (new Coord(x,y));
+						squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
+						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
 						ctr++;
 					}
 					swap(x, y, x - 1, y);
@@ -169,8 +169,8 @@ public class Board {
 				if (x < size-1) {
 					swap(x, y, x + 1, y);
 					if (has_matches()) {
-						foundSolutions = expandArray(foundSolutions);
-						foundSolutions[ctr] = (new Coord(x,y));
+						squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
+						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
 						ctr++;
 					}
 					swap(x, y, x + 1, y);
@@ -178,12 +178,12 @@ public class Board {
 			}
 		}
 
-		return foundSolutions;
+		return squaresThatCanBeSwapped;
 	}
 	
 	//return a new array with all the same elements, but one extra space
-	private Coord[] expandArray(Coord[] originalArray) {
-		Coord[] newArray = new Coord[originalArray.length+1];
+	private Point[] expandArray(Point[] originalArray) {
+		Point[] newArray = new Point[originalArray.length+1];
 		for(int i=0; i<originalArray.length; i++){
 			newArray[i]=originalArray[i];
 		}
@@ -195,7 +195,7 @@ public class Board {
 	//NO NEED TO EDIT BELOW THIS LINE
 	//FEEL FREE TO CHECK THESE OUT AS EXAMPLES IF YOU LIKE
 
-	private void checkCorrectness(int x, Coord[] built) {
+	private void checkCorrectness(int x, Point[] built) {
 		if(built[built.length-1]==null || x>size){
 			System.err.println("The array you built in buildPossibleMatchHori/Vert was too long\n"+
 								"Make sure it is exactly as long as the match you found");
@@ -292,8 +292,8 @@ public class Board {
 		}
 	}
 
-	private Match convert(Coord[] originalAsArray) {
-		ArrayList<Coord> newAsArrayList = (new ArrayList<Coord>(Arrays.asList(originalAsArray)));
+	private Match convert(Point[] built) {
+		ArrayList<Point> newAsArrayList = (new ArrayList<Point>(Arrays.asList(built)));
 		newAsArrayList.trimToSize();
 		return new Match(newAsArrayList);
 	}
