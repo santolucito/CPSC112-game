@@ -535,7 +535,7 @@ public class StateGame extends State {
 	            }
 
 	            // If there are neither current solutions nor possible future solutions
-	            else if(_board.find_solutions().length == 0) {
+	            else if(_board.findPossibleSwaps().length == 0) {
 	                // Make the board disappear
 	                _state = State.DisappearingBoard;
 	                gemsOutScreen();
@@ -809,18 +809,20 @@ public class StateGame extends State {
 	            float p = 0;
 	            		//(float)(_showingHint / _animHintTotalTime);
 
-	    		Coord[] solutions = _board.find_solutions();
+	    		Coord[] solutions = _board.findPossibleSwaps();
 	    		for(int i=0; i<solutions.length;i++){
+	    			
 	    			_coordHint = solutions[i];
-	    		
-	    			float x = gemsInitial.x + _coordHint.x * tile_size;
-	    			float y = gemsInitial.y + _coordHint.y * tile_size;
+	    			if(_coordHint !=null){
+	    				float x = gemsInitial.x + _coordHint.x * tile_size;
+	    				float y = gemsInitial.y + _coordHint.y * tile_size;
 
-	    			_imgColor.a = 1.0f - p;
-	            	batch.setColor(_imgColor);
-	            	batch.draw(_imgSelector, x, y);
-	            	_imgColor.a = 1.0f;
-	            	batch.setColor(_imgColor);
+	    				_imgColor.a = 1.0f - p;
+	    				batch.setColor(_imgColor);
+	    				batch.draw(_imgSelector, x, y);
+	    				_imgColor.a = 1.0f;
+	    				batch.setColor(_imgColor);
+	    			}
 	    		}
 	        }
 		}

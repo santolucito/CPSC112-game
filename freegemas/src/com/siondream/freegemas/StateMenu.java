@@ -268,7 +268,7 @@ public class StateMenu extends State {
 				currentOption = 0;
 			}
 			
-			if (_readyToChange && currentOption == _selectedOption) {
+			if (_readyToChange && currentOption == _selectedOption && _selectedOption<2) {
 				_parent.changeState(_options.get(_selectedOption).getSecond());
 			}
 			else {

@@ -3,49 +3,44 @@ package com.siondream.freegemas;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.badlogic.gdx.math.MathUtils;
+import java.util.Random;
+
 
 public class Board {
 	private Square[][] _squares;
 	public final int size = 8;
-
 	// Aux 
 	private ListOfMatches _matches = new ListOfMatches();
 	private Coord[] foundSolutions = new Coord[0];
+	private int variety;
+	public static Random randomGenerator = new Random();
+
 
 	public Board() {
 		_squares = new Square[size][size];
+		//variety can be 1-7
+		variety = 5;
 	}
 
-	//TODO
+	public void fillInitialBoard() {
+		do {
+			for (int y = 0; y < size; ++y) {
+				for (int x = 0; x < size; ++x) {
+					_squares[x][y] = new Square(Square.numToType(randomGenerator.nextInt(variety)+1));
+					_squares[x][y].fallStartPosY = y-size;
+					_squares[x][y].fallDistance = size;
+				}
+			}
+		} while(has_matches() || findPossibleSwaps().length == 0);
+	}
+
 	public void swap(int x1, int y1, int x2, int y2) {
 		Square temp = _squares[x1][y1];
 		_squares[x1][y1] = _squares[x2][y2]; 
 		_squares[x2][y2] = temp;
 
 	}
-
-	//TODO
-	public void fillInitialBoard() {
-		do {
-			System.out.println("### Generating...");
-
-			for (int y = 0; y < size; ++y) {
-				for (int x = 0; x < size; ++x) {
-					_squares[x][y] = new Square(Square.numToType(MathUtils.random(3, 7)));
-					_squares[x][y].fallStartPosY = y-size;
-													//(int)MathUtils.random(-7, -1);
-					_squares[x][y].fallDistance = size;
-													//y - _squares[x][y].fallStartPosY;
-				}
-			}
-
-		} while(has_matches() || find_solutions().length == 0);
-
-		System.out.println("The generated board has no matches and some possible solutions.");
-	}
-
-
+	
 	//return an array of arrays of matching locations
 	public ListOfMatches find_matches() {
 		_matches.clear();
@@ -53,29 +48,40 @@ public class Board {
 		//check for matches in each row
 		for (int y = 0; y < size; y++) {
 			for (int x = 0; x < size; x++) {
-				int lastMatchPosition = buildPossibleMatchHorizontal(x, y);
-				x=lastMatchPosition-1;
+				Coord[] built = buildPossibleMatchHorizontal(x, y);
+				x=x+built.length-1;
+				checkCorrectness(x, built);
+				if(built.length>=3){
+					_matches.add(convert(built));
+				}
 			}
 		}		
 		//check for matches in each column
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
-				int lastMatchPosition = buildPossibleMatchVertical(x, y);
-				y=lastMatchPosition-1;
+				Coord[] built = buildPossibleMatchVertical(x, y);
+				y=y+built.length-1;
+				checkCorrectness(y, built);
+				if(built.length>=3){
+					_matches.add(convert(built));
+				}
 			}
 		}
 
 		return _matches;
 	}
+
+
 	
 	public Boolean has_matches(){
-		return find_matches().size()!=0;
+		return false;
+		//return find_matches().size()!=0;
 	}
 
 	//given x and y (a position of a square),
 	//iterate down the row looking for matches
 	//return the position of first square that doesnt match the given square
-	public int buildPossibleMatchHorizontal(int x, int y) {
+	public Coord[] buildPossibleMatchHorizontal(int x, int y) {
 		Coord[] possibleMatch = new Coord[1];
 		possibleMatch[0] = new Coord(x,y);
 		
@@ -89,19 +95,17 @@ public class Board {
 			ctr++;				
 			scanPosition++;
 		}
-		if(possibleMatch.length>=3){
-			_matches.add(convert(possibleMatch));
-		}
-		return x+possibleMatch.length;
+
+		return possibleMatch;
 	}
 
-	public int buildPossibleMatchVertical(int x, int y) {
+	public Coord[] buildPossibleMatchVertical(int x, int y) {
 		Coord[] possibleMatch = new Coord[1];
 		possibleMatch[0] = new Coord(x,y);
 		
 		int ctr=1;
 		int scanPosition = y + 1;
-		while (scanPosition < size &&_squares[x][scanPosition].equals(_squares[x][y])) {
+		while (scanPosition < size && _squares[x][scanPosition].equals(_squares[x][y])) {
 			if(ctr>=possibleMatch.length){
 				possibleMatch = expandArray(possibleMatch);
 			}
@@ -109,16 +113,16 @@ public class Board {
 			ctr++;	
 			scanPosition++;
 		}
-		if(possibleMatch.length>=3){
-			_matches.add(convert(possibleMatch));
-		}
-		return y+possibleMatch.length;
+
+		return possibleMatch;
 	}
 	
-	//TODO
 	//return an array of positions that could be swapped in some direction to create a match 
-	public Coord[] find_solutions() {
-		foundSolutions = new Coord[0];
+	public Coord[] findPossibleSwaps() {
+		foundSolutions = new Coord[1];
+		//foundSolutions[0] = (new Coord(0,0));
+		//if(true) return foundSolutions;
+
 		int ctr=0;
 
 		/* 
@@ -186,8 +190,19 @@ public class Board {
 		return newArray;
 	}
 
+	
+	
+	//NO NEED TO EDIT BELOW THIS LINE
+	//FEEL FREE TO CHECK THESE OUT AS EXAMPLES IF YOU LIKE
 
-	//TODO
+	private void checkCorrectness(int x, Coord[] built) {
+		if(built[built.length-1]==null || x>size){
+			System.err.println("The array you built in buildPossibleMatchHori/Vert was too long\n"+
+								"Make sure it is exactly as long as the match you found");
+			System.exit(0);
+		}
+	}
+	
 	public void deleteMatches() {
 		ListOfMatches matches = find_matches();
 		for (int i = 0; i < matches.size(); ++i) {
@@ -212,11 +227,6 @@ public class Board {
 		_squares[x][y].setType(Square.getDualType(_squares[x][y].getType()));
 	}
 	
-	
-	
-	//NO NEED TO EDIT BELOW THIS LINE
-	//FEEL FREE TO CHECK THESE OUT AS EXAMPLES IF YOU LIKE
-
 	public void fillSpaces() {
 		for(int x = 0; x < size; ++x){
 			// Count how many jumps do we have to fall
@@ -231,7 +241,7 @@ public class Board {
 
 			for(int y = 0; y < size; ++y){
 				if(_squares[x][y].equals(Square.Color.sqEmpty)) {
-					_squares[x][y].setType(Square.numToType(MathUtils.random(1, 7)));
+					_squares[x][y].setType(Square.numToType(randomGenerator.nextInt(variety )+1));
 					_squares[x][y].mustFall = true;
 					_squares[x][y].fallStartPosY = y - jumps;
 					_squares[x][y].fallDistance = jumps;
