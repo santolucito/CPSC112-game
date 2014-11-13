@@ -53,7 +53,7 @@ buildPossibleMatchHorizontal/Vertical is going to take in an 'x' and a 'y' that 
 
 ![Alt Board](/Board1.png)
 
-##How to write findMatchHorizontal/Vertical##
+###How to write findMatchHorizontal/Vertical
 There are a few ways to write these methods, but we would like you to do the following.
 
 Start with an array of length 1, loop down the row/column while there are matches. Each time you find a match, expand the array by one, then fill in that space with a "new Point(x,y)". You will need to fill in the expandArray method that takes an old_array and return a new_array such that "new_array.length==old_array.length+1" and all the elements are copied over from the old_array.
