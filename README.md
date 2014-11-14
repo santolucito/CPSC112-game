@@ -54,9 +54,10 @@ buildPossibleMatchRow/Column is going to take in an 'x' and a 'y' that specify a
 ![Alt Board](/Board1.png)
 
 ###How to write buildPossibleMatchRow/Column
-There are a few ways to write these methods, but we would like you to do the following.
+We have provided you with a call to the method helper.getColumnBools. This returns an array of Booleans that represent which items in that row match a given square. For example calling helper.getRowBools(0,0) on the above board will return [True,False,False,True,True]. Similarly, calling helper.getColumnBools(0,0) on the above board will return [True,True,False,True].
 
-Start with an array of length 1, loop down the row/column while there are matches. Each time you find a match, expand the array by one, then fill in that space with a "new Point(x,y)". You will need to fill in the expandArray method that takes an old_array and return a new_array such that "new_array.length==old_array.length+1" and all the elements are copied over from the old_array.
+You will need to use this Boolean[] to figure out the length of your Point[] when it is  initialized. Then fill in the Point[] with the appropriate points.
+
 
 #Part 2
 15 points
@@ -64,10 +65,32 @@ Start with an array of length 1, loop down the row/column while there are matche
 Methods to edit
 - findSolutions
 
-Great, now you can play the game! There is only one (major) problem left. If you run out of moves you are just stuck. In fact the initial board could even be generated in such a way that there are no solutions right from the beginning. We certainly don't want that.
+Great, now you can play the game! There is only one (major) problem left. If you run out of moves you are just stuck. We should be able to generate a new board in the middle of the game In fact the initial board could even be generated in such a way that there are no solutions right from the beginning. We certainly don't want that.
 
 Have you noticed that "Hint" button in the game? It would be nice if it actually worked too. When we click that button, all the squares that can be swapped to create a match should be highlighted. We have taken care of the highlighting, you just need to implement the "findSolutions" method so that it returns a list of all the squares that could be swapped.
 
 ![Alt Board](/Board2.png)
+Start with an array of length 1, loop down the row/column while there are matches. Each time you find a match, expand the array by one, then fill in that space with a "new Point(x,y)". You will need to fill in the expandArray method that takes an old_array and return a new_array such that "new_array.length==old_array.length+1" and all the elements are copied over from the old_array.
 
 We will write this function that finds solutions by swapping every square in every direction and checking to see if it makes a match (this is again a "brute force" approach). Notice that we don't know how big how list of solutions is going to be when we start. That means we can reuse our expandArray function from the last part.
+
+
+COOL HINTS/LESSONS
+
+You may (or may not) find one more concept to be useful - it is called shortcircuting.  If you have the following code, only first half will be evaluated:
+
+    int x = 3
+    Bool[] a = new Bool[2];
+    if (a.length<x && a[x]==true){
+      print("neat")
+    }
+
+This is a very helpful (and cool) feature. If a[x]==true had been evaluated, we would have gotten an indexOutOfBounds error. We could have seperated the two if statements and avoided the problem entirely, as such
+
+    int x = 3
+    Bool[] a = new Bool[2];
+    if (a.length<x){
+      if (a[x]==true){
+        print("neat")
+      }
+    }
