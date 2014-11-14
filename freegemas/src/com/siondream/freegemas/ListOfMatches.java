@@ -10,6 +10,10 @@ public class ListOfMatches extends ArrayList<Match> {
 		super();
 	}
 	
+	public ListOfMatches(ArrayList<Match> newAsArrayList) {
+		super(newAsArrayList);
+	}
+
 	public boolean isMatched(Coord c) {
 		for (int i = 0; i < size(); ++i) {
 			if (get(i).isMatched(c)) {

@@ -22,16 +22,53 @@ public class BoardHelper {
 		this.size = b.size;
 	}
 
-	public Point[][] find_matches()
-	{
-		return null;
+	public Point[][] find_matches() {
+
+		Point[][] _matches = new Point[2][0];
+		int ctr=0;
+		//check for matches in each row
+		for (int y = 0; y < size; y++) {
+			for (int x = 0; x < size; x++) {
+				Point[] built = buildPossibleMatchRow(x, y);
+				x=x+built.length-1;
+				if(built.length>=3){
+					if(ctr>=_matches.length)
+						_matches=expandArray(_matches);
+					_matches[ctr]=built;
+					ctr++;
+				}
+			}
+		}		
+		//check for matches in each column
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				Point[] built = buildPossibleMatchColumn(x, y);
+				y=y+built.length-1;
+				if(built.length>=3){
+					if(ctr>=_matches.length)
+						_matches=expandArray(_matches);
+					_matches[ctr]=built;
+					ctr++;
+				}
+			}
+		}
+		return _matches;
 	}
 	
+	public Point[][] expandArray(Point[][] originalArray) {
+		Point[][] newArray = new Point[originalArray.length*2][0];
+		for(int i=0; i<originalArray.length; i++){
+			newArray[i]=originalArray[i];
+		}
+		return newArray;
+	}
+
 	//enable this method to get started
 	public boolean has_matches(){
 		//return false;
+		//return find_matches().length!=0;
+		return find_matches()[0].length>0;
 		//return b.find_matches().size()!=0;
-		return find_matches().length!=0;
 
 	}
 	
@@ -80,7 +117,7 @@ public class BoardHelper {
 	}
 	
 	public Point[] findPossibleSwaps() {
-		squaresThatCanBeSwapped = new Point[2];
+		squaresThatCanBeSwapped = new Point[1];
 		//squaresThatCanBeSwapped[0] = (new Point(0,0));
 		//if(true) return squaresThatCanBeSwapped;
 

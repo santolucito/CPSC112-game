@@ -32,45 +32,28 @@ public class Board {
 					_squares[x][y] = new Square(Square.numToType(randomGenerator.nextInt(variety)+1));
 					_squares[x][y].fallStartPosY = y-size;
 					_squares[x][y].fallDistance = size;
+
 				}
 			}
-		} while(helper.has_matches() || helper.findPossibleSwaps().length == 0);		
+			System.out.println(find_matches().size() +" "+ findPossibleSwaps().length);
+
+		} while(has_matches() || findPossibleSwaps().length == 0);		
 	}
 
-	/*public ListOfmatches find_matches() {
-		Point[][] m = helper.find_matches();
-		checkCorrectness(x, built);
-
-	}*/
-	
-	//return an array of arrays of matching locations
 	public ListOfMatches find_matches() {
+		Point[][] m = helper.find_matches();
+		convert(m);
+		return _matches;
+	}
+	
+	private void convert(Point[][] built) {
 		_matches.clear();
-
-		//check for matches in each row
-		for (int y = 0; y < size; y++) {
-			for (int x = 0; x < size; x++) {
-				Point[] built = helper.buildPossibleMatchRow(x, y);
-				x=x+built.length-1;
-				checkCorrectness(x, built);
-				if(built.length>=3){
-					_matches.add(convert(built));
-				}
-			}
-		}		
-		//check for matches in each column
-		for (int x = 0; x < size; x++) {
-			for (int y = 0; y < size; y++) {
-				Point[] built = helper.buildPossibleMatchColumn(x, y);
-				y=y+built.length-1;
-				checkCorrectness(y, built);
-				if(built.length>=3){
-					_matches.add(convert(built));
-				}
+		for(int i=0;i<built.length;i++){
+			if(built[i].length>=3){
+				checkCorrectness(i, built[i]);
+				_matches.add(convert(built[i]));
 			}
 		}
-
-		return _matches;
 	}
 
 	public Point[] findPossibleSwaps() {
@@ -81,8 +64,6 @@ public class Board {
 		helper.swap(x1, y1, x2, y2);
 	}
 	public boolean has_matches(){
-		helper.has_matches();
-		//return false;
 		return find_matches().size()!=0;
 	}
 
