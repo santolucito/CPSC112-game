@@ -77,15 +77,7 @@ We will write this function that finds solutions by swapping every square in eve
 
 COOL HINTS/LESSONS
 
-You may (or may not) find one more concept to be useful - it is called shortcircuting.  If you have the following code, only first half will be evaluated:
-
-    int x = 3
-    Bool[] a = new Bool[2];
-    if (a.length<x && a[x]==true){
-      print("neat")
-    }
-
-This is a very helpful (and cool) feature. If a[x]==true had been evaluated, we would have gotten an indexOutOfBounds error. We could have seperated the two if statements and avoided the problem entirely, as such
+You may (or may not) find one more concept to be useful - it is called shortcircuting.  If you have the following code:
 
     int x = 3
     Bool[] a = new Bool[2];
@@ -94,3 +86,13 @@ This is a very helpful (and cool) feature. If a[x]==true had been evaluated, we 
         print("neat")
       }
     }
+
+We can change that code to look this, and only first half of the 'if' will be evaluated:
+
+    int x = 3
+    Bool[] a = new Bool[2];
+    if (a.length<x && a[x]==true){
+      print("neat")
+    }
+
+This is a very helpful (and cool) feature. If a[x]==true had been evaluated, we would have gotten an indexOutOfBounds error.
