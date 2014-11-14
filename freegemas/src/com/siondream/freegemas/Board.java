@@ -77,7 +77,8 @@ public class Board {
 		for(int i=0;i<length;i++){
 			possibleMatch[i] = new Point(x+i,y);
 		}
-
+		//Point[] possibleMatch = new Point[1];
+		//possibleMatch[0] = new Point(0,0);
 		return possibleMatch;
 	}
 
@@ -95,16 +96,17 @@ public class Board {
 		for(int i=0;i<length;i++){
 			possibleMatch[i] = new Point(x,y+i);
 		}
-
+		
+		//Point[] possibleMatch = new Point[1];
+		//possibleMatch[0] = new Point(0,0);
 		return possibleMatch;
 	}
 
 	//return an array of positions that could be swapped in some direction to create a match 
 	public Point[] findPossibleSwaps() {
 		squaresThatCanBeSwapped = new Point[2];
-		//squaresThatCanBeSwapped[0] = (new Point(0,0));
-		//if(true) return squaresThatCanBeSwapped;
 
+		/*
 		int ctr=0;
 
 	    //Check all possible boards
@@ -160,7 +162,7 @@ public class Board {
 				}
 			}
 		}
-
+*/
 		return squaresThatCanBeSwapped;
 	}
 
@@ -185,8 +187,9 @@ public class Board {
 	public void checkCorrectness(int x, Point[] built) {
 		if(built[built.length-1]==null || x>size){
 			System.err.println("The array you built in buildPossibleMatchHori/Vert was too long\n"+
-					"Make sure it is exactly as long as the match you found\n"+
-					"length: "+built.length+" "+x+" "+built[built.length-1]);
+					"Make sure it is exactly as long as the match you found and every position has a value\n"+
+					"built.length: "+built.length+"\n"+
+					"built[built.length-1]: "+built[built.length-1]);
 			System.exit(0);
 		}
 	}
