@@ -101,16 +101,13 @@ public class Board {
 
 	//return an array of positions that could be swapped in some direction to create a match 
 	public Point[] findPossibleSwaps() {
-		squaresThatCanBeSwapped = new Point[1];
+		squaresThatCanBeSwapped = new Point[2];
 		//squaresThatCanBeSwapped[0] = (new Point(0,0));
 		//if(true) return squaresThatCanBeSwapped;
 
 		int ctr=0;
 
-		/* 
-	       Check all possible boards
-	       (49 * 4) + (32 * 2) although there are many duplicates
-		 */
+	    //Check all possible boards
 		for(int x = 0; x < size; ++x){
 			for(int y = 0; y < size; ++y){
 
@@ -118,7 +115,8 @@ public class Board {
 				if (y > 0) {
 					swap(x, y, x, y - 1);
 					if (has_matches()) {
-						squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
+						if(ctr>=squaresThatCanBeSwapped.length)
+							squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
 						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
 						ctr++;
 					}
@@ -129,7 +127,8 @@ public class Board {
 				if (y < size-1) {
 					swap(x, y, x, y + 1);
 					if (has_matches()) {
-						squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
+						if(ctr>=squaresThatCanBeSwapped.length)
+							squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
 						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
 						ctr++;
 					}
@@ -140,7 +139,8 @@ public class Board {
 				if (x > 0) {
 					swap(x, y, x - 1, y);
 					if (has_matches()) {
-						squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
+						if(ctr>=squaresThatCanBeSwapped.length)
+							squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
 						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
 						ctr++;
 					}
@@ -151,7 +151,8 @@ public class Board {
 				if (x < size-1) {
 					swap(x, y, x + 1, y);
 					if (has_matches()) {
-						squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
+						if(ctr>=squaresThatCanBeSwapped.length)
+							squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
 						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
 						ctr++;
 					}
@@ -170,9 +171,9 @@ public class Board {
 
 	}
 
-	//return a new array with all the same elements, but one extra space
+	//return a new array with all the same elements, but twice the space
 	public Point[] expandArray(Point[] originalArray) {
-		Point[] newArray = new Point[originalArray.length+1];
+		Point[] newArray = new Point[originalArray.length*2];
 		for(int i=0; i<originalArray.length; i++){
 			newArray[i]=originalArray[i];
 		}
@@ -180,7 +181,6 @@ public class Board {
 	}
 
 	//NO NEED TO EDIT BELOW THIS LINE
-	//FEEL FREE TO CHECK THESE OUT AS EXAMPLES IF YOU LIKE
 
 	public void checkCorrectness(int x, Point[] built) {
 		if(built[built.length-1]==null || x>size){
