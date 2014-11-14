@@ -66,9 +66,7 @@ public class BoardHelper {
 	//enable this method to get started
 	public boolean has_matches(){
 		//return false;
-		//return find_matches().length!=0;
 		return find_matches()[0].length>0;
-		//return b.find_matches().size()!=0;
 
 	}
 	
