@@ -74,14 +74,15 @@ When we click the hint button, all the squares that can be swapped to create a m
 ###How to write findSolutions
 You should swap every square in every direction and checking to see if it makes a match using the has_matches() method. If there are matches, add the square's location (new Point(x,y)) to the squaresThatCanBeSwapped[], then swap it back to its original position.
 
-Notice that we don't know how big how list of solutions is going to be when we start. You will need to fill in the 'expandArray' method that takes an old_array and return a new_array such that "new_array.length==old_array.length*2" and all the elements are copied over from the old_array.
+Notice that we don't know how big how list of solutions is going to be when we start. You will need to fill in the 'expandArray' method that takes an old_array and return a new_array such that "new_array.length==old_array.length*2" and all the elements are copied over from the old_array. You could just create the array to be big enough to hold all the squares (size*size), but that isn't any fun (so don't do it).
+
 
 
 #Cool lessons
 
 Here are some fun extra things for you to think about. They aren't needed to complete the assignment though.
 
-###shortcircuting
+###Shortcircuting
 If you have the following code:
 
     int x = 3
