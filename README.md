@@ -45,7 +45,7 @@ Methods to edit
 
 Before you get started coding, let's take a look at the program as it is right now. In eclipse, select the frontend-desktop folder, then click the run button in eclipse. Up comes an initial board, but there are two problems.
 
-The first is that initial board could have matches (a match is anytime you have three or more items in a row/column) already in it. In our fillInitialBoard method, we are using a "brute force" approach to this problem. We just keep generating boards until we find one that doesn't have any matches in it initially.  A do-while executes once, then checks the condition to see if it needs to run again (see Section 5.1 from the textbook for more). fillInitialBoard is completed for you, but you need to finish two of the submethods, "buildPossibleMatchHorizontal" and "buildPossibleMatchVertical".
+The first problem is that initial board could have matches (a match is anytime you have three or more items in a row/column) already in it. In our fillInitialBoard method, we are using a "brute force" approach to this problem. We just keep generating boards until we find one that doesn't have any matches in it initially.  A do-while executes once, then checks the condition to see if it needs to run again (see Section 5.1 from the textbook for more). fillInitialBoard is completed for you, but you need to finish two of the submethods, "buildPossibleMatchHorizontal" and "buildPossibleMatchVertical".
 
 These methods are called from "find_matches", which is called from "has_matches", which is called by fillInitialBoard. When you are ready to get started on these two methods, enable the has_matches method by uncommenting the return line.
 
@@ -65,18 +65,21 @@ You will need to use this Boolean[] to figure out the length of your Point[] whe
 Methods to edit
 - findSolutions
 
-Great, now you can play the game! There is only one (major) problem left. If you run out of moves you are just stuck. We should be able to generate a new board in the middle of the game In fact the initial board could even be generated in such a way that there are no solutions right from the beginning. We certainly don't want that.
+Great, now you can play the game! There is only one (major) problem left. If you run out of moves you are just stuck. We should be able to generate a new board in the middle of the game if you run out of possible swaps. Also, the initial board could even be generated in such a way that there are no solutions right from the beginning. We certainly don't want that. Have you noticed that "Hint" button in the game? It would be nice if that actually worked too.
 
-Have you noticed that "Hint" button in the game? It would be nice if it actually worked too. When we click that button, all the squares that can be swapped to create a match should be highlighted. We have taken care of the highlighting, you just need to implement the "findSolutions" method so that it returns a list of all the squares that could be swapped.
+When we click the hint button, all the squares that can be swapped to create a match should be highlighted. We have taken care of the highlighting, you just need to implement the "findSolutions" method so that it returns a list of all the squares that could be swapped. So calling findSolutions() with the following board should return [(0,0),(0,1),(1,0),(1,1), etc.]
 
 ![Alt Board](/Board2.png)
-Start with an array of length 1, loop down the row/column while there are matches. Each time you find a match, expand the array by one, then fill in that space with a "new Point(x,y)". You will need to fill in the expandArray method that takes an old_array and return a new_array such that "new_array.length==old_array.length+1" and all the elements are copied over from the old_array.
 
-We will write this function that finds solutions by swapping every square in every direction and checking to see if it makes a match (this is again a "brute force" approach). Notice that we don't know how big how list of solutions is going to be when we start. That means we can reuse our expandArray function from the last part.
+###How to write findSolutions
+You should swap every square in every direction and checking to see if it makes a match using the has_matches() method. If there are matches, add the square's location (new Point(x,y)) to the squaresThatCanBeSwapped[], then swap it back to its original position.
+
+Notice that we don't know how big how list of solutions is going to be when we start. You will need to fill in the 'expandArray' method that takes an old_array and return a new_array such that "new_array.length==old_array.length*2" and all the elements are copied over from the old_array.
 
 
-COOL HINTS/LESSONS
+#COOL HINTS/LESSONS
 
+###shortcircuting
 You may (or may not) find one more concept to be useful - it is called shortcircuting.  If you have the following code:
 
     int x = 3
@@ -96,3 +99,6 @@ We can change that code to look this, and only first half of the 'if' will be ev
     }
 
 This is a very helpful (and cool) feature. If a[x]==true had been evaluated, we would have gotten an indexOutOfBounds error.
+
+###Dynamic Arrays/Lists
+By writing the expandArray function, you have just invented a version of  dynamic arrays, or lists. These are special arrays that you can use without worrying about making the array the right size. In java one implementation of this is called ArrayLists. We won't go into depth now, but feel free to investigate on your own!
