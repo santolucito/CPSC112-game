@@ -54,8 +54,6 @@ public class Board {
 		return _matches;
 	}
 
-
-
 	public Boolean has_matches(){
 		//return false;
 		return find_matches().size()!=0;
@@ -66,39 +64,17 @@ public class Board {
 	//return the position of first square that doesnt match the given square
 	public Point[] buildPossibleMatchRow(int x, int y) {
 		Boolean[] matches = helper.getRowBools(x,y);
-		int ctr=x;
-		int length = 0;
-		while(ctr<size && matches[ctr]){
-			length++;
-			ctr++;
-		}
 
-		Point[] possibleMatch = new Point[length];
-		for(int i=0;i<length;i++){
-			possibleMatch[i] = new Point(x+i,y);
-		}
-		//Point[] possibleMatch = new Point[1];
-		//possibleMatch[0] = new Point(0,0);
+		Point[] possibleMatch = new Point[1];
+		possibleMatch[0] = new Point(x,y);
 		return possibleMatch;
 	}
 
 	public Point[] buildPossibleMatchColumn(int x, int y) {
 		Boolean[] matches = helper.getColumnBools(x,y);
-		int ctr=y;
-		int length = 0;
-		while(ctr<size && matches[ctr]){
-			length++;
-			ctr++;
-		}
-
-		Point[] possibleMatch = new Point[length];
-
-		for(int i=0;i<length;i++){
-			possibleMatch[i] = new Point(x,y+i);
-		}
 		
-		//Point[] possibleMatch = new Point[1];
-		//possibleMatch[0] = new Point(0,0);
+		Point[] possibleMatch = new Point[1];
+		possibleMatch[0] = new Point(x,y);
 		return possibleMatch;
 	}
 
