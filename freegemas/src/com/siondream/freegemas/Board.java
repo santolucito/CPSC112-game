@@ -37,6 +37,12 @@ public class Board {
 		} while(helper.has_matches() || helper.findPossibleSwaps().length == 0);		
 	}
 
+	/*public ListOfmatches find_matches() {
+		Point[][] m = helper.find_matches();
+		checkCorrectness(x, built);
+
+	}*/
+	
 	//return an array of arrays of matching locations
 	public ListOfMatches find_matches() {
 		_matches.clear();

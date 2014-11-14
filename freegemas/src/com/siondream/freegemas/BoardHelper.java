@@ -22,10 +22,17 @@ public class BoardHelper {
 		this.size = b.size;
 	}
 
+	public Point[][] find_matches()
+	{
+		return null;
+	}
+	
 	//enable this method to get started
 	public Boolean has_matches(){
 		//return false;
-		return b.find_matches().size()!=0;
+		//return b.find_matches().size()!=0;
+		return find_matches().length!=0;
+
 	}
 	
 	public Point[] buildPossibleMatchRow(int x, int y) {
