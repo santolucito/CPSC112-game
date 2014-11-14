@@ -28,7 +28,7 @@ public class BoardHelper {
 	}
 	
 	//enable this method to get started
-	public Boolean has_matches(){
+	public boolean has_matches(){
 		//return false;
 		//return b.find_matches().size()!=0;
 		return find_matches().length!=0;
@@ -36,7 +36,7 @@ public class BoardHelper {
 	}
 	
 	public Point[] buildPossibleMatchRow(int x, int y) {
-		Boolean[] matches = b.getRowBools(x,y);
+		boolean[] matches = b.getRowBools(x,y);
 		int ctr=x;
 		int length = 0;
 		while(ctr<size && matches[ctr]){
@@ -53,7 +53,7 @@ public class BoardHelper {
 	}
 
 	public Point[] buildPossibleMatchColumn(int x, int y) {
-		Boolean[] matches = b.getColumnBools(x,y);
+		boolean[] matches = b.getColumnBools(x,y);
 		int ctr=y;
 		int length = 0;
 		while(ctr<size && matches[ctr]){

@@ -80,7 +80,7 @@ public class Board {
 	public void swap(int x1, int y1, int x2, int y2){
 		helper.swap(x1, y1, x2, y2);
 	}
-	public Boolean has_matches(){
+	public boolean has_matches(){
 		helper.has_matches();
 		//return false;
 		return find_matches().size()!=0;
@@ -191,15 +191,15 @@ public class Board {
 		_squares[x][y].setType(Square.getDualType(_squares[x][y].getType()));
 	}
 	
-	public Boolean[] getColumnBools(int x, int y) {
-		Boolean[] matches = new Boolean[size];
+	public boolean[] getColumnBools(int x, int y) {
+		boolean[] matches = new boolean[size];
 		for(int i=0;i<size;i++){
 			matches[i] = _squares[x][y].equals(_squares[x][i]); 
 		}
 		return matches;
 	}
-	public Boolean[] getRowBools(int x, int y) {
-		Boolean[] matches = new Boolean[size];
+	public boolean[] getRowBools(int x, int y) {
+		boolean[] matches = new boolean[size];
 		for(int i=0;i<size;i++){
 			matches[i] = _squares[x][y].equals(_squares[i][y]); 
 		}
