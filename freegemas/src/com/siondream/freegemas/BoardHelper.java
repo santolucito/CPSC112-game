@@ -1,138 +1,149 @@
 package com.siondream.freegemas;
 
+import java.awt.Point;
 import java.util.Random;
 
+
 public class BoardHelper {
-
-	private Board b;
-	private static Random randomGenerator = new Random();
-
 	
+	public Square[][] _squares;
+	public int size = 8;
+	public Point[] squaresThatCanBeSwapped;
+	
+	public Random randomGenerator = new Random();
+	public  Board b;
+
 	public BoardHelper(Board board) {
-		this.b = board;
+		//Don't worry about what this means
+		//it is just connecting this file to the rest of the system
+		b = board;
+		this.squaresThatCanBeSwapped = b.squaresThatCanBeSwapped;
+		this._squares = b._squares;
+		this.size = b.size;
 	}
-	public void endAnimation() {
-		for(int x = 0; x < b.size; ++x){
-			for(int y = 0; y < b.size; ++y){
-				b._squares[x][y].mustFall = false;
-				b._squares[x][y].fallStartPosY = y;
-				b._squares[x][y].fallDistance = 0;
-			}
-		}
-	}
-	public void applyFall() {
-		for (int x = 0; x < b.size; ++x) {
-			// From bottom to top in order not to overwrite squares
-			for (int y = b.size-1; y >= 0; --y) {
-				if (b._squares[x][y].mustFall == true &&
-						!b._squares[x][y].equals(Square.Color.sqEmpty)) {
-					int y0 = b._squares[x][y].fallDistance;
 
-					if (y + y0 > b.size-1)
-					{
-						System.out.println("WARNING");
+	//given x and y (a position of a square),
+	//iterate down the row looking for matches
+	//return the position of first square that doesnt match the given square
+	public Point[] buildPossibleMatchRow(int x, int y) {
+		Boolean[] matches = b.getRowBools(x,y);
+		int ctr=x;
+		int length = 0;
+		while(ctr<size && matches[ctr]){
+			length++;
+			ctr++;
+		}
+
+		Point[] possibleMatch = new Point[length];
+		for(int i=0;i<length;i++){
+			possibleMatch[i] = new Point(x+i,y);
+		}
+
+		return possibleMatch;
+	}
+
+	public Point[] buildPossibleMatchColumn(int x, int y) {
+		Boolean[] matches = b.getColumnBools(x,y);
+		int ctr=y;
+		int length = 0;
+		while(ctr<size && matches[ctr]){
+			length++;
+			ctr++;
+		}
+
+		Point[] possibleMatch = new Point[length];
+
+		for(int i=0;i<length;i++){
+			possibleMatch[i] = new Point(x,y+i);
+		}
+
+		return possibleMatch;
+	}
+
+	//return an array of positions that could be swapped in some direction to create a match 
+	public Point[] findPossibleSwaps() {
+		squaresThatCanBeSwapped = new Point[2];
+		//squaresThatCanBeSwapped[0] = (new Point(0,0));
+		//if(true) return squaresThatCanBeSwapped;
+
+		int ctr=0;
+
+	    //Check all possible boards
+		for(int x = 0; x < size; ++x){
+			for(int y = 0; y < size; ++y){
+
+				// Swap with the one above and check
+				if (y > 0) {
+					swap(x, y, x, y - 1);
+					if (has_matches()) {
+						if(ctr>=squaresThatCanBeSwapped.length)
+							squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
+						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
+						ctr++;
 					}
-
-					b._squares[x][y + y0] = b._squares[x][y];
-					b._squares[x][y] = new Square(Square.Color.sqEmpty);
+					swap(x, y, x, y - 1);
 				}
-			}
-		}		
-	}
-	public void calcFallMovements() {
-		for (int x = 0; x < b.size; ++x) {
-			// From bottom to top
-			for (int y = b.size-1; y >= 0; --y) {
-				b._squares[x][y].fallStartPosY = y;
 
-				// If square is empty, make all the squares above it fall
-				if (b._squares[x][y].equals(Square.Color.sqEmpty)) {
-					for (int k = y - 1; k >= 0; --k) {
-						b._squares[x][k].mustFall = true;
-						b._squares[x][k].fallDistance++;
-
-						if (b._squares[x][k].fallDistance > b.size-1)
-						{
-							System.out.println("WARNING");
-						}
+				// Swap with the one below and check
+				if (y < size-1) {
+					swap(x, y, x, y + 1);
+					if (has_matches()) {
+						if(ctr>=squaresThatCanBeSwapped.length)
+							squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
+						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
+						ctr++;
 					}
+					swap(x, y, x, y + 1);
+				}
+
+				// Swap with the one on the left and check
+				if (x > 0) {
+					swap(x, y, x - 1, y);
+					if (has_matches()) {
+						if(ctr>=squaresThatCanBeSwapped.length)
+							squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
+						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
+						ctr++;
+					}
+					swap(x, y, x - 1, y);
+				}
+
+				// Swap with the one on the right and check
+				if (x < size-1) {
+					swap(x, y, x + 1, y);
+					if (has_matches()) {
+						if(ctr>=squaresThatCanBeSwapped.length)
+							squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
+						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
+						ctr++;
+					}
+					swap(x, y, x + 1, y);
 				}
 			}
 		}
-		
-	}
-	public void fillSpaces() {
-		for(int x = 0; x < b.size; ++x){
-			// Count how many jumps do we have to fall
-			int jumps = 0;
 
-			for(int y = 0; y < b.size; ++y){
-				if(!b._squares[x][y].equals(Square.Color.sqEmpty)) {
-					break;
-				}
-				jumps++;
-			}
-
-			for(int y = 0; y < b.size; ++y){
-				if(b._squares[x][y].equals(Square.Color.sqEmpty)) {
-					b._squares[x][y].setType(Square.numToType(randomGenerator.nextInt(b.variety )+1));
-					b._squares[x][y].mustFall = true;
-					b._squares[x][y].fallStartPosY = y - jumps;
-					b._squares[x][y].fallDistance = jumps;
-				}       
-			}
-		} 
-	}
-	public void deleteMatches() {
-		ListOfMatches matches = b.find_matches();
-		for (int i = 0; i < matches.size(); ++i) {
-			for (int j = 0; j < matches.get(i).size(); ++j) {
-				/*if(j==3 && matches.get(i).size()>=4){
-					makeSpecialSquare(matches.get(i).get(j).x,
-									  matches.get(i).get(j).y);
-				}
-				else{*/
-					deleteSquare(matches.get(i).get(j).x,
-								matches.get(i).get(j).y);
-				//}
-			}
-		}		
-	}
-	private void deleteSquare(int x, int y) {	
-		b._squares[x][y].setType(Square.Color.sqEmpty);
-	}
-
-	private void makeSpecialSquare(int x, int y) {
-		//need some concept of equivalance classes for this
-		b._squares[x][y].setType(Square.getDualType(b._squares[x][y].getType()));
+		return squaresThatCanBeSwapped;
 	}
 	
-	public Boolean[] getColumnBools(int x, int y) {
-		Boolean[] matches = new Boolean[b.size];
-		for(int i=0;i<b.size;i++){
-			matches[i] = b._squares[x][y].equals(b._squares[x][i]); 
+	public Boolean has_matches(){
+		//return false;
+		return b.find_matches().size()!=0;
+	}
+	
+	public void swap(int x1, int y1, int x2, int y2) {
+		Square temp = _squares[x1][y1];
+		_squares[x1][y1] = _squares[x2][y2]; 
+		_squares[x2][y2] = temp;
+
+	}
+
+	//return a new array with all the same elements, but twice the space
+	public Point[] expandArray(Point[] originalArray) {
+		Point[] newArray = new Point[originalArray.length*2];
+		for(int i=0; i<originalArray.length; i++){
+			newArray[i]=originalArray[i];
 		}
-		return matches;
+		return newArray;
 	}
-	public Boolean[] getRowBools(int x, int y) {
-		Boolean[] matches = new Boolean[b.size];
-		for(int i=0;i<b.size;i++){
-			matches[i] = b._squares[x][y].equals(b._squares[i][y]); 
-		}
-		return matches;
-	}
-	public void fillInitialBoard() {
-		do {
-			for (int y = 0; y < b.size; ++y) {
-				for (int x = 0; x < b.size; ++x) {
-					b._squares[x][y] = new Square(Square.numToType(randomGenerator.nextInt(b.variety)+1));
-					b._squares[x][y].fallStartPosY = y-b.size;
-					b._squares[x][y].fallDistance = b.size;
-				}
-			}
-		} while(b.has_matches() || b.findPossibleSwaps().length == 0);		
-	}
-	
-	
 
 }
