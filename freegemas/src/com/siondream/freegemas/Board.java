@@ -7,12 +7,12 @@ import java.util.Random;
 
 
 public class Board {
-	private Square[][] _squares;
+	public Square[][] _squares;
 	public final int size = 8;
 	// Aux 
-	private ListOfMatches _matches = new ListOfMatches();
-	private Point[] squaresThatCanBeSwapped = new Point[0];
-	private int variety;
+	public ListOfMatches _matches = new ListOfMatches();
+	public Point[] squaresThatCanBeSwapped = new Point[0];
+	public int variety;
 	public static Random randomGenerator = new Random();
 
 
@@ -48,7 +48,7 @@ public class Board {
 		//check for matches in each row
 		for (int y = 0; y < size; y++) {
 			for (int x = 0; x < size; x++) {
-				Point[] built = buildPossibleMatchHorizontal(x, y);
+				Point[] built = buildPossibleMatchRow(x, y);
 				x=x+built.length-1;
 				checkCorrectness(x, built);
 				if(built.length>=3){
@@ -59,7 +59,7 @@ public class Board {
 		//check for matches in each column
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
-				Point[] built = buildPossibleMatchVertical(x, y);
+				Point[] built = buildPossibleMatchColumn(x, y);
 				y=y+built.length-1;
 				checkCorrectness(y, built);
 				if(built.length>=3){
@@ -81,42 +81,57 @@ public class Board {
 	//given x and y (a position of a square),
 	//iterate down the row looking for matches
 	//return the position of first square that doesnt match the given square
-	public Point[] buildPossibleMatchHorizontal(int x, int y) {
-		Point[] possibleMatch = new Point[1];
-		possibleMatch[0] = new Point(x,y);
-		
-		int ctr=1;
-		int scanPosition = x + 1;
-		while (scanPosition < size && _squares[scanPosition][y].equals(_squares[x][y])) {
-			if(ctr>=possibleMatch.length){
-				possibleMatch = expandArray(possibleMatch);
-			}
-			possibleMatch[ctr] = new Point(scanPosition,y);
-			ctr++;				
-			scanPosition++;
+	public Point[] buildPossibleMatchRow(int x, int y) {
+		Boolean[] matches = getRowBools(x,y);
+		int ctr=x;
+		int length = 0;
+		while(ctr<size && matches[ctr]){
+			length++;
+			ctr++;
 		}
-
+		
+		Point[] possibleMatch = new Point[length];
+		for(int i=0;i<length;i++){
+			possibleMatch[i] = new Point(x+i,y);
+		}
+		
 		return possibleMatch;
 	}
 
-	public Point[] buildPossibleMatchVertical(int x, int y) {
-		Point[] possibleMatch = new Point[1];
-		possibleMatch[0] = new Point(x,y);
+	public Boolean[] getRowBools(int x, int y) {
+		Boolean[] matches = new Boolean[size];
+		for(int i=0;i<size;i++){
+			matches[i] = _squares[x][y].equals(_squares[i][y]); 
+		}
+		return matches;
+	}
+
+	public Point[] buildPossibleMatchColumn(int x, int y) {
+		Boolean[] matches = getColumnBools(x,y);
+		int ctr=y;
+		int length = 0;
+		while(ctr<size && matches[ctr]){
+			length++;
+			ctr++;
+		}
 		
-		int ctr=1;
-		int scanPosition = y + 1;
-		while (scanPosition < size && _squares[x][scanPosition].equals(_squares[x][y])) {
-			if(ctr>=possibleMatch.length){
-				possibleMatch = expandArray(possibleMatch);
-			}
-			possibleMatch[ctr] = new Point(x,scanPosition);
-			ctr++;	
-			scanPosition++;
+		Point[] possibleMatch = new Point[length];
+
+		for(int i=0;i<length;i++){
+			possibleMatch[i] = new Point(x,y+i);
 		}
 
 		return possibleMatch;
 	}
 	
+	public Boolean[] getColumnBools(int x, int y) {
+		Boolean[] matches = new Boolean[size];
+		for(int i=0;i<size;i++){
+			matches[i] = _squares[x][y].equals(_squares[x][i]); 
+		}
+		return matches;
+	}
+
 	//return an array of positions that could be swapped in some direction to create a match 
 	public Point[] findPossibleSwaps() {
 		squaresThatCanBeSwapped = new Point[1];
@@ -182,7 +197,7 @@ public class Board {
 	}
 	
 	//return a new array with all the same elements, but one extra space
-	private Point[] expandArray(Point[] originalArray) {
+	public Point[] expandArray(Point[] originalArray) {
 		Point[] newArray = new Point[originalArray.length+1];
 		for(int i=0; i<originalArray.length; i++){
 			newArray[i]=originalArray[i];
@@ -195,10 +210,11 @@ public class Board {
 	//NO NEED TO EDIT BELOW THIS LINE
 	//FEEL FREE TO CHECK THESE OUT AS EXAMPLES IF YOU LIKE
 
-	private void checkCorrectness(int x, Point[] built) {
+	public void checkCorrectness(int x, Point[] built) {
 		if(built[built.length-1]==null || x>size){
 			System.err.println("The array you built in buildPossibleMatchHori/Vert was too long\n"+
-								"Make sure it is exactly as long as the match you found");
+								"Make sure it is exactly as long as the match you found\n"+
+								"length: "+built.length+" "+x+" "+built[built.length-1]);
 			System.exit(0);
 		}
 	}
@@ -292,7 +308,7 @@ public class Board {
 		}
 	}
 
-	private Match convert(Point[] built) {
+	public Match convert(Point[] built) {
 		ArrayList<Point> newAsArrayList = (new ArrayList<Point>(Arrays.asList(built)));
 		newAsArrayList.trimToSize();
 		return new Match(newAsArrayList);
