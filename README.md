@@ -48,6 +48,7 @@ Before you get started coding, let's take a look at the program as it is right n
 The first problem is that initial board could have matches (a match is anytime you have three or more items in a row/column) already in it. In our fillInitialBoard method, we are using a "brute force" approach to this problem. We just keep generating boards until we find one that doesn't have any matches in it initially.  A do-while executes once, then checks the condition to see if it needs to run again (see Section 5.1 from the textbook for more). fillInitialBoard is completed for you, but you need to finish two of the submethods, "buildPossibleMatchHorizontal" and "buildPossibleMatchVertical".
 
 These methods are called from "find_matches", which is called from "has_matches", which is called by fillInitialBoard. When you are ready to get started on these two methods, enable the has_matches method by removing 'return false' and uncommenting the return line.
+
 	 public Boolean has_matches(){
 	    return b.find_matches().size()!=0;
 	 }
