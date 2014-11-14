@@ -28,9 +28,6 @@ public class BoardHelper {
 		return b.find_matches().size()!=0;
 	}
 	
-	//given x and y (a position of a square),
-	//iterate down the row looking for matches
-	//return the position of first square that doesnt match the given square
 	public Point[] buildPossibleMatchRow(int x, int y) {
 		Boolean[] matches = b.getRowBools(x,y);
 		int ctr=x;
@@ -75,7 +72,6 @@ public class BoardHelper {
 		_squares[x2][y2] = temp;
 	}
 	
-	//return an array of positions that could be swapped in some direction to create a match 
 	public Point[] findPossibleSwaps() {
 		squaresThatCanBeSwapped = new Point[2];
 		//squaresThatCanBeSwapped[0] = (new Point(0,0));
