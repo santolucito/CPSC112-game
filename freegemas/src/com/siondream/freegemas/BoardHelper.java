@@ -22,6 +22,12 @@ public class BoardHelper {
 		this.size = b.size;
 	}
 
+	//enable this method to get started
+	public Boolean has_matches(){
+		//return false;
+		return b.find_matches().size()!=0;
+	}
+	
 	//given x and y (a position of a square),
 	//iterate down the row looking for matches
 	//return the position of first square that doesnt match the given square
@@ -60,6 +66,15 @@ public class BoardHelper {
 		return possibleMatch;
 	}
 
+	
+	//no need to edit this, just try and figure out how it works
+	//you will use this method in findPossibleSwaps
+	public void swap(int x1, int y1, int x2, int y2) {
+		Square temp = _squares[x1][y1];
+		_squares[x1][y1] = _squares[x2][y2]; 
+		_squares[x2][y2] = temp;
+	}
+	
 	//return an array of positions that could be swapped in some direction to create a match 
 	public Point[] findPossibleSwaps() {
 		squaresThatCanBeSwapped = new Point[2];
@@ -125,18 +140,6 @@ public class BoardHelper {
 		return squaresThatCanBeSwapped;
 	}
 	
-	public Boolean has_matches(){
-		//return false;
-		return b.find_matches().size()!=0;
-	}
-	
-	public void swap(int x1, int y1, int x2, int y2) {
-		Square temp = _squares[x1][y1];
-		_squares[x1][y1] = _squares[x2][y2]; 
-		_squares[x2][y2] = temp;
-
-	}
-
 	//return a new array with all the same elements, but twice the space
 	public Point[] expandArray(Point[] originalArray) {
 		Point[] newArray = new Point[originalArray.length*2];
