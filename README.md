@@ -35,41 +35,65 @@ CPSC112_Assignment4.zip is a complete project that can be run as an Android, Des
 The whole project has a bit of a complicated structure - there are four different folders. The one titled "freegemas" contains the file you will be editing and is where all the logic is handled, while the other three "frontend-_____" are for the front end and you won't need to touch. Specifically, you need to edit freegemas/src/com.sionfream.freegemas/Board.java
 
 #Part 1
-5 points
+13 points
 
 Methods to edit
 
+- find_matches
 - buildPossibleMatchRow
 - buildPossibleMatchColumn
 - expandArray
 
 Before you get started coding, let's take a look at the program as it is right now. In eclipse, select the frontend-desktop folder, then click the run button in eclipse. Up comes an initial board, but there are two problems.
 
-The first problem is that initial board could have matches (a match is anytime you have three or more items in a row/column) already in it. In our fillInitialBoard method, we are using a "brute force" approach to this problem. We just keep generating boards until we find one that doesn't have any matches in it initially. fillInitialBoard is completed for you, but you need to finish two of the submethods, "buildPossibleMatchHorizontal" and "buildPossibleMatchVertical".
+The first problem is that we haven't definined what it means to be a valid match. This means 1) initial board could have matches already in it, and 2) we don't know when we are allowed to swap two items (since we can only swap when it creates a valid match). Your job is then to write the methods "find_matches", and its two required methods, "buildPossibleMatchHorizontal" and "buildPossibleMatchVertical". The rest of the files in the project will use these methods to correct the aformentioned problems.
 
-These methods are called from "find_matches", which is called from "has_matches", which is called by fillInitialBoard. When you are ready to get started on these two methods, enable the has_matches method by removing 'return false' and uncommenting the return line.
+We will start by writing buildPossibleMatchRow/Column first then, work on find_matches.
+
+###How to write buildPossibleMatchRow/Column
+buildPossibleMatchRow/Column is going to take in an 'x' and a 'y' that specify a position on the board, and return an array of Points, which indicate the location of matches including that square. For example, if we had the following board, calling buildPossibleMatchColumn(0,0) should return an array [(0,0),(0,1)] and calling buildPossibleMatchRow(0,0) should return an array [(0,0)]. To save a new point into an array use "possibleMatch[0] = new Point(x,y);"
+
+![Alt Board](/Board1.png)
+
+We have provided you with a call to the method helper.getColumnBools() and helper.getRowBools(). These return an array of booleans that represent which items in that row match a given square. For example calling helper.getRowBools(0,0) on the above board will return [True,False,False,True,True]. Similarly, calling helper.getColumnBools(0,0) on the above board will return [True,True,False,True].
+
+You need to use this Boolean[] to figure out the length of your Point[] when it is initialized. Then fill in the Point[] with the appropriate points. You can test this method by useing the provided "tester" method which will be called everytime you generate a new board (you can use the "reset" button in game for this).
+
+###How to write find_matches
+
+Once you have buildPossibleMatchRow/Column written, you can get started on  find\_matches. find\_matches will return a two dimensional "jagged" array of all the matches on a board. For example, if we had following board, calling find\_matches() should return [[(0,0),(0,1),(0,2)],[(1,0),(2,1),(3,2)]]. The order doesn't matter.
+
+![Alt Board](/Board1.png)
+
+The "find\_matches" method is called from "has\_matches". When you are ready to get started on this methods, enable the has\_matches method by removing 'return false' and uncommenting the return line.
 
 	 public Boolean has_matches(){
 	    return b.find_matches().size()!=0;
 	 }
+	 
+Here is the basic algorithm: 
 
-buildPossibleMatchRow/Column is going to take in an 'x' and a 'y' that specify a position on the board, and return an array of Points, which indicate the location of matches including that square. For example, if we had the following board calling buildPossibleMatchColumn(0,0) should return an array [(0,0),(0,1)] and calling buildPossibleMatchRow(0,0) should return an array [(0,0)]. To save a new point into an array use "possibleMatch[0] = new Point(x,y);"
+1. loop through every square
+2. buildPossibleMatchRow on that square
+3. If the built match is of length more than three add it to foundMatches\*
+4. continue looking for matches at the end of that match
+5. do the same thing for buildPossibleMatchColumns
 
-![Alt Board](/Board1.png)
+\*When we try to add a match to foundMatches, we will need make sure it is the corrrect length. In order to do this we will write a method called expandArray. You will need to fill in the 'expandArray' method that takes an old\_array and return a new\_array such that "new\_array.length==old\_array.length\*2" and all the elements are copied over from the old\_array. You could just create the array to be big enough to hold all the possible matches (or just a huge number like 9999), but that could lead to poor preformance, it bad coding style, and doesn't make for a good homework assignment (so don't do it).
 
-###How to write buildPossibleMatchRow/Column
-We have provided you with a call to the method helper.getColumnBools. This returns an array of Booleans that represent which items in that row match a given square. For example calling helper.getRowBools(0,0) on the above board will return [True,False,False,True,True]. Similarly, calling helper.getColumnBools(0,0) on the above board will return [True,True,False,True].
+If this method is working correctly, the initial board will have no matches, and you should be able to play the game!
 
-You will need to use this Boolean[] to figure out the length of your Point[] when it is  initialized. Then fill in the Point[] with the appropriate points.
+
+
 
 
 #Part 2
-15 points
+7 points
 
 Methods to edit
 - findSolutions
 
-Great, now you can play the game! There is only one (major) problem left. If you run out of moves you are just stuck. We should be able to generate a new board in the middle of the game if you run out of possible swaps. Also, the initial board could even be generated in such a way that there are no solutions right from the beginning. We certainly don't want that. Have you noticed that "Hint" button in the game? It would be nice if that actually worked too.
+Great, now you can play the game! There is only one (major) problem left. If you run out of moves you are just stuck. We should be able to generate a new board in the middle of the game if you run out of possible swaps. Also, have you noticed that "Hint" button in the game? It would be nice if that actually worked too.
 
 When we click the hint button, all the squares that can be swapped to create a match should be highlighted. We have taken care of the highlighting, you just need to implement the "findSolutions" method so that it returns a list of all the squares that could be swapped. So calling findSolutions() with the following board should return [(0,0),(0,1),(1,0),(1,1), etc.]. The order doesn't matter, and there can be duplicates.
 
@@ -78,7 +102,7 @@ When we click the hint button, all the squares that can be swapped to create a m
 ###How to write findSolutions
 You should swap every square in every direction and checking to see if it makes a match using the has_matches() method. If there are matches, add the square's location (new Point(x,y)) to the squaresThatCanBeSwapped[], then swap it back to its original position.
 
-Notice that we don't know how big how list of solutions is going to be when we start. You will need to fill in the 'expandArray' method that takes an old_array and return a new_array such that "new_array.length==old_array.length*2" and all the elements are copied over from the old_array. You could just create the array to be big enough to hold all the squares (size*size), but that isn't any fun (so don't do it).
+Notice that we don't know how big how list of solutions is going to be when we start. You will to write another expandArray function. This time it will be operating on Point[] instead of Point[][]. The actual code will look **very** similar to the previous expandArray function you wrote.
 
 
 
@@ -86,26 +110,5 @@ Notice that we don't know how big how list of solutions is going to be when we s
 
 Here are some fun extra things for you to think about. They aren't needed to complete the assignment though.
 
-###Shortcircuting
-If you have the following code:
-
-    int x = 3
-    Bool[] a = new Bool[2];
-    if (a.length<x){
-      if (a[x]==true){
-        print("neat")
-      }
-    }
-
-We can change that code to look this, and only first half of the 'if' will be evaluated:
-
-    int x = 3
-    Bool[] a = new Bool[2];
-    if (a.length<x && a[x]==true){
-      print("neat")
-    }
-
-This is a very helpful (and cool) feature. If a[x]==true had been evaluated, we would have gotten an indexOutOfBounds error. This might be of help in writing buildPossibleMatchRow/Column.
-
 ###Dynamic Arrays/Lists
-By writing the expandArray function, you have just invented a version of  dynamic arrays, or lists. These are special arrays that you can use without worrying about making the array the right size. In java one implementation of this is called ArrayLists. We won't go into depth now, but feel free to investigate on your own!
+By writing the expandArray function, you have just invented a version of  dynamic arrays, or lists. These are special arrays that you can use without worrying about making the array the right size. In java one implementation of this is called ArrayLists. We won't go into depth now, but feel free to investigate on your own (chapter 7.5 in the textbook)!
