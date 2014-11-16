@@ -70,6 +70,10 @@ public class BoardHelper {
 
 	}
 	
+	//call this in Board.java somewhere to give the students a way to test
+	public void tester(){
+		System.out.println(buildPossibleMatchRow(0,0));
+	}
 	public Point[] buildPossibleMatchRow(int x, int y) {
 		boolean[] matches = b.getRowBools(x,y);
 		int ctr=x;
