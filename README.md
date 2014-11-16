@@ -26,13 +26,13 @@ Total points: 20
 
 You may be familiar with Candy Crush or Bewjewled. The goal is to swap items on a board to create matches of three or more. When such a match is created, those items disappear and you are awarded points. In our game the only goal is to score points. We are going to be building this game ourselves!
 
-The only file you will need to edit is Board.java located in the "freegemas" package. The following instructions will be in reference to this file. The file is mostly complete, you will just be asked to fill in some missing parts. Reading, understanding, and editing someone else's code is one of most the painful and educational things you can do as a programmer.
+The only file you will need to edit is BoardHelper.java located in the "freegemas" folder (freegemas/src/com/siondream/freegemas/). The following instructions will be in reference to this file. The file is has a collection of method headers that you will need to complete. These methods will be called by the rest of the project, in ways you don't need to worry about, to make the game fully functional. 
 
-For this assignment we have given you a .zip file called CPSC112_Assignment4.zip which can be imported into your workspace as per the instructions in Resources/app_setup.html.
+For this assignment we have given you a .zip file called CPSC112\_Assignment4.zip which can be imported into your workspace as per the instructions in Resources/app\_setup.html.
 
-CPSC112_Assignment4.zip is a complete project that can be run as an Android, Desktop, or Web app. To run the desktop version, you simply click on the freegemas-desktop package in the sidebar in eclipse and press run. Likewise with Android. Feel free to test your code using either method.
+CPSC112_Assignment4.zip is a complete project that can be run as an Android, Desktop, or Web app. To run the desktop version, you simply click on the frontend-desktop folder in the sidebar (package explorer) in eclipse and press run. Likewise with Android. Feel free to test your code using either method.
 
-The whole project has a bit of a complicated structure - there are four different folders. The one titled "freegemas" contains the file you will be editing and is where all the logic is handled, while the other three "frontend-_____" are for the front end and you won't need to touch. Specifically, you need to edit freegemas/src/com.sionfream.freegemas/Board.java
+The whole project has a bit of a complicated structure - there are four different folders. The one titled "freegemas" contains the file you will be editing and is where all the logic is handled, while the other three "frontend-_____" are for the front end and you won't need to touch. Specifically, you need to only need to edit freegemas/src/com.sionfream.freegemas/BoardHelper.java
 
 #Part 1
 13 points
@@ -61,11 +61,11 @@ You need to use this Boolean[] to figure out the length of your Point[] when it 
 
 ###How to write find_matches
 
-Once you have buildPossibleMatchRow/Column written, you can get started on  find\_matches. find\_matches will return a two dimensional "jagged" array of all the matches on a board. For example, if we had following board, calling find\_matches() should return [[(0,0),(0,1),(0,2)],[(1,0),(2,1),(3,2)]]. The order doesn't matter.
+Once you have buildPossibleMatchRow/Column written, you can get started on  find\_matches. find\_matches will return a two dimensional "jagged" array of all the matches on a board. For example, if we had following board, calling find\_matches() should return [[(0,0),(1,0),(2,0)],[(0,1),(1,1),(2,1),(3,1)]]. The order doesn't matter.
 
-![Alt Board](/Board1.png)
+![Alt Board](/Board3.png)
 
-The "find\_matches" method is called from "has\_matches". When you are ready to get started on this methods, enable the has\_matches method by removing 'return false' and uncommenting the return line.
+The "find\_matches" method is called from "has\_matches". When you are ready to get started on this method, enable the has\_matches method by removing 'return false' and uncommenting the return line.
 
 	 public Boolean has_matches(){
 	    return b.find_matches().size()!=0;
@@ -76,7 +76,7 @@ Here is the basic algorithm:
 1. loop through every square
 2. buildPossibleMatchRow on that square
 3. If the built match is of length more than three add it to foundMatches\*
-4. continue looking for matches at the end of that match
+4. continue looking for matches at the end of the match you just found
 5. do the same thing for buildPossibleMatchColumns
 
 \*When we try to add a match to foundMatches, we will need make sure it is the corrrect length. In order to do this we will write a method called expandArray. You will need to fill in the 'expandArray' method that takes an old\_array and return a new\_array such that "new\_array.length==old\_array.length\*2" and all the elements are copied over from the old\_array. You could just create the array to be big enough to hold all the possible matches (or just a huge number like 9999), but that could lead to poor preformance, it bad coding style, and doesn't make for a good homework assignment (so don't do it).
