@@ -17,7 +17,7 @@ the development environment. Then download the github project as a zip file and 
 
 Just delete sections of the code and ask students to fill in the blanks.
 Most likely, you will be interested in asking students to rewrite part of
-Board.java or possibly other files in the freegemas folder (the logic)
+Board.java or possibly other files in the cpsc112 folder (the logic)
 
 
 #Example Assignment
@@ -30,9 +30,9 @@ For this assignment we have given you a .zip file called Assignment4.zip which c
 
 CPSC112_Assignment4.zip is a complete project that can be run as an Android or Desktop app. To run the desktop version, you open the frontend-desktop folder in the sidebar (package explorer) in eclipse then click on src and press run. Likewise with Android. Feel free to test your code using either method.
 
-The whole project has a bit of a complicated structure - there are three different folders. The one titled "freegemas" contains the file you will be editing and is where all the logic is handled, while the other two "frontend-_____" are for the front end and you won't need to touch. Specifically, you need to only need to edit freegemas/src/com.sionfream.freegemas/BoardHelper.java
+The whole project has a bit of a complicated structure - there are three different folders. The one titled "cs112game" contains the file you will be editing and is where all the logic is handled, while the other two "frontend-_____" are for the front end and you won't need to touch. Specifically, you need to only need to edit cpsc112/src/cpsc112.game/BoardHelper.java
 
-To be clear, the only file you will need to edit is BoardHelper.java located in the "freegemas" folder (freegemas/src/com/siondream/freegemas/). The following instructions will be in reference to this file. The file has a collection of method headers that you will need to complete. These methods will be called by the rest of the project, in ways you don't need to worry about, to make the game fully functional.
+To be clear, the only file you will need to edit is BoardHelper.java located in the "cs112game" folder (cpsc112/src/cpsc112.game/BoardHelper.java). The following instructions will be in reference to this file. The file has a collection of method headers that you will need to complete. These methods will be called by the rest of the project, in ways you don't need to worry about, to make the game fully functional.
 
 #Part 1
 13 points
