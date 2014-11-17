@@ -22,9 +22,9 @@ public class BoardHelper {
 		this.size = b.size;
 	}
 
-	public Point[][] find_matches() {
+	public Point[][] findMatches() {
 
-		Point[][] _matches = new Point[2][0];
+		Point[][] foundMatches = new Point[2][0];
 		int ctr=0;
 		//check for matches in each row
 		for (int y = 0; y < size; y++) {
@@ -32,9 +32,9 @@ public class BoardHelper {
 				Point[] built = buildPossibleMatchRow(x, y);
 				x=x+built.length-1;
 				if(built.length>=3){
-					if(ctr>=_matches.length)
-						_matches=expandArray(_matches);
-					_matches[ctr]=built;
+					if(ctr>=foundMatches.length)
+						foundMatches=expandArray(foundMatches);
+					foundMatches[ctr]=built;
 					ctr++;
 				}
 			}
@@ -45,14 +45,14 @@ public class BoardHelper {
 				Point[] built = buildPossibleMatchColumn(x, y);
 				y=y+built.length-1;
 				if(built.length>=3){
-					if(ctr>=_matches.length)
-						_matches=expandArray(_matches);
-					_matches[ctr]=built;
+					if(ctr>=foundMatches.length)
+						foundMatches=expandArray(foundMatches);
+					foundMatches[ctr]=built;
 					ctr++;
 				}
 			}
 		}
-		return _matches;
+		return foundMatches;
 	}
 	
 	public Point[][] expandArray(Point[][] originalArray) {
@@ -66,14 +66,20 @@ public class BoardHelper {
 	//enable this method to get started
 	public boolean has_matches(){
 		//return false;
-		return find_matches()[0].length>0;
+		return findMatches()[0].length>0;
 
 	}
 	
-	//call this in Board.java somewhere to give the students a way to test
+	//call this from within the program with the "Run tester()" button
 	public void tester(){
-		System.out.println(buildPossibleMatchRow(0,0));
+		Point[] test = buildPossibleMatchRow(0,0);
+		for(int i=0;i<test.length;i++){
+			System.out.print(test[i]);	
+		}
+		System.out.println();
 	}
+	
+	
 	public Point[] buildPossibleMatchRow(int x, int y) {
 		boolean[] matches = b.getRowBools(x,y);
 		int ctr=x;

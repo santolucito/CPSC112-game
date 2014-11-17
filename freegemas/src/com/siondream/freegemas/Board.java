@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class Board {
 
-	private BoardHelper helper;
-	private Random randomGenerator = new Random();
+	public BoardHelper helper;
+	public Random randomGenerator = new Random();
 	
 	public Square[][] _squares;
 	public final int size = 8;
@@ -20,7 +20,7 @@ public class Board {
 	public Board() {
 		_squares = new Square[size][size];
 		//variety can be 1-7
-		variety = 5;
+		variety = 7;
 		
 		helper = new BoardHelper(this);
 	}
@@ -35,13 +35,14 @@ public class Board {
 
 				}
 			}
-			System.out.println(find_matches().size() +" "+ findPossibleSwaps().length);
+			//System.out.println(find_matches().size() +" "+ findPossibleSwaps().length);
 
-		} while(has_matches() || findPossibleSwaps().length == 0);		
+		} while(has_matches() || findPossibleSwaps().length == 0);
+		
 	}
 
 	public ListOfMatches find_matches() {
-		Point[][] m = helper.find_matches();
+		Point[][] m = helper.findMatches();
 		convert(m);
 		return _matches;
 	}
@@ -50,7 +51,7 @@ public class Board {
 		_matches.clear();
 		for(int i=0;i<built.length;i++){
 			if(built[i].length>=3){
-				checkCorrectness(i, built[i]);
+				checkCorrectness(built[i]);
 				_matches.add(convert(built[i]));
 			}
 		}
@@ -67,11 +68,12 @@ public class Board {
 		return find_matches().size()!=0;
 	}
 
-	public void checkCorrectness(int x, Point[] built) {
-		if(built[built.length-1]==null || x>size){
+	public void checkCorrectness(Point[] built) {
+		if(built[built.length-1]==null){
 			System.err.println("The array you built in buildPossibleMatchHori/Vert was too long\n"+
 					"Make sure it is exactly as long as the match you found\n"+
-					"length: "+built.length+" "+x+" "+built[built.length-1]);
+					"length: "+built.length+"\n"+
+					"x[length-1]: "+built[built.length-1]);
 			System.exit(0);
 		}
 	}

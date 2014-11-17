@@ -141,7 +141,7 @@ public class StateGame extends State {
 		// Create buttons
 		_hintButton = new Button(_parent, 180, 345, _lang.getString("Hint"));
 		_resetButton = new Button(_parent, 180, 430, _lang.getString("Reset"));
-		_musicButton = new Button(_parent, 180, 515, _lang.getString("Turn off music"));
+		_musicButton = new Button(_parent, 180, 515, _lang.getString("Run tester()"));
 		_exitButton = new Button(_parent, 180, 600, _lang.getString("Exit"));
 		
 		
@@ -358,8 +358,8 @@ public class StateGame extends State {
 		
 		// Play music if it wasn't playing
 		if (!_song.isPlaying()) {
-			_song.setLooping(true);
-	        _song.play();
+			//_song.setLooping(true);
+	        //_song.play();
 		}
 		
 		Gdx.input.setInputProcessor(this);
@@ -879,7 +879,9 @@ public class StateGame extends State {
 	            showHint();
 	        }
 	        else if (_musicButton.isClicked((int)_mousePos.x, (int)_mousePos.y)) {
-	            if (_song.isPlaying()) {
+	            _board.helper.tester();
+
+	        	/*if (_song.isPlaying()) {
 	                _musicButton.setText(_lang.getString("Turn on music"));
 	                _song.stop();
 	            }
@@ -887,12 +889,13 @@ public class StateGame extends State {
 	            	_musicButton.setText(_lang.getString("Turn off music"));
 	            	_song.setLooping(true);
 	                _song.play();
-	            }	    
+	            }	*/    
 	        }
 	        else if (_resetButton.isClicked((int)_mousePos.x, (int)_mousePos.y)) {
 	            _state = State.DisappearingBoard;
 	            gemsOutScreen();
 	            resetGame();
+	        	
 	        }
 	        else if (overGem((int)_mousePos.x, (int)_mousePos.y)) { // Si se puls� sobre una gema
 	            _selectSFX.play();
