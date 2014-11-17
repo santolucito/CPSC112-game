@@ -24,7 +24,7 @@ Board.java or possibly other files in the freegemas folder (the logic)
 
 Total points: 20
 
-You may be familiar with Candy Crush or Bewjewled. The goal is to swap items on a board to create matches of three or more. When such a match is created, those items disappear and you are awarded points. In our game the only goal is to score points. We are going to be building this game ourselves!
+You may be familiar with Candy Crush or Bewjewled. The goal is to swap items on a board to create matches. A "match" refers to the same board item appearing three times in a row in the same column or the same row. When such a match is created, those items disappear and you are awarded points. In our version of the game the only goal for the user is to score points. 
 
 The only file you will need to edit is BoardHelper.java located in the "freegemas" folder (freegemas/src/com/siondream/freegemas/). The following instructions will be in reference to this file. The file is has a collection of method headers that you will need to complete. These methods will be called by the rest of the project, in ways you don't need to worry about, to make the game fully functional.
 
