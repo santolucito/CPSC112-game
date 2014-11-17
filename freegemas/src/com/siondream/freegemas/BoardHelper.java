@@ -126,75 +126,14 @@ public class BoardHelper {
 	
 	public Point[] findPossibleSwaps() {
 		squaresThatCanBeSwapped = new Point[1];
-		//squaresThatCanBeSwapped[0] = (new Point(0,0));
-		//if(true) return squaresThatCanBeSwapped;
-
-		int ctr=0;
-
-	    //Check all possible boards
-		for(int x = 0; x < size; ++x){
-			for(int y = 0; y < size; ++y){
-
-				// Swap with the one above and check
-				if (y > 0) {
-					swap(x, y, x, y - 1);
-					if (has_matches()) {
-						if(ctr>=squaresThatCanBeSwapped.length)
-							squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
-						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
-						ctr++;
-					}
-					swap(x, y, x, y - 1);
-				}
-
-				// Swap with the one below and check
-				if (y < size-1) {
-					swap(x, y, x, y + 1);
-					if (has_matches()) {
-						if(ctr>=squaresThatCanBeSwapped.length)
-							squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
-						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
-						ctr++;
-					}
-					swap(x, y, x, y + 1);
-				}
-
-				// Swap with the one on the left and check
-				if (x > 0) {
-					swap(x, y, x - 1, y);
-					if (has_matches()) {
-						if(ctr>=squaresThatCanBeSwapped.length)
-							squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
-						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
-						ctr++;
-					}
-					swap(x, y, x - 1, y);
-				}
-
-				// Swap with the one on the right and check
-				if (x < size-1) {
-					swap(x, y, x + 1, y);
-					if (has_matches()) {
-						if(ctr>=squaresThatCanBeSwapped.length)
-							squaresThatCanBeSwapped = expandArray(squaresThatCanBeSwapped);
-						squaresThatCanBeSwapped[ctr] = (new Point(x,y));
-						ctr++;
-					}
-					swap(x, y, x + 1, y);
-				}
-			}
-		}
-
+		squaresThatCanBeSwapped[0] = (new Point(0,0));
 		return squaresThatCanBeSwapped;
+
 	}
 	
 	//return a new array with all the same elements, but twice the space
 	public Point[] expandArray(Point[] originalArray) {
-		Point[] newArray = new Point[originalArray.length*2];
-		for(int i=0; i<originalArray.length; i++){
-			newArray[i]=originalArray[i];
-		}
-		return newArray;
+		return null;
 	}
 
 }
