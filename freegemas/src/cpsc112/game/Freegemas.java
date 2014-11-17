@@ -85,7 +85,7 @@ public class Freegemas implements ApplicationListener {
 		_camera.setToOrtho(true, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 		
 		// Mouse hidden
-		Gdx.input.setCursorCatched(true);
+		Gdx.input.setCursorCatched(false);
 		
 		// Create states
 		_states.put("StateGame", new StateGame(this));
