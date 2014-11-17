@@ -36,11 +36,11 @@ public class Board {
 			}
 			//System.out.println(find_matches().size() +" "+ findPossibleSwaps().length);
 
-		} while(has_matches() || findPossibleSwaps().length == 0);
+		} while(hasMatches() || findPossibleSwaps().length == 0);
 		
 	}
 
-	public ListOfMatches find_matches() {
+	public ListOfMatches findMatches() {
 		Point[][] m = helper.findMatches();
 		convert(m);
 		return _matches;
@@ -61,10 +61,10 @@ public class Board {
 	}
 	
 	public void swap(int x1, int y1, int x2, int y2){
-		helper.swap(x1, y1, x2, y2);
+		helper.swap(new Point(x1, y1), new Point(x2, y2));
 	}
-	public boolean has_matches(){
-		return find_matches().size()!=0;
+	public boolean hasMatches(){
+		return findMatches().size()!=0;
 	}
 
 	public void checkCorrectness(Point[] built) {
@@ -150,7 +150,7 @@ public class Board {
 		} 
 	}
 	public void deleteMatches() {
-		ListOfMatches matches = find_matches();
+		ListOfMatches matches = findMatches();
 		for (int i = 0; i < matches.size(); ++i) {
 			for (int j = 0; j < matches.get(i).size(); ++j) {
 				/*if(j==3 && matches.get(i).size()>=4){
@@ -173,17 +173,17 @@ public class Board {
 		_squares[x][y].setType(Square.getDualType(_squares[x][y].getType()));
 	}
 	
-	public boolean[] getColumnBools(int x, int y) {
+	public boolean[] getColumnBools(Point p) {
 		boolean[] matches = new boolean[size];
 		for(int i=0;i<size;i++){
-			matches[i] = _squares[x][y].equals(_squares[x][i]); 
+			matches[i] = _squares[p.x][p.y].equals(_squares[i][p.y]); 
 		}
 		return matches;
 	}
-	public boolean[] getRowBools(int x, int y) {
+	public boolean[] getRowBools(Point p) {
 		boolean[] matches = new boolean[size];
 		for(int i=0;i<size;i++){
-			matches[i] = _squares[x][y].equals(_squares[i][y]); 
+			matches[i] = _squares[p.x][p.y].equals(_squares[p.x][i]); 
 		}
 		return matches;
 	}
@@ -209,7 +209,7 @@ public class Board {
 
 		for (int i = 0; i < size; ++i) {
 			for (int j = 0; j < size; ++j) {
-				//output += "(" + _squares[i][j].fallStartPosY + ", " + _squares[i][j].fallDistance + ")  ";
+				//output += "(" + squares[i][j].fallStartPosY + ", " + squares[i][j].fallDistance + ")  ";
 				output += "["+_squares[i][j].toString()+"] ";
 			}
 			output += "\n";

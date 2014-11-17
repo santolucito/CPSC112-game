@@ -459,7 +459,7 @@ public class StateGame extends State {
 				//playMatchSound();
 				
 				// Create floating scores for the matching group
-	            _groupedSquares = _board.find_matches();
+	            _groupedSquares = _board.findMatches();
 
 				createFloatingScores();
 				
@@ -518,10 +518,10 @@ public class StateGame extends State {
 	            _board.endAnimation();
 
 	            // Check if there are matching groups
-	            _groupedSquares = _board.find_matches();
+	            _groupedSquares = _board.findMatches();
 
 	            // If there are...
-	            if(_board.has_matches()) {
+	            if(_board.hasMatches()) {
 	                // Increase the score multiplier
 	                ++_multiplier;
 
@@ -1031,7 +1031,7 @@ public class StateGame extends State {
 	        //_groupedSquares = _board.has_matches();
 
 	        // If winning movement
-	        if (_board.has_matches()) {
+	        if (_board.hasMatches()) {
 	            _state = State.ChangingGems;
 	            
 	            _board.swap(_selectedSquareFirst.x, _selectedSquareFirst.y,
