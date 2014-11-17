@@ -24,7 +24,7 @@ Board.java or possibly other files in the cpsc112 folder (the logic)
 
 Total points: 20
 
-You may be familiar with Candy Crush or Bewjewled. The goal is to swap items on a board to create matches. A "match" refers to the same board item appearing three times in a row in the same column or the same row. When such a match is created, those items disappear and you are awarded points.
+You may be familiar with Candy Crush or Bewjewled. The goal is to swap items on a board to create matches. A "match" refers to the same board item appearing three times (or more) in a row in the same column or the same row. When such a match is created, those items disappear and the player is awarded points.
 
 For this assignment we have given you a .zip file called Assignment4.zip which can be imported into your workspace. File -> Import then import "General -> Existing Projects into Workspace."
 
