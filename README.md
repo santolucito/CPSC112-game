@@ -24,7 +24,7 @@ Board.java or possibly other files in the cpsc112 folder (the logic)
 
 Total points: 20
 
-You may be familiar with Candy Crush or Bewjewled. The goal is to swap items on a board to create matches. A "match" refers to the same board item appearing three times in a row in the same column or the same row. When such a match is created, those items disappear and you are awarded points. 
+You may be familiar with Candy Crush or Bewjewled. The goal is to swap items on a board to create matches. A "match" refers to the same board item appearing three times in a row in the same column or the same row. When such a match is created, those items disappear and you are awarded points.
 
 For this assignment we have given you a .zip file called Assignment4.zip which can be imported into your workspace. File -> Import then import "General -> Existing Projects into Workspace."
 
@@ -39,16 +39,16 @@ To be clear, the only file you will need to edit is BoardHelper.java located in 
 
 Methods to edit
 
-- find_matches
+- findMatches
 - buildPossibleMatchRow
 - buildPossibleMatchColumn
 - expandArray
 
 Before you get started coding, let's take a look at the program as it is right now. In eclipse, select the frontend-desktop folder, then click the run button in eclipse. Up comes an initial board, but there are two problems.
 
-The first problem is that the code that detects valid matchs is not currently written. This is a problem because other parts of the code need to know if matches exist in a current board configuration. This is done through a call to the find_matches method which is currently not written, but which is supposed to return all matches that exist in the current board configuration. In particular: 1) When the board is created, find_matches is called to see if the initial board has any matches already in it (if it does, modifications are performed to avoid this --- we don't want to give the user free points for doing nothing), and 2) Before the user tries to swap two items, find_matches is called to see if as a result of the swap a match was made. If not, the game will not allow the user to swap the two items (since one of the rules of the game is that a user can only swap when it creates a valid match). Your job is thus to write the "find_matches" method, along two methods that it will call to facilitate its work: "buildPossibleMatchHorizontal" and "buildPossibleMatchVertical". Once you have completed these three methods, the other parts of the program that call find_matches should now work.
+The first problem is that the code that detects valid matches is not currently written. This is a problem because other parts of the code need to know if matches exist in a current board configuration. This is done through a call to the findMatches method which is currently not written, but which is supposed to return all matches that exist in the current board configuration. In particular: 1) When the board is created, findMatches is called to see if the initial board has any matches already in it (if it does, modifications are performed to avoid this --- we don't want to give the user free points for doing nothing), and 2) Before the user tries to swap two items, findMatches is called to see if as a result of the swap a match was made. If not, the game will not allow the user to swap the two items (since one of the rules of the game is that a user can only swap when it creates a valid match). Your job is thus to write the "findMatches" method, along with two methods that it will call to facilitate its work: "buildPossibleMatchHorizontal" and "buildPossibleMatchVertical". Once you have completed these three methods, the other parts of the program that call findMatches should now work.
 
-We will start by writing buildPossibleMatchRow/Column first, then work on find_matches.
+We will start by writing buildPossibleMatchRow/Column first, then work on findMatches.
 
 ###How to write buildPossibleMatchRow/Column
 buildPossibleMatchRow/Column is going to take in an 'x' and a 'y' that specify a position on the board, and return an array of Points, which indicate the location of matching positions on the board in the same row/column involving that square. For example, if we had the following board, calling buildPossibleMatchColumn(0,0) should return an array [(0,0),(0,1)] and calling buildPossibleMatchRow(0,0) should return an array [(0,0)]. To save a new point into an array use "possibleMatch[0] = new Point(x,y);"
@@ -57,9 +57,9 @@ buildPossibleMatchRow/Column is going to take in an 'x' and a 'y' that specify a
 
 We have provided you two methods that will help you in this task: getColumnBools() and getRowBools(). These methods take a particular location on the board, and return an array of booleans that represent which items in that row (or column) match the square at the given location. For example calling helper.getRowBools(0,0) on the above board will return [True,False,False,True,True]. Similarly, calling helper.getColumnBools(0,0) on the above board will return [True,True,False,True].
 
-You need to use the boolean[] returned from these methods to figure out the length of your Point[] when it is initialized. Then fill in the Point[] with the appropriate points. You can test this method by useing the provided "tester" method which will be called everytime you generate a new board (you can use the "reset" button in game for this).
+You need to use the boolean[] returned from these methods to figure out the length of your Point[] when it is initialized. Then fill in the Point[] with the appropriate points. You can test this method by using the provided "tester" method which will be called every time you generate a new board (you can use the "reset" button in game for this).
 
-###How to write find_matches
+###How to write findMatches
 
 Once you have buildPossibleMatchRow/Column written, you can get started on  find\_matches. find\_matches will return a two dimensional "jagged" array of all the matches on a board. For example, if we had following board, calling find\_matches() should return [[(0,0),(1,0),(2,0)],[(0,1),(1,1),(2,1),(3,1)]]. The order doesn't matter.
 
@@ -68,7 +68,7 @@ Once you have buildPossibleMatchRow/Column written, you can get started on  find
 The "find\_matches" method is called from "has\_matches". When you are ready to get started on this method, enable the has\_matches method by removing 'return false' and uncommenting the return line.
 
 	 public Boolean has_matches(){
-	    return b.find_matches().size()!=0;
+	    return b.findMatches().size()!=0;
 	 }
 
 Here is the basic algorithm:
@@ -79,7 +79,7 @@ Here is the basic algorithm:
 4. continue looking for matches at the end of the match you just found
 5. do the same thing for buildPossibleMatchColumns
 
-\*When we try to add a match to foundMatches, we will need make sure it is the corrrect length. In order to do this we will write a method called expandArray. You will need to fill in the 'expandArray' method that takes an old\_array and return a new\_array such that "new\_array.length==old\_array.length\*2" and all the elements are copied over from the old\_array. You could just create the array to be big enough to hold all the possible matches (or just a huge number like 9999), but that could lead to poor preformance, it bad coding style, and doesn't make for a good homework assignment (so don't do it).
+\*When we try to add a match to foundMatches, we will need make sure it is the corrrect length. In order to do this we will write a method called expandArray. You will need to fill in the 'expandArray' method that takes an old\_array and return a new\_array such that "new\_array.length==old\_array.length\*2" and all the elements are copied over from the old\_array. You could just create the array to be big enough to hold all the possible matches (or just a huge number like 9999), but that could lead to poor performance, it bad coding style, and doesn't make for a good homework assignment (so don't do it).
 
 If this method is working correctly, the initial board will have no matches, and you should be able to play the game!
 
@@ -95,7 +95,7 @@ Methods to edit
 
 Great, now you can play the game! There is only one (major) problem left. If there are no legal swaps left on the board, the game should generate a brand-new board if the user wants to continue to play. However, right now, the game doesn't notice that there are no legal swaps left, so the user is just stuck with nothing to do. Therefore, you should now add code that will be called by the game to see if there are any legal swaps currently on the board. The game will use this method you write in two places: (1) if your method says there are no legal swaps left, the game will generate a new board and (2) the "Hint" button in the game will display current swaps that the user can consider.
 
-Note that while (1) only requires detecting whether there are any legal swaps at all, (2) requires ennumerating all legal swaps the user can take. In particular, when the user clicks on the hint button, all the squares that can be swapped to create a match should be highlighted. The code that we have pre-written has already taken care of the highlighting, but you just need to implement the "findSolutions" method that will return a list of all squares that can be swapped. For example, calling findSolutions() with the following board should return [(0,0),(0,1),(1,0),(1,1), etc.]. The order doesn't matter, and there can be duplicates.
+Note that while (1) only requires detecting whether there are any legal swaps at all, (2) requires enumerating all legal swaps the user can take. In particular, when the user clicks on the hint button, all the squares that can be swapped to create a match should be highlighted. The code that we have pre-written has already taken care of the highlighting, but you just need to implement the "findSolutions" method that will return a list of all squares that can be swapped. For example, calling findSolutions() with the following board should return [(0,0),(0,1),(1,0),(1,1), etc.]. The order doesn't matter, and there can be duplicates.
 
 ![Alt Board](/Board2.png)
 
