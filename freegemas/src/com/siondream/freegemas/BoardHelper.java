@@ -23,35 +23,7 @@ public class BoardHelper {
 	}
 
 	public Point[][] findMatches() {
-
 		Point[][] foundMatches = new Point[2][0];
-		int ctr=0;
-		//check for matches in each row
-		for (int y = 0; y < size; y++) {
-			for (int x = 0; x < size; x++) {
-				Point[] built = buildPossibleMatchRow(x, y);
-				x=x+built.length-1;
-				if(built.length>=3){
-					if(ctr>=foundMatches.length)
-						foundMatches=expandArray(foundMatches);
-					foundMatches[ctr]=built;
-					ctr++;
-				}
-			}
-		}		
-		//check for matches in each column
-		for (int x = 0; x < size; x++) {
-			for (int y = 0; y < size; y++) {
-				Point[] built = buildPossibleMatchColumn(x, y);
-				y=y+built.length-1;
-				if(built.length>=3){
-					if(ctr>=foundMatches.length)
-						foundMatches=expandArray(foundMatches);
-					foundMatches[ctr]=built;
-					ctr++;
-				}
-			}
-		}
 		return foundMatches;
 	}
 	
@@ -65,8 +37,8 @@ public class BoardHelper {
 
 	//enable this method to get started
 	public boolean has_matches(){
-		//return false;
-		return findMatches()[0].length>0;
+		return false;
+		//return findMatches()[0].length>0;
 
 	}
 	
