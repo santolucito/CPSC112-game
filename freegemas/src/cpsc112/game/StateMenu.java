@@ -82,7 +82,7 @@ public class StateMenu extends State {
 		// Menu options
 		_selectedOption = 0;
 		_options = new Array<Pair<String, String>>();
-		_options.add(new Pair(_lang.getString("Timetrial mode"), "StateGame"));
+		_options.add(new Pair(_lang.getString("Play"), "StateGame"));
 		//_options.add(new Pair(_lang.getString("How to play"), "StateHowto"));
 		
 		if (Gdx.app.getType() != ApplicationType.WebGL &&
