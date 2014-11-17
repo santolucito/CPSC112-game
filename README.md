@@ -26,13 +26,13 @@ Total points: 20
 
 You may be familiar with Candy Crush or Bewjewled. The goal is to swap items on a board to create matches of three or more. When such a match is created, those items disappear and you are awarded points. In our game the only goal is to score points. We are going to be building this game ourselves!
 
-The only file you will need to edit is BoardHelper.java located in the "freegemas" folder (freegemas/src/com/siondream/freegemas/). The following instructions will be in reference to this file. The file is has a collection of method headers that you will need to complete. These methods will be called by the rest of the project, in ways you don't need to worry about, to make the game fully functional.
+For this assignment we have given you a .zip file called Assignment4.zip which can be imported into your workspace. File -> Import then import "General -> Existing Projects into Workspace."
 
-For this assignment we have given you a .zip file called CPSC112\_Assignment4.zip which can be imported into your workspace as per the instructions in Resources/app\_setup.html.
+CPSC112_Assignment4.zip is a complete project that can be run as an Android or Desktop app. To run the desktop version, you open the frontend-desktop folder in the sidebar (package explorer) in eclipse then click on src and press run. Likewise with Android. Feel free to test your code using either method.
 
-CPSC112_Assignment4.zip is a complete project that can be run as an Android, Desktop, or Web app. To run the desktop version, you open the frontend-desktop folder in the sidebar (package explorer) in eclipse then click on src and press run. Likewise with Android. Feel free to test your code using either method.
+The whole project has a bit of a complicated structure - there are three different folders. The one titled "freegemas" contains the file you will be editing and is where all the logic is handled, while the other two "frontend-_____" are for the front end and you won't need to touch. Specifically, you need to only need to edit freegemas/src/com.sionfream.freegemas/BoardHelper.java
 
-The whole project has a bit of a complicated structure - there are four different folders. The one titled "freegemas" contains the file you will be editing and is where all the logic is handled, while the other three "frontend-_____" are for the front end and you won't need to touch. Specifically, you need to only need to edit freegemas/src/com.sionfream.freegemas/BoardHelper.java
+To be clear, the only file you will need to edit is BoardHelper.java located in the "freegemas" folder (freegemas/src/com/siondream/freegemas/). The following instructions will be in reference to this file. The file has a collection of method headers that you will need to complete. These methods will be called by the rest of the project, in ways you don't need to worry about, to make the game fully functional.
 
 #Part 1
 13 points
