@@ -14,7 +14,7 @@ public class ListOfMatches extends ArrayList<Match> {
 		super(newAsArrayList);
 	}
 
-	public boolean isMatched(Coord c) {
+	public boolean isMatched(Point c) {
 		for (int i = 0; i < size(); ++i) {
 			if (get(i).isMatched(c)) {
 				return true;
