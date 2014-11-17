@@ -26,7 +26,7 @@ Total points: 20
 
 You may be familiar with Candy Crush or Bewjewled. The goal is to swap items on a board to create matches of three or more. When such a match is created, those items disappear and you are awarded points. In our game the only goal is to score points. We are going to be building this game ourselves!
 
-The only file you will need to edit is BoardHelper.java located in the "freegemas" folder (freegemas/src/com/siondream/freegemas/). The following instructions will be in reference to this file. The file is has a collection of method headers that you will need to complete. These methods will be called by the rest of the project, in ways you don't need to worry about, to make the game fully functional. 
+The only file you will need to edit is BoardHelper.java located in the "freegemas" folder (freegemas/src/com/siondream/freegemas/). The following instructions will be in reference to this file. The file is has a collection of method headers that you will need to complete. These methods will be called by the rest of the project, in ways you don't need to worry about, to make the game fully functional.
 
 For this assignment we have given you a .zip file called CPSC112\_Assignment4.zip which can be imported into your workspace as per the instructions in Resources/app\_setup.html.
 
@@ -63,15 +63,15 @@ You need to use this Boolean[] to figure out the length of your Point[] when it 
 
 Once you have buildPossibleMatchRow/Column written, you can get started on  find\_matches. find\_matches will return a two dimensional "jagged" array of all the matches on a board. For example, if we had following board, calling find\_matches() should return [[(0,0),(1,0),(2,0)],[(0,1),(1,1),(2,1),(3,1)]]. The order doesn't matter.
 
-![Alt Board](/Board3.png)
+![Alt Board](/Board3.jpg)
 
 The "find\_matches" method is called from "has\_matches". When you are ready to get started on this method, enable the has\_matches method by removing 'return false' and uncommenting the return line.
 
 	 public Boolean has_matches(){
 	    return b.find_matches().size()!=0;
 	 }
-	 
-Here is the basic algorithm: 
+
+Here is the basic algorithm:
 
 1. loop through every square
 2. buildPossibleMatchRow on that square
