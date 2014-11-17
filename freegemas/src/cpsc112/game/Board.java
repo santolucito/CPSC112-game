@@ -8,22 +8,22 @@ public class Board {
 
 	public BoardHelper helper;
 	public Random randomGenerator = new Random();
-	
+
 	public Square[][] _squares;
 	public final int size = 8;
 	// Aux 
 	public ListOfMatches _matches = new ListOfMatches();
 	public Point[] squaresThatCanBeSwapped = new Point[0];
 	public int variety;
-	
+
 	public Board() {
 		_squares = new Square[size][size];
 		//variety can be 1-7
 		variety = 7;
-		
+
 		helper = new BoardHelper(this);
 	}
-	
+
 	public void fillInitialBoard() {
 		do {
 			for (int y = 0; y < size; ++y) {
@@ -37,7 +37,7 @@ public class Board {
 			//System.out.println(find_matches().size() +" "+ findPossibleSwaps().length);
 
 		} while(hasMatches() || findPossibleSwaps().length == 0);
-		
+
 	}
 
 	public ListOfMatches findMatches() {
@@ -45,7 +45,7 @@ public class Board {
 		convert(m);
 		return _matches;
 	}
-	
+
 	private void convert(Point[][] built) {
 		_matches.clear();
 		for(int i=0;i<built.length;i++){
@@ -57,9 +57,15 @@ public class Board {
 	}
 
 	public Point[] findPossibleSwaps() {
-		return helper.findPossibleSwaps();
-	}
-	
+		Point[] ps =  helper.findPossibleSwaps();
+		if (ps == null)
+		{
+			Point p = new Point(0,0); 
+			ps = new Point[1];
+			ps[0] = p;
+		}
+		return ps;	}
+
 	public void swap(int x1, int y1, int x2, int y2){
 		helper.swap(new Point(x1, y1), new Point(x2, y2));
 	}
@@ -76,7 +82,7 @@ public class Board {
 			System.exit(0);
 		}
 	}
-	
+
 	public void endAnimation() {
 		for(int x = 0; x < size; ++x){
 			for(int y = 0; y < size; ++y){
@@ -125,7 +131,7 @@ public class Board {
 				}
 			}
 		}
-		
+
 	}
 	public void fillSpaces() {
 		for(int x = 0; x < size; ++x){
@@ -158,8 +164,8 @@ public class Board {
 									  matches.get(i).get(j).y);
 				}
 				else{*/
-					deleteSquare(matches.get(i).get(j).x,
-								matches.get(i).get(j).y);
+				deleteSquare(matches.get(i).get(j).x,
+						matches.get(i).get(j).y);
 				//}
 			}
 		}		
@@ -172,7 +178,7 @@ public class Board {
 		//need some concept of equivalance classes for this
 		_squares[x][y].setType(Square.getDualType(_squares[x][y].getType()));
 	}
-	
+
 	public boolean[] getColumnBools(Point p) {
 		boolean[] matches = new boolean[size];
 		for(int i=0;i<size;i++){
@@ -188,7 +194,7 @@ public class Board {
 		return matches;
 	}
 
-	
+
 	public Match convert(Point[] built) {
 		ArrayList<Point> newAsArrayList = (new ArrayList<Point>(Arrays.asList(built)));
 		newAsArrayList.trimToSize();
@@ -202,7 +208,7 @@ public class Board {
 	public Square[][] getSquares() {
 		return _squares;
 	}
-	
+
 
 	public String toString() {
 		String output = "";

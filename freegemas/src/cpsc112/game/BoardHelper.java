@@ -34,7 +34,6 @@ public class BoardHelper {
 		return newArray;
 	}
 
-	//enable this method to get started
 	public boolean hasMatches(){
 		Point[][] matches = findMatches();
 		if (matches[0] == null || matches[0].length == 0)
@@ -46,12 +45,6 @@ public class BoardHelper {
 			return true;
 		}
 	}
-
-	//call this from within the program with the "Run tester()" button
-	public void tester(){
-		System.out.println("test me");
-	}
-
 
 	public Point[] buildPossibleMatchRow(Point p) {
 		int x = p.x;
@@ -67,6 +60,16 @@ public class BoardHelper {
 		return null;
 	}
 
+	public Point[] findPossibleSwaps() {
+		return null;
+
+	}
+
+	//return a new array with all the same elements, but twice the space
+	public Point[] expandArray(Point[] originalArray) {
+		return null;
+	}
+
 
 	//no need to edit this, just try and figure out how it works
 	//you will use this method in findPossibleSwaps
@@ -76,16 +79,8 @@ public class BoardHelper {
 		squares[p2.x][p2.y] = temp;
 	}
 
-	public Point[] findPossibleSwaps() {
-		squaresThatCanBeSwapped = new Point[1];
-		squaresThatCanBeSwapped[0] = (new Point(0,0));
-		return squaresThatCanBeSwapped;
-
+	//call this from within the program with the "Run tester()" button
+	public void tester(){
+		System.out.println("test me");
 	}
-
-	//return a new array with all the same elements, but twice the space
-	public Point[] expandArray(Point[] originalArray) {
-		return null;
-	}
-
 }
