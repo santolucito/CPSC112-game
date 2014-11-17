@@ -112,3 +112,6 @@ Here are some fun extra things for you to think about. They aren't needed to com
 
 ###Dynamic Arrays/Lists
 By writing the expandArray function, you have just invented a version of  dynamic arrays, or lists. These are special arrays that you can use without worrying about making the array the right size. In java one implementation of this is called ArrayLists. We won't go into depth now, but feel free to investigate on your own (chapter 7.5 in the textbook)!
+
+###Method Overloading
+Did you notice that we wrote two method with the same name (expandArray) but different parameter types? This is called method overloading. As long as the parameter types or number of parameters is different, Java is smart enough to figure out which one to use on its own. you have already seen this with System.out.println which can print out a String or an int for you (or many other things).
