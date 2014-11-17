@@ -44,47 +44,18 @@ public class BoardHelper {
 	
 	//call this from within the program with the "Run tester()" button
 	public void tester(){
-		Point[] test = buildPossibleMatchRow(0,0);
-		for(int i=0;i<test.length;i++){
-			System.out.print(test[i]);	
-		}
-		System.out.println();
+		System.out.println("test me");
 	}
 	
 	
 	public Point[] buildPossibleMatchRow(int x, int y) {
 		boolean[] matches = b.getRowBools(x,y);
-		int ctr=x;
-		int length = 0;
-		while(ctr<size && matches[ctr]){
-			length++;
-			ctr++;
-		}
-
-		Point[] possibleMatch = new Point[length];
-		for(int i=0;i<length;i++){
-			possibleMatch[i] = new Point(x+i,y);
-		}
-
-		return possibleMatch;
+		return null;
 	}
 
 	public Point[] buildPossibleMatchColumn(int x, int y) {
 		boolean[] matches = b.getColumnBools(x,y);
-		int ctr=y;
-		int length = 0;
-		while(ctr<size && matches[ctr]){
-			length++;
-			ctr++;
-		}
-
-		Point[] possibleMatch = new Point[length];
-
-		for(int i=0;i<length;i++){
-			possibleMatch[i] = new Point(x,y+i);
-		}
-
-		return possibleMatch;
+		return null;
 	}
 
 	
