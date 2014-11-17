@@ -1,6 +1,5 @@
 package com.siondream.freegemas;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 public class Match extends ArrayList<Point> {
@@ -15,7 +14,7 @@ public class Match extends ArrayList<Point> {
 		super(newAsArrayList);
 	}
 
-	public boolean isMatched(Coord c) {
+	public boolean isMatched(Point c) {
 		return contains(c);
 	}
 	

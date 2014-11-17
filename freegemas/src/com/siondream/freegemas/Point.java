@@ -1,15 +1,15 @@
 package com.siondream.freegemas;
 
-public class Coord {
+public class Point {
 	public int x;
 	public int y;
 	
-	public Coord() {
+	public Point() {
 		x = -1;
 		y = -1;
 	}
 	
-	public Coord(int x, int y) {
+	public Point(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}

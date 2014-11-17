@@ -30,7 +30,7 @@ The only file you will need to edit is BoardHelper.java located in the "freegema
 
 For this assignment we have given you a .zip file called CPSC112\_Assignment4.zip which can be imported into your workspace as per the instructions in Resources/app\_setup.html.
 
-CPSC112_Assignment4.zip is a complete project that can be run as an Android, Desktop, or Web app. To run the desktop version, you simply click on the frontend-desktop folder in the sidebar (package explorer) in eclipse and press run. Likewise with Android. Feel free to test your code using either method.
+CPSC112_Assignment4.zip is a complete project that can be run as an Android, Desktop, or Web app. To run the desktop version, you open the frontend-desktop folder in the sidebar (package explorer) in eclipse then click on src and press run. Likewise with Android. Feel free to test your code using either method.
 
 The whole project has a bit of a complicated structure - there are four different folders. The one titled "freegemas" contains the file you will be editing and is where all the logic is handled, while the other three "frontend-_____" are for the front end and you won't need to touch. Specifically, you need to only need to edit freegemas/src/com.sionfream.freegemas/BoardHelper.java
 

@@ -1,6 +1,5 @@
 package com.siondream.freegemas;
 
-import java.awt.Point;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -42,8 +41,8 @@ public class StateGame extends State {
 	private State _state;
 	
 	// Selected squares
-	private Coord _selectedSquareFirst;
-	private Coord _selectedSquareSecond;
+	private Point _selectedSquareFirst;
+	private Point _selectedSquareSecond;
 	
 	// Hints
 	private double _showingHint;
@@ -123,7 +122,7 @@ public class StateGame extends State {
 	
 	// Aux variables
 	private Color _imgColor = Color.WHITE.cpy();
-	private Coord _coord = new Coord();
+	private Point _coord = new Point();
 	
 	private int tile_size = 0;
 	public StateGame(Freegemas freegemas) {
@@ -151,8 +150,8 @@ public class StateGame extends State {
 		// Time txt
 		_txtTime = new String("");
 		
-		_selectedSquareFirst = new Coord(-1, -1);
-		_selectedSquareSecond = new Coord(-1, -1);
+		_selectedSquareFirst = new Point(-1, -1);
+		_selectedSquareSecond = new Point(-1, -1);
 		
 		// Scores
 		_floatingScores = new Array<FloatingScore>();
@@ -767,7 +766,7 @@ public class StateGame extends State {
 	                    
 	                    else if (_state == State.DisappearingGems) {
 	                    	// Winning gems disappearing
-	                    	if (_groupedSquares.isMatched(new Coord(i, j))) {
+	                    	if (_groupedSquares.isMatched(new Point(i, j))) {
 	                    		_imgColor.a = 1.0f - (float)(_animTime/_animTotalTime);
 	                    	}
 	                    }
@@ -786,7 +785,7 @@ public class StateGame extends State {
 	            // If the mouse is over a gem
 	            if (overGem((int)_mousePos.x, (int)_mousePos.y)) {
 	                // Draw the selector over that gem
-	            	Coord coord = getCoord((int)_mousePos.x, (int)_mousePos.y);
+	            	Point coord = getCoord((int)_mousePos.x, (int)_mousePos.y);
 	                batch.draw(_imgSelector,
 	                		  (int)gemsInitial.x + coord.x * tile_size,
 	                		  (int)gemsInitial.y + coord.y * tile_size);
@@ -902,7 +901,7 @@ public class StateGame extends State {
 
 	            if (_state == State.Wait) { // Si no hay ninguna gema marcada
 	                _state = State.SelectedGem;
-	                Coord coord = getCoord((int)_mousePos.x, (int)_mousePos.y);
+	                Point coord = getCoord((int)_mousePos.x, (int)_mousePos.y);
 	                _selectedSquareFirst.x = coord.x;
 	                _selectedSquareFirst.y = coord.y;
 	            }
@@ -929,7 +928,7 @@ public class StateGame extends State {
 	        
 	        if (_state == State.SelectedGem) {
 
-	            Coord res = getCoord((int)_mousePos.x, (int)_mousePos.y);
+	            Point res = getCoord((int)_mousePos.x, (int)_mousePos.y);
 
 	            if(!(res == _selectedSquareFirst)) {
 	                checkClickedSquare((int)_mousePos.x, (int)_mousePos.y);
@@ -983,7 +982,7 @@ public class StateGame extends State {
 	            mY > gemsInitial.y && mY < gemsInitial.y + tile_size * _board.size);
 	}
 	
-	private Coord getCoord(int mX, int mY) {
+	private Point getCoord(int mX, int mY) {
 		_coord.x = (mX - (int)gemsInitial.x) / tile_size;
 		_coord.y = (mY - (int)gemsInitial.y) / tile_size;
 		return _coord;
