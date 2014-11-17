@@ -24,7 +24,7 @@ Board.java or possibly other files in the cpsc112 folder (the logic)
 
 Total points: 20
 
-You may be familiar with Candy Crush or Bewjewled. The goal is to swap items on a board to create matches of three or more. When such a match is created, those items disappear and you are awarded points. In our game the only goal is to score points. We are going to be building this game ourselves!
+You may be familiar with Candy Crush or Bewjewled. The goal is to swap items on a board to create matches. A "match" refers to the same board item appearing three times in a row in the same column or the same row. When such a match is created, those items disappear and you are awarded points. 
 
 For this assignment we have given you a .zip file called Assignment4.zip which can be imported into your workspace. File -> Import then import "General -> Existing Projects into Workspace."
 
@@ -46,18 +46,18 @@ Methods to edit
 
 Before you get started coding, let's take a look at the program as it is right now. In eclipse, select the frontend-desktop folder, then click the run button in eclipse. Up comes an initial board, but there are two problems.
 
-The first problem is that we haven't definined what it means to be a valid match. This means 1) initial board could have matches already in it, and 2) we don't know when we are allowed to swap two items (since we can only swap when it creates a valid match). Your job is then to write the methods "find_matches", and its two required methods, "buildPossibleMatchHorizontal" and "buildPossibleMatchVertical". The rest of the files in the project will use these methods to correct the aformentioned problems.
+The first problem is that the code that detects valid matchs is not currently written. This is a problem because other parts of the code need to know if matches exist in a current board configuration. This is done through a call to the find_matches method which is currently not written, but which is supposed to return all matches that exist in the current board configuration. In particular: 1) When the board is created, find_matches is called to see if the initial board has any matches already in it (if it does, modifications are performed to avoid this --- we don't want to give the user free points for doing nothing), and 2) Before the user tries to swap two items, find_matches is called to see if as a result of the swap a match was made. If not, the game will not allow the user to swap the two items (since one of the rules of the game is that a user can only swap when it creates a valid match). Your job is thus to write the "find_matches" method, along two methods that it will call to facilitate its work: "buildPossibleMatchHorizontal" and "buildPossibleMatchVertical". Once you have completed these three methods, the other parts of the program that call find_matches should now work.
 
-We will start by writing buildPossibleMatchRow/Column first then, work on find_matches.
+We will start by writing buildPossibleMatchRow/Column first, then work on find_matches.
 
 ###How to write buildPossibleMatchRow/Column
-buildPossibleMatchRow/Column is going to take in an 'x' and a 'y' that specify a position on the board, and return an array of Points, which indicate the location of matches including that square. For example, if we had the following board, calling buildPossibleMatchColumn(0,0) should return an array [(0,0),(0,1)] and calling buildPossibleMatchRow(0,0) should return an array [(0,0)]. To save a new point into an array use "possibleMatch[0] = new Point(x,y);"
+buildPossibleMatchRow/Column is going to take in an 'x' and a 'y' that specify a position on the board, and return an array of Points, which indicate the location of matching positions on the board in the same row/column involving that square. For example, if we had the following board, calling buildPossibleMatchColumn(0,0) should return an array [(0,0),(0,1)] and calling buildPossibleMatchRow(0,0) should return an array [(0,0)]. To save a new point into an array use "possibleMatch[0] = new Point(x,y);"
 
 ![Alt Board](/Board1.png)
 
-We have provided you with a call to the method helper.getColumnBools() and helper.getRowBools(). These return an array of booleans that represent which items in that row match a given square. For example calling helper.getRowBools(0,0) on the above board will return [True,False,False,True,True]. Similarly, calling helper.getColumnBools(0,0) on the above board will return [True,True,False,True].
+We have provided you two methods that will help you in this task: getColumnBools() and getRowBools(). These methods take a particular location on the board, and return an array of booleans that represent which items in that row (or column) match the square at the given location. For example calling helper.getRowBools(0,0) on the above board will return [True,False,False,True,True]. Similarly, calling helper.getColumnBools(0,0) on the above board will return [True,True,False,True].
 
-You need to use this Boolean[] to figure out the length of your Point[] when it is initialized. Then fill in the Point[] with the appropriate points. You can test this method by useing the provided "tester" method which will be called everytime you generate a new board (you can use the "reset" button in game for this).
+You need to use the boolean[] returned from these methods to figure out the length of your Point[] when it is initialized. Then fill in the Point[] with the appropriate points. You can test this method by useing the provided "tester" method which will be called everytime you generate a new board (you can use the "reset" button in game for this).
 
 ###How to write find_matches
 
