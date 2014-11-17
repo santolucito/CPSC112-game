@@ -93,9 +93,9 @@ If this method is working correctly, the initial board will have no matches, and
 Methods to edit
 - findSolutions
 
-Great, now you can play the game! There is only one (major) problem left. If you run out of moves you are just stuck. We should be able to generate a new board in the middle of the game if you run out of possible swaps. Also, have you noticed that "Hint" button in the game? It would be nice if that actually worked too.
+Great, now you can play the game! There is only one (major) problem left. If there are no legal swaps left on the board, the game should generate a brand-new board if the user wants to continue to play. However, right now, the game doesn't notice that there are no legal swaps left, so the user is just stuck with nothing to do. Therefore, you should now add code that will be called by the game to see if there are any legal swaps currently on the board. The game will use this method you write in two places: (1) if your method says there are no legal swaps left, the game will generate a new board and (2) the "Hint" button in the game will display current swaps that the user can consider.
 
-When we click the hint button, all the squares that can be swapped to create a match should be highlighted. We have taken care of the highlighting, you just need to implement the "findSolutions" method so that it returns a list of all the squares that could be swapped. So calling findSolutions() with the following board should return [(0,0),(0,1),(1,0),(1,1), etc.]. The order doesn't matter, and there can be duplicates.
+Note that while (1) only requires detecting whether there are any legal swaps at all, (2) requires ennumerating all legal swaps the user can take. In particular, when the user clicks on the hint button, all the squares that can be swapped to create a match should be highlighted. The code that we have pre-written has already taken care of the highlighting, but you just need to implement the "findSolutions" method that will return a list of all squares that can be swapped. For example, calling findSolutions() with the following board should return [(0,0),(0,1),(1,0),(1,1), etc.]. The order doesn't matter, and there can be duplicates.
 
 ![Alt Board](/Board2.png)
 
