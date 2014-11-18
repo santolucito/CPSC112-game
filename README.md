@@ -52,13 +52,13 @@ We will start by writing buildPossibleMatchRow/Column first, then work on findMa
 ###How to write buildPossibleMatchRow/Column
 First a short intro to a "Point". A point function much list a string or array in its construction. Specifically:
 
-		String s = new String("Hello");
-    Point p = new Point(0,0);
+	String s = new String("Hello");
+	Point p = new Point(0,0);
 
 Instead of taking a string in its construction, it takes an 'x' and a 'y' coordinate. You can later access these using a similar technique to that of arrays. To get the length of an array and the x coordinate of a point we do the following:
 
-		int l = somePreviouslyCreatedArray.length;
-		int x = somePreviouslyCreatedPoint.x;
+	int l = somePreviouslyCreatedArray.length;
+	int x = somePreviouslyCreatedPoint.x;
 
 One more thing. To access the size on the current board, we have a global variable "int size" that has already been set for you.
 
@@ -118,7 +118,7 @@ Notice that we don't know how big how list of solutions is going to be when we s
 Here are some fun extra things. They aren't needed to complete the assignment though.
 
 ###Hidden Bug
-There is a bit of a bug in the interface. When you swap two squares, you can actually move one of those squares anywhere on the board you want. Click a square to swap it. As the swap animation happens, quickly drag your mouse somewhere else on the board. The original square you were trying to swap will end up wherever your mouse is at the end of the swap animation. It can make the game a bit more interesting. Also be carfeul of this as you test your own code!
+There is a bit of a bug in the interface ("It's not a bug, it's a feature"). When you swap two squares, you can actually move one of those squares anywhere on the board you want. Click a square to swap it. As the swap animation happens, quickly drag your mouse somewhere else on the board. The original square you were trying to swap will end up wherever your mouse is at the end of the swap animation. It can make the game a bit more interesting. Also be carfeul of this as you test your own code!
 
 ###Tester
 You can test your code using the tester() method. It will be called every time you press the "Run Tester()" buttin in the game. This would be a good place to put some print lines and have your code print to the console.
