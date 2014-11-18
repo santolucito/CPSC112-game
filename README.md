@@ -98,19 +98,19 @@ If this method is working correctly, the initial board will have no matches, and
 7 points
 
 Methods to edit
-- findSolutions
+- findPossibleSwaps
 - expandArray
 
 Great, now you can play the game! There is only one (major) problem left. If there are no legal swaps left on the board, the game should generate a brand-new board if the user wants to continue to play. However, right now, the game doesn't notice that there are no legal swaps left, so the user is just stuck with nothing to do. Therefore, you should now add code that will be called by the game to see if there are any legal swaps currently on the board. The game will use this method you write in two places: (1) if your method says there are no legal swaps left, the game will generate a new board and (2) the "Hint" button in the game will display current swaps that the user can consider.
 
-Note that while (1) only requires detecting whether there are any legal swaps at all, (2) requires enumerating all legal swaps the user can take. In particular, when the user clicks on the hint button, all the squares that can be swapped to create a match should be highlighted. The code that we have pre-written has already taken care of the highlighting, but you just need to implement the "findSolutions" method that will return a list of all squares that can be swapped. For example, calling findSolutions() with the following board should return [(0,0),(0,1),(1,0),(1,1), etc.]. The order doesn't matter, and there can be duplicates.
+Note that while (1) only requires detecting whether there are any legal swaps at all, (2) requires enumerating all legal swaps the user can take. In particular, when the user clicks on the hint button, all the squares that can be swapped to create a match should be highlighted. The code that we have pre-written has already taken care of the highlighting, but you just need to implement the "findPossibleSwaps" method that will return a list of all squares that can be swapped. For example, calling findPossibleSwaps() with the following board should return [(0,0),(0,1),(1,0),(1,1), etc.]. The order doesn't matter, and there can be duplicates. Furthermore, it is up to you whether you want to return both elements of every pair that can be swapped or just one element of that pair.
 
 ![Alt Board](/Board2.png)
 
-###How to write findSolutions
-You should swap every square in right and down and check to see if it makes a match using the hasMatches() method. If there is a match, add the square's location (new Point(x,y)) to the squaresThatCanBeSwapped[], then swap it back to its original position.
+###How to write findPossibleSwaps
+You should iterate through every square on the board and swap that square with the square to its immediate right. Then, check to see if as a result of the swap a match will exist on the board using the hasMatches() method that we have provided for you. If such a match will exist as a result of the swap, add the square's location (new Point(x,y)) to the array that you will return from this method, then swap it back to its original position. Then swap that square with the square immediately below it and do the same hasMatches() check and swap back.
 
-Notice that we don't know how big how list of solutions is going to be when we start. You will to write another expandArray(Point[]) method. This time it will be operating on Point[] instead of Point[][]. The actual code will look **very** similar to the previous expandArray(Point[][]) method from Part 1.
+Notice that we don't know how big the list of possible swaps is going to be at the beginning of this method. Therfore you should make an initial guess, and and write an expandArray(Point[]) method that will dynamically expand your initial array if your guess was too small. Note that this time, the expandArray method will be operating on a Point[] instead of a Point[][]. The actual code will look **very** similar to the expandArray(Point[][]) method that we gave you for Part 1.
 
 
 
@@ -125,4 +125,4 @@ There is a bit of a bug in the interface ("It's not a bug, it's a feature"). Whe
 You can test your code using the tester() method. It will be called every time you press the "Run Tester()" buttin in the game. This would be a good place to put some print lines and have your code print to the console.
 
 ###Method Overloading
-Did you notice that we wrote two method with the same name (expandArray) but different parameter types? This is called method overloading. As long as the parameter types or number of parameters is different, Java is smart enough to figure out which one to use on its own. you have already seen this with System.out.println which can print out a String or an int for you (or many other things).
+Did you notice that we wrote two method with the same name (expandArray) but different parameter types? This is called method overloading. As long as the parameter types or number of parameters is different, Java is smart enough to figure out which one to use on its own.
