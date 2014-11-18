@@ -77,7 +77,7 @@ Similar to the Sudoku example from class, we do not know at the beginning of the
 
 ###How to write findMatches
 
-Once you have buildPossibleMatchRow/Column written, you can get started on  findMatches. findMatches will return a two dimensional "jagged" array of all the matches on a board. For example, if we had following board, calling findMatches() should return [[(0,0),(1,0),(2,0)],[(0,1),(1,1),(2,1),(3,1)]]. The order doesn't matter. If there are no matches, findMatches() should return [[],[]]  --- it doesn't matter how many secondary arrays there are, so long as they are all empty.
+Once you have buildPossibleMatchRow/Column written, you can get started on  findMatches. findMatches will return a two dimensional "jagged" array of all the matches on a board (See Chapter 7.5 of your textbook for the definition of a jagged array). Each row of this array corresponed to a single match, and the number of Points in each row correspond to the board locations involved in that particular match (therefore each row will have at least three Points). For example, if we had following board, calling findMatches() should return: [[(0,0),(1,0),(2,0)],[(0,1),(1,1),(2,1),(3,1)]]. The order of the rows doesn't matter. If there are no matches, findMatches() should return the original foundMatches variable that we have provided for you in the first line of code of this method.  However, if there are matches, you should modify this foundMatches variable to include one match per row of the foundMatches array.
 
 ![Alt Board](/Board3.jpg)
 
@@ -89,12 +89,9 @@ Here is the basic algorithm:
 4. continue looking for matches at the end of the match you just found
 5. do the same thing for buildPossibleMatchColumns
 
-\*When we try to add a match to foundMatches, we will need make sure it is large enough to hold all our entries. In order to do this, we will can use a method called expandArray(Point[][]).
+\*Note that foundMatches is intialzed to have two rows (in the code we have provided for you). If there are more than two matches, you will run out of space. Therefore, you will have to dynamically enlargen foundMatches. We have written code for you, in a method called expandArray(Point[][]), that will double the size of foundMatches when requested. Therefore, whenever you run out of space in the foundMatches variable, you should call expandArray before trying to add additional matches to foundMatches.
 
-If this method is working correctly, the initial board will have no matches, and you should be able to play the game!
-
-
-
+If this method is working correctly, the initial board will have no matches, and furthermore you should actually be able to play the game!
 
 
 #Part 2
@@ -126,9 +123,6 @@ There is a bit of a bug in the interface ("It's not a bug, it's a feature"). Whe
 
 ###Tester
 You can test your code using the tester() method. It will be called every time you press the "Run Tester()" buttin in the game. This would be a good place to put some print lines and have your code print to the console.
-
-###Dynamic Arrays/Lists
-By writing the expandArray function, you have just invented a version of  dynamic arrays, or lists. These are special arrays that you can use without worrying about making the array the right size. In java one implementation of this is called ArrayLists. We won't go into depth now, but feel free to investigate on your own (chapter 7.5 in the textbook)!
 
 ###Method Overloading
 Did you notice that we wrote two method with the same name (expandArray) but different parameter types? This is called method overloading. As long as the parameter types or number of parameters is different, Java is smart enough to figure out which one to use on its own. you have already seen this with System.out.println which can print out a String or an int for you (or many other things).
