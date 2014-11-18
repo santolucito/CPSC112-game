@@ -28,7 +28,7 @@ You may be familiar with Candy Crush or Bewjewled. The goal is to swap items on 
 
 For this assignment we have given you a .zip file called Assignment4.zip which can be imported into your workspace. File -> Import then import "General -> Existing Projects into Workspace."
 
-CPSC112_Assignment4.zip is a complete project that can be run as an Android or Desktop app. To run the desktop version, you open the frontend-desktop folder in the sidebar (package explorer) in eclipse then click on src and press run. Likewise with Android. Feel free to test your code using either method. The first time your run, you will want to "Run As" a "Java application" for the desktop version and a "Android application" for Android. the game doesn't work yet since you haven't written the code!
+CPSC112_Assignment4.zip is a complete project that can be run as an Android or Desktop app. To run the desktop version, you open the frontend-desktop folder in the sidebar (package explorer) in eclipse then click on src and press run. Likewise with Android. Feel free to test your code using either method. The first time your run, you will want to "Run As" a "Java application" for the desktop version and a "Android application" for Android. The game isn't fully functional yet, and won't be until you complete this assignment.
 
 The whole project has a bit of a complicated structure - there are three different folders. The one titled "cs112game" contains the file you will be editing and is where all the logic is handled, while the other two "frontend-_____" are for the front end and you won't need to touch. Specifically, you need to only need to edit cpsc112/src/cpsc112.game/BoardHelper.java
 
@@ -43,33 +43,37 @@ Methods to edit
 - buildPossibleMatchRow
 - buildPossibleMatchColumn
 
-Before you get started coding, let's take a look at the program as it is right now. In eclipse, select the frontend-desktop folder, then click the run button in eclipse. Up comes an initial board, but there are two problems.
+Before you get started coding, let's take a look at the program as it is right now. In eclipse, select the frontend-desktop folder, then click the run button in eclipse. Up comes a window with the game. Click "Play" and an initial board will appear, but there are two problems.
 
 The first problem is that the code that detects valid matches is not currently written. This is a problem because other parts of the code need to know if matches exist in a current board configuration. This is done through a call to the findMatches method which is currently not written, but which is supposed to return all matches that exist in the current board configuration. In particular: 1) When the board is created, findMatches is called to see if the initial board has any matches already in it (if it does, modifications are performed to avoid this --- we don't want to give the user free points for doing nothing), and 2) Before the user tries to swap two items, findMatches is called to see if as a result of the swap a match was made. If not, the game will not allow the user to swap the two items (since one of the rules of the game is that a user can only swap when it creates a valid match). Your job is thus to write the "findMatches" method, along with two methods that it will call to facilitate its work: "buildPossibleMatchHorizontal" and "buildPossibleMatchVertical". Once you have completed these three methods, the other parts of the program that call findMatches should now work.
 
 We will start by writing buildPossibleMatchRow/Column first, then work on findMatches.
 
 ###How to write buildPossibleMatchRow/Column
-First a short intro to a "Point". A point function much list a string or array in its construction. Specifically:
+First a short intro to a "Point" object. In class we have discussed primitive types in Java (like int, char, or boolean) and complex types (like String or Random). Recall that while primitive types can only store one value, complex types (also called "Objects") can store multiple values. For example a String stores many 'char's. Point is another complex type, and stores two integers representing a location in a two-dimensional space. The first integer represents the "Point"'s location in the horizontal dimension, and the second integer represents the "Point"'s location in the vertical dimension. We define and use variables of type Point in a similar way to how we define and use Strings. For example, to create a new String called s and initialize it to the string "Hello", we run:   
 
 	String s = new String("Hello");
-	Point p = new Point(0,0);
+	
+Similarly to create a new Point called p and initialize it to the point at location (2, 7) in two-dimensional space, we run:
 
-Instead of taking a string in its construction, it takes an 'x' and a 'y' coordinate. You can later access these using a similar technique to that of arrays. To get the length of an array and the x coordinate of a point we do the following:
+	Point p = new Point(2,7);
 
-	int l = somePreviouslyCreatedArray.length;
-	int x = somePreviouslyCreatedPoint.x;
+where 2 and 7 are the 'x' and a 'y' coordinates of p. You can later access these using dot notation, e.g.:
 
-One more thing. To access the size on the current board, we have a global variable "int size" that has already been set for you.
+System.out.println(p.x); //will print 2
+System.out.println(p.y); //will print 7
 
-buildPossibleMatchRow/Column is going to take in an 'x' and a 'y' that specify a position on the board, and return an array of Points, which indicate the location of matching positions on the board in the same row/column involving that square. For example, if we had the following board, calling buildPossibleMatchColumn(0,0) should return an array [(0,0),(0,1)] and calling buildPossibleMatchRow(0,0) should return an array [(0,0)]. To save a new point into an array use "possibleMatch[0] = new Point(x,y);"
+One more thing. Most of the global variables in BoardHelper.java you can ignore --- they are for the other methods that are already written for you. The only global variable that is relevent to what you need to code is the size variable. This global 'size' variable stores the number of columns and rows of the game board (the board is always a square). In the code we gave you, size is 8 --- i.e. the game is an 8x8 square. Please do not hard-code the number 8 anywhere in your code --- whenever the size of the board is relevent to the code you are writing, use the size variable instead of the number '8'.
+
+buildPossibleMatchRow takes a Point (p) that specifies a position on the board, and returns an array of Points, which indicates the location of all points stating with p's location moving directly to the right on the board that consecutively have the same board piece as the piece at the location specified by p. For example, if we had the following board, calling buildPossibleMatchRow(0,0) should return an array with just one point: [(0,0)]. Calling buildPossibleMatchRow(0,3) should return an array with two points corresponding for run the of length two of the same board piece (the shield for Morse College) starting at (0,3): [(0,3),(0,4)]. buildPossibleMatchColumn works identically to buildPossibleMatchRow except it looks for runs of the same piece moving down from the given Point (instead of to the right). For example, calling buildPossibleMatchColumn(0,0) should return an array [(0,0),(0,1)].
+
+Please note that we have provided 4 lines of code for you in both buildPossibleMatchRow and buildPossibleMatchColumn. The first three lines of code are correct and should not be modified. The last line (return null) is only there to make the program compile before you complete your implementation of these methods. You should delete this last line and replace with your solution. Eventually your methods should return an actual Point array instead of "null".
 
 ![Alt Board](/Board1.png)
 
-We have provided you two methods that will help you in this task: getColumnBools() and getRowBools(). These methods take a particular location on the board, and return an array of booleans that represent which items in that row (or column) match the square at the given location. For example calling helper.getRowBools(0,0) on the above board will return [True,False,False,True,True]. Calling helper.getColumnBools(0,0) on the above board will return [True,True,False,True]. Calling helper.getColumnBools(0,2) on the above board will return [True,False,False,False].
+Please also note that the third line of code we have given you in these methods are a call to methods that we wrote for you that will help you in this task: getColumnBools() and getRowBools(). These methods take a particular location on the board, and return an array of booleans that represent which items in that row (or column) match the square at the given location. (In that sense, these methods are somewhat similar to the checkRow and checkColumn methods we wrote in class for the Sudoku example, although they differ in how they treat the entry in the boolean array corresponding to the location received as a parameter) For example calling helper.getRowBools(0,0) on the above board will return [True,False,False,True,True]. Calling helper.getColumnBools(0,0) on the above board will return [True,True,False,True]. Calling helper.getColumnBools(0,2) on the above board will return [True,False,False,False].
 
-
-You need to use the boolean[] returned from these methods to figure out the length of your Point[] when it is initialized. Then fill in the Point[] with the appropriate points.
+Similar to the Sudoku example from class, we do not know at the beginning of the method how many Points will be returned, and thus we do not initially know how large to initialze the Point array that will eventually be returned from the method. You should use a similar solution to how we solved this problem for the "checkProblems" method demonstrated in class: you should use the boolean array returned from getColumnBools/getRowBools to figure out how many elements your Point array should have. Initialze a new Point[] of this size, and then fill in the elements of this array with the appropriate points.
 
 ###How to write findMatches
 
