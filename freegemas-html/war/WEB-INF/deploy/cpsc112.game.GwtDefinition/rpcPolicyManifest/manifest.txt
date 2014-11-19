@@ -1,0 +1,2 @@
+# Module cpsc112.game.GwtDefinition
+# RPC service class, partial path of RPC policy file
