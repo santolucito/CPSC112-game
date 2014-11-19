@@ -262,7 +262,7 @@ public class Board {
 		int[][] squares =  {{1,2,3},{1,3,2},{2,1,3}};
 		this.fillInitialBoard(squares);
 		System.out.println("Running unit tests...\nUsing the following board");
-		System.out.println(this);
+		System.out.print(this);
 
 
 		for(boolean b : getColumnBools(new Point(0,0)))
@@ -274,6 +274,8 @@ public class Board {
 				"findMatches");
 
 		this.helper.swap(new Point(2,0),new Point(2,1));
+		System.out.println("\nSwapping and testing");
+		System.out.print(this);
 		unitTest(new Point[][] {{new Point(0,0),new Point(1,0),new Point(2,0)}},
 				this.helper.findMatches(),
 				"findMatches");
@@ -317,7 +319,7 @@ public class Board {
 		int[][] squares2 =  {{1,2,3,3},{1,3,2,1},{2,1,3,1},{1,3,1,3}};
 		this.fillInitialBoard(squares2);
 		System.out.println("\nRunning more unit tests...\nUsing the following board");
-		System.out.println(this);
+		System.out.print(this);
 
 		
 		unitTest(new Point[][]{{}},
@@ -325,6 +327,8 @@ public class Board {
 				"findMatches");
 
 		this.helper.swap(new Point(2,0),new Point(2,1));
+		System.out.println("\nSwapping and testing");
+		System.out.print(this);
 		unitTest(new Point[][] {{new Point(0,0),new Point(1,0),new Point(2,0),new Point(3,0)}},
 				this.helper.findMatches(),
 				"findMatches");
