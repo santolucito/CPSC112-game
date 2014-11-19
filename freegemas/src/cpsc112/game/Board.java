@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Board {
 
-	public BoardHelper helper;
+	//public BoardHelper helper;
 	public Random randomGenerator = new Random();
 
 	public Square[][] _squares;
@@ -20,8 +20,6 @@ public class Board {
 		_squares = new Square[size][size];
 		//variety can be 1-7
 		variety = 5;
-
-		helper = new BoardHelper(this);
 	}
 
 	public void fillInitialBoard() {
@@ -54,7 +52,8 @@ public class Board {
 	}
 
 	public ListOfMatches findMatches() {
-		Point[][] m = helper.findMatches();
+		//Point[][] m = helper.findMatches();
+		Point[][] m = BoardHelper.findMatches(this);
 		convert(m);
 		return _matches;
 	}
@@ -70,7 +69,7 @@ public class Board {
 	}
 
 	public Point[] findPossibleSwaps() {
-		Point[] ps =  helper.findPossibleSwaps();
+		Point[] ps =  BoardHelper.findPossibleSwaps(this);
 		if (ps == null)
 		{
 			Point p = new Point(0,0); 
@@ -80,8 +79,14 @@ public class Board {
 		return ps;	}
 
 	public void swap(int x1, int y1, int x2, int y2){
-		helper.swap(new Point(x1, y1), new Point(x2, y2));
+		swapSquares(new Point(x1, y1), new Point(x2, y2));
 	}
+	public void swapSquares(Point p1, Point p2) {
+		Square temp = _squares[p1.x][p1.y];
+		_squares[p1.x][p1.y] = _squares[p2.x][p2.y]; 
+		_squares[p2.x][p2.y] = temp;
+	}
+	
 	public boolean hasMatches(){
 		return findMatches().size()!=0;
 	}
@@ -255,7 +260,6 @@ public class Board {
 	public void runTests() {
 		
 		this.size=3;
-		this.helper.size=3;
 		//1 1 2
 		//2 3 1
 		//3 2 2
@@ -270,48 +274,47 @@ public class Board {
 		System.out.println();
 
 		unitTest(new Point[][]{{}},
-				this.helper.findMatches(),
+				BoardHelper.findMatches(this),
 				"findMatches");
 
-		this.helper.swap(new Point(2,0),new Point(2,1));
+		swapSquares(new Point(2,0),new Point(2,1));
 		System.out.println("\nSwapping and testing");
 		System.out.print(this);
 		unitTest(new Point[][] {{new Point(0,0),new Point(1,0),new Point(2,0)}},
-				this.helper.findMatches(),
+				BoardHelper.findMatches(this),
 				"findMatches");
-		this.helper.swap(new Point(2,0),new Point(2,1));
+		swapSquares(new Point(2,0),new Point(2,1));
 
 		unitTest(new Point[] {new Point(0,0),new Point(1,0)}, 
-				this.helper.buildPossibleMatchRow(new Point(0,0)),
+				BoardHelper.buildPossibleMatchRow(new Point(0,0),this),
 				"buildPossibleMatchRow on (0,0)");
 		unitTest(new Point[] {new Point(0,2)}, 
-				this.helper.buildPossibleMatchRow(new Point(0,2)),
+				BoardHelper.buildPossibleMatchRow(new Point(0,2),this),
 				"buildPossibleMatchRow on (0,2)");
 		unitTest(new Point[] {new Point(2,2)}, 
-				this.helper.buildPossibleMatchRow(new Point(2,2)),
+				BoardHelper.buildPossibleMatchRow(new Point(2,2),this),
 				"buildPossibleMatchRow on (2,2)");
 		
 		unitTest(new Point[]{new Point(0,0)},
-				this.helper.buildPossibleMatchColumn(new Point(0,0)),
+				BoardHelper.buildPossibleMatchColumn(new Point(0,0),this),
 				"buildPossibleMatchColumn on (0,0)");
 		unitTest(new Point[] {new Point(0,2)}, 
-				this.helper.buildPossibleMatchColumn(new Point(0,2)),
+				BoardHelper.buildPossibleMatchColumn(new Point(0,2),this),
 				"buildPossibleMatchColumn on (0,2)");
 		unitTest(new Point[] {new Point(2,2)}, 
-				this.helper.buildPossibleMatchColumn(new Point(2,2)),
+				BoardHelper.buildPossibleMatchColumn(new Point(2,2),this),
 				"buildPossibleMatchColumn on (2,2)");
 
 		unitTest(new Point[] {new Point(2,0),new Point(1,1)},
-				this.helper.findPossibleSwaps(),
+				BoardHelper.findPossibleSwaps(this),
 				"findPossibleSwaps");		
 		
 		Point[] ex = new Point[] {new Point(0,1),new Point(1,1)};
 		unitTest(new Point[] {new Point(0,1),new Point(1,1),null,null},
-				this.helper.expandArray(ex),
+				BoardHelper.expandArray(ex),
 				"expandArray");
 		
 		this.size=4;
-		this.helper.size=4;
 		//1 1 2 1
 		//2 3 1 3
 		//3 2 2 1
@@ -323,39 +326,39 @@ public class Board {
 
 		
 		unitTest(new Point[][]{{}},
-				this.helper.findMatches(),
+				BoardHelper.findMatches(this),
 				"findMatches");
 
-		this.helper.swap(new Point(2,0),new Point(2,1));
+		swapSquares(new Point(2,0),new Point(2,1));
 		System.out.println("\nSwapping and testing");
 		System.out.print(this);
 		unitTest(new Point[][] {{new Point(0,0),new Point(1,0),new Point(2,0),new Point(3,0)}},
-				this.helper.findMatches(),
+				BoardHelper.findMatches(this),
 				"findMatches");
-		this.helper.swap(new Point(2,0),new Point(2,1));
+		swapSquares(new Point(2,0),new Point(2,1));
 
 		unitTest(new Point[] {new Point(0,0),new Point(1,0)}, 
-				this.helper.buildPossibleMatchRow(new Point(0,0)),
+				BoardHelper.buildPossibleMatchRow(new Point(0,0),this),
 				"buildPossibleMatchRow on (0,0)");
 		unitTest(new Point[] {new Point(0,2)}, 
-				this.helper.buildPossibleMatchRow(new Point(0,2)),
+				BoardHelper.buildPossibleMatchRow(new Point(0,2),this),
 				"buildPossibleMatchRow on (0,2)");
 		unitTest(new Point[] {new Point(2,2)}, 
-				this.helper.buildPossibleMatchRow(new Point(2,2)),
+				BoardHelper.buildPossibleMatchRow(new Point(2,2),this),
 				"buildPossibleMatchRow on (2,2)");
 		
 		unitTest(new Point[]{new Point(0,0)},
-				this.helper.buildPossibleMatchColumn(new Point(0,0)),
+				BoardHelper.buildPossibleMatchColumn(new Point(0,0),this),
 				"buildPossibleMatchColumn on (0,0)");
 		unitTest(new Point[] {new Point(0,2),new Point(0,3)}, 
-				this.helper.buildPossibleMatchColumn(new Point(0,2)),
+				BoardHelper.buildPossibleMatchColumn(new Point(0,2),this),
 				"buildPossibleMatchColumn on (0,2)");
 		unitTest(new Point[] {new Point(2,2)}, 
-				this.helper.buildPossibleMatchColumn(new Point(2,2)),
+				BoardHelper.buildPossibleMatchColumn(new Point(2,2),this),
 				"buildPossibleMatchColumn on (2,2)");
 
 		unitTest(new Point[] {new Point(0,1),new Point(1,1),new Point(2,0),new Point(2,1),new Point(2,2),new Point(3,2)},
-				this.helper.findPossibleSwaps(),
+				BoardHelper.findPossibleSwaps(this),
 				"findPossibleSwaps");
 		
 	}
