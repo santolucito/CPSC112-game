@@ -18,8 +18,6 @@ public class BoardHelper {
 		b.runTests();
 	}
 
-
-
 	public BoardHelper(Board board) {
 		//Don't worry about what this means
 		//it is just connecting this file to the rest of the system
@@ -31,30 +29,7 @@ public class BoardHelper {
 
 	public Point[][] findMatches() {
 		Point[][] foundMatches = new Point[1][0];
-		int currPos = 0;
-		for (int i = 0; i < size; i++)
-		{
-			for (int j = 0; j < size; j++)
-			{
-				Point p = new Point(i, j);
-				Point[] temp = buildPossibleMatchRow(p);
-				if (temp.length > 2) {
-					if (currPos == foundMatches.length) {
-						foundMatches = expandArray(foundMatches);
-					}
-					foundMatches[currPos] = temp;
-					currPos++;
-				}
-				temp = buildPossibleMatchColumn(p);
-				if (temp.length > 2) {
-					if (currPos == foundMatches.length) {
-						foundMatches = expandArray(foundMatches);
-					}
-					foundMatches[currPos] = temp;
-					currPos++;
-				}
-			}
-		}
+
 		return foundMatches;
 	}
 
@@ -84,18 +59,7 @@ public class BoardHelper {
 		boolean[] matches = b.getRowBools(new Point(x,y));
 		//at this point x is the x location n,...
 
-		int count = 0;
-
-		for (int i = x; i < size && matches[i]; i++)
-		{
-			count++;
-		}
-		Point[] ps = new Point[count];
-		for (int i = 0; i < count; i++)
-		{
-			ps[i] = new Point(x+i, y);
-		}
-		return ps;
+		return null;
 	}
 
 	public Point[] buildPossibleMatchColumn(Point p) {
@@ -104,63 +68,19 @@ public class BoardHelper {
 		boolean[] matches = b.getColumnBools(new Point(x,y));
 		//at this point x is the x location n,...
 
-		int count = 0;
-
-		for (int i = y; i < size && matches[i]; i++)
-		{
-			count++;
-		}
-		Point[] ps = new Point[count];
-		for (int i = 0; i < count; i++)
-		{
-			ps[i] = new Point(x, y+i);
-		}
-		return ps;
+		return null;
 	}
 
 
 	public Point[] findPossibleSwaps() {
-		int currPos = 0;
-		Point[] returnVals = new Point[3];
-		for (int i = 0; i < size; i++)
-		{
-			for (int j = 0; j < size; j++)
-			{
-				if(i+1<size){
-					b.swap(i,j,i+1,j);
-					if (hasMatches()) {
-						if (currPos == returnVals.length) {
-							returnVals = expandArray(returnVals);
-						}
-						returnVals[currPos] = new Point(i,j);
-						currPos++;
-					}
-					b.swap(i,j,i+1,j);
-				}
-				if(j+1<size){
-					b.swap(i,j,i,j+1);
-					if (hasMatches()) {
-						if (currPos == returnVals.length) {
-							returnVals = expandArray(returnVals);
-						}
-						returnVals[currPos] = new Point(i,j);
-						currPos++;
-					}
-					b.swap(i,j,i,j+1);
-				}
-			}
-		}
-		return returnVals;
-
+		Point[] foundSwaps = new Point[1];
+		return foundSwaps;
+		
 	}
 
 	//return a new array with all the same elements, but twice the space
 	public Point[] expandArray(Point[] originalArray) {
-		Point[] newArray = new Point[originalArray.length*2];
-		for(int i=0; i<originalArray.length; i++){
-			newArray[i]=originalArray[i];
-		}
-		return newArray;
+		return originalArray;
 	}
 
 
