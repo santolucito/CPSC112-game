@@ -42,7 +42,6 @@ public class BoardHelper {
 		int x = p.x;
 		int y = p.y;
 		boolean[] matches = b.getRowBools(new Point(x,y));
-		//at this point x is the x location
 
 		return null;
 	}
@@ -51,7 +50,6 @@ public class BoardHelper {
 		int x = p.x;
 		int y = p.y;
 		boolean[] matches = b.getColumnBools(new Point(x,y));
-		//at this point x is the x location
 
 		return null;
 	}
