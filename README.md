@@ -30,9 +30,16 @@ For this assignment we have given you a .zip file called Assignment4.zip which c
 
 CPSC112_Assignment4.zip is a complete project that can be run as an Android or Desktop app. To run the desktop version, you open the frontend-desktop folder in the sidebar (package explorer) in eclipse then click on src and press run. Likewise with Android. Feel free to test your code using either method. The first time your run, you will want to "Run As" a "Java application" for the desktop version and a "Android application" for Android. The game isn't fully functional yet, and won't be until you complete this assignment.
 
-The whole project has a bit of a complicated structure - there are three different folders. The one titled "cs112game" contains the file you will be editing and is where all the logic is handled, while the other two "frontend-_____" are for the front end and you won't need to touch. Specifically, you need to only need to edit cpsc112/src/cpsc112.game/BoardHelper.java
+You will see a main method inside of BoardHelper.java. If you run this method, you can see some test code run in the terminal. Initially, most of the tests will fail, but as you write your code it will start passing more of these tests. Once all of these tests pass you are done with the assignment.
 
-To be clear, the only file you will need to edit is BoardHelper.java located in the "cs112game" folder (cpsc112/src/cpsc112.game/BoardHelper.java). The following instructions will be in reference to this file. The file has a collection of method headers that you will need to complete. These methods will be called by the rest of the project, in ways you don't need to worry about, to make the game fully functional.
+WINDOWS LINUX AND ANDROID OWNERS
+CPSC112_Assignment4.zip is a complete project that can be run as an Android or Desktop app. To run the desktop version, you open the frontend-desktop folder in the sidebar (package explorer) in eclipse then click on src and press run. Likewise with Android. Feel free to test your code using either method. The first time your run, you will want to "Run As" a "Java application" for the desktop version and a "Android application" for Android. The game doesn't work yet since you haven't written the code!
+
+The desktop and android version (with emulator) only work on Windows and Linux. If you have a Mac and an Android device, you can run the android version on the physical phone. This is entirely unnecessary for the assignment.
+
+In the instructions below we will use the graphical interface to demonstrate how the game works. The same game play principles apply to testing in the terminal, except instead of a images for the board you get the numbers 1-3 printed to the terminal.
+
+We also use the game to motivate why we want to write certain methods in a certain way. If you are just using the terminal to test, your motivation will just have to be the joy of learning (and finishing the assignment).
 
 #Part 1
 13 points
@@ -50,10 +57,10 @@ The first problem is that the code that detects valid matches is not currently w
 We will start by writing buildPossibleMatchRow/Column first, then work on findMatches.
 
 ###How to write buildPossibleMatchRow/Column
-First a short intro to a "Point" object. In class we have discussed primitive types in Java (like int, char, or boolean) and complex types (like String or Random). Recall that while primitive types can only store one value, complex types (also called "Objects") can store multiple values. For example a String stores many 'char's. Point is another complex type, and stores two integers representing a location in a two-dimensional space. The first integer represents the "Point"'s location in the horizontal dimension, and the second integer represents the "Point"'s location in the vertical dimension. We define and use variables of type Point in a similar way to how we define and use Strings. For example, to create a new String called s and initialize it to the string "Hello", we run:   
+First a short intro to a "Point" object. In class we have discussed primitive types in Java (like int, char, or boolean) and complex types (like String or Random). Recall that while primitive types can only store one value, complex types (also called "Objects") can store multiple values. For example a String stores many 'char's. Point is another complex type, and stores two integers representing a location in a two-dimensional space. The first integer represents the "Point"'s location in the horizontal dimension, and the second integer represents the "Point"'s location in the vertical dimension. We define and use variables of type Point in a similar way to how we define and use Strings. For example, to create a new String called s and initialize it to the string "Hello", we run:
 
 	String s = new String("Hello");
-	
+
 Similarly to create a new Point called p and initialize it to the point at location (2, 7) in two-dimensional space, we run:
 
 	Point p = new Point(2,7);
@@ -91,7 +98,7 @@ Here is the basic algorithm:
 
 \*Note that foundMatches is intialzed to have two rows (in the code we have provided for you). If there are more than two matches, you will run out of space. Therefore, you will have to dynamically enlargen foundMatches. We have written code for you, in a method called expandArray(Point[][]), that will double the size of foundMatches when requested. Therefore, whenever you run out of space in the foundMatches variable, you should call expandArray before trying to add additional matches to foundMatches.
 
-If this method is working correctly, the initial board will have no matches, and furthermore you should actually be able to play the game!
+If this method is working correctly, the initial board will have no matches, and furthermore you should actually be able to play the game (or see lots of tests passing)!
 
 
 #Part 2
@@ -117,6 +124,9 @@ Notice that we don't know how big the list of possible swaps is going to be at t
 #Cool lessons/Hints
 
 Here are some fun extra things. They aren't needed to complete the assignment though.
+
+###Test Driven Development
+Was it fun to finish your code and see all those tests pass? Well, was it gratifying at least. This is a method of software development called "Test Driven Development." Basically we write some tests to define how we expect the program to work, then keep coding until the code does what it is supposed to do. This can be helpful for setting clear goals for a project and making sure as you add functionality, it doesn't break what you once had working. You might even consider using this technique for your group project!
 
 ###Hidden Bug
 There is a bit of a bug in the interface ("It's not a bug, it's a feature"). When you swap two squares, you can actually move one of those squares anywhere on the board you want. Click a square to swap it. As the swap animation happens, quickly drag your mouse somewhere else on the board. The original square you were trying to swap will end up wherever your mouse is at the end of the swap animation. It can make the game a bit more interesting. Also be carfeul of this as you test your own code!
