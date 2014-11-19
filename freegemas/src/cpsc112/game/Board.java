@@ -19,7 +19,7 @@ public class Board {
 	public Board() {
 		_squares = new Square[size][size];
 		//variety can be 1-7
-		variety = 7;
+		variety = 5;
 
 		helper = new BoardHelper(this);
 	}
@@ -210,6 +210,21 @@ public class Board {
 	}
 
 
+	public String toHTML() {
+		String output = "<table>";
+
+		for (int i = 0; i < size; ++i) {
+			output += "<tr>";
+			for (int j = 0; j < size; ++j) {
+				output += "<td><img src=\"http://santolucito.github.io/cs112/"+_squares[i][j].toString()+".png\"></td>";
+			}
+			output += "</tr>";
+		}
+		output += "</table>";
+
+		return output;
+	}
+	
 	public String toString() {
 		String output = "";
 

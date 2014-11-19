@@ -12,6 +12,38 @@ public class BoardHelper {
 	public Random randomGenerator = new Random();
 	public  Board b;
 
+	public static void main(String args[]){
+		Board b = new Board();
+		BoardHelper bb = new BoardHelper(b);
+		b.fillInitialBoard();
+		System.out.println(b.toHTML());
+		
+		
+		bb.findMatches();
+		bb.buildPossibleMatchRow(new Point(0,0));
+		bb.buildPossibleMatchColumn(new Point(0,0));
+		
+		Point[] x = bb.findPossibleSwaps();
+		
+		
+		System.out.print("TESTING EXPANDARRAY");
+		Point[] y = bb.expandArray(x);
+		boolean test=true;
+		for(int i=0;i<x.length;i++)
+			test=(x[i]==y[i])&&test;
+		if(y.length==x.length && test)
+			System.out.println("SUCESS");
+		else
+			System.out.println("FAILURE");
+		
+		Point [] foundSwaps = bb.findPossibleSwaps();
+		if(foundSwaps != null)
+		for(int i =0;i<foundSwaps.length;i++){
+			System.out.print(foundSwaps[i]);
+		}
+		
+	}
+	
 	public BoardHelper(Board board) {
 		//Don't worry about what this means
 		//it is just connecting this file to the rest of the system
