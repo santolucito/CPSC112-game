@@ -303,6 +303,10 @@ public class Board {
 				this.helper.findPossibleSwaps(),
 				"findPossibleSwaps");		
 		
+		Point[] ex = new Point[] {new Point(0,1),new Point(1,1)};
+		unitTest(new Point[] {new Point(0,1),new Point(1,1),null,null},
+				this.helper.expandArray(ex),
+				"expandArray");
 		
 		this.size=4;
 		this.helper.size=4;
@@ -349,6 +353,7 @@ public class Board {
 		unitTest(new Point[] {new Point(0,1),new Point(1,1),new Point(2,0),new Point(2,1),new Point(2,2),new Point(3,2)},
 				this.helper.findPossibleSwaps(),
 				"findPossibleSwaps");
+		
 	}
 
 
