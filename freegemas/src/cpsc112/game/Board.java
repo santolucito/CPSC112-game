@@ -268,11 +268,6 @@ public class Board {
 		System.out.println("Running unit tests...\nUsing the following board");
 		System.out.print(this);
 
-
-		for(boolean b : getColumnBools(new Point(0,0)))
-			System.out.println(b);
-		System.out.println();
-
 		unitTest(new Point[][]{{}},
 				BoardHelper.findMatches(this),
 				"findMatches");
