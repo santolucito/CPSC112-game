@@ -10,7 +10,7 @@ public class Board {
 	public Random randomGenerator = new Random();
 
 	public Square[][] _squares;
-	public final int size = 8;
+	public int size = 8;
 	// Aux 
 	public ListOfMatches _matches = new ListOfMatches();
 	public Point[] squaresThatCanBeSwapped = new Point[0];
@@ -38,6 +38,19 @@ public class Board {
 
 		} while(hasMatches() || findPossibleSwaps().length == 0);
 
+	}
+	
+	public void fillInitialBoard(int[][] s) {
+		if(s.length!=size && s[0].length!=size){
+			System.err.println("Tried to initialize board with wrong size array");
+			System.err.println("Expected size: "+size+", Board size: "+s.length+" by "+ s[0].length);
+			System.exit(0);
+		}
+		for (int x = 0; x < s.length; ++x) {
+			for (int y = 0; y < s.length; ++y) {
+				_squares[x][y] = new Square(Square.numToType(s[x][y]));
+			}
+		}
 	}
 
 	public ListOfMatches findMatches() {
@@ -179,14 +192,14 @@ public class Board {
 		_squares[x][y].setType(Square.getDualType(_squares[x][y].getType()));
 	}
 
-	public boolean[] getColumnBools(Point p) {
+	public boolean[] getRowBools(Point p) {
 		boolean[] matches = new boolean[size];
 		for(int i=0;i<size;i++){
 			matches[i] = _squares[p.x][p.y].equals(_squares[i][p.y]); 
 		}
 		return matches;
 	}
-	public boolean[] getRowBools(Point p) {
+	public boolean[] getColumnBools(Point p) {
 		boolean[] matches = new boolean[size];
 		for(int i=0;i<size;i++){
 			matches[i] = _squares[p.x][p.y].equals(_squares[p.x][i]); 
@@ -228,16 +241,165 @@ public class Board {
 	public String toString() {
 		String output = "";
 
-		for (int i = 0; i < size; ++i) {
-			for (int j = 0; j < size; ++j) {
+		for (int y = 0; y < size; ++y) {
+			for (int x = 0; x < size; ++x) {
 				//output += "(" + squares[i][j].fallStartPosY + ", " + squares[i][j].fallDistance + ")  ";
-				output += "["+_squares[i][j].toString()+"] ";
+				output += _squares[x][y]+" ";
 			}
 			output += "\n";
 		}
-		output += "\n";
 
 		return output;
 	}
+
+	public void runTests() {
+		
+		this.size=3;
+		this.helper.size=3;
+		//1 1 2
+		//2 3 1
+		//3 2 2
+		int[][] squares =  {{1,2,3},{1,3,2},{2,1,3}};
+		this.fillInitialBoard(squares);
+		System.out.println("Running unit tests...\nUsing the following board");
+		System.out.println(this);
+
+
+		for(boolean b : getColumnBools(new Point(0,0)))
+			System.out.println(b);
+		System.out.println();
+
+		unitTest(new Point[][]{{}},
+				this.helper.findMatches(),
+				"findMatches");
+
+		this.helper.swap(new Point(2,0),new Point(2,1));
+		unitTest(new Point[][] {{new Point(0,0),new Point(1,0),new Point(2,0)}},
+				this.helper.findMatches(),
+				"findMatches");
+		this.helper.swap(new Point(2,0),new Point(2,1));
+
+		unitTest(new Point[] {new Point(0,0),new Point(1,0)}, 
+				this.helper.buildPossibleMatchRow(new Point(0,0)),
+				"buildPossibleMatchRow on (0,0)");
+		unitTest(new Point[] {new Point(0,2)}, 
+				this.helper.buildPossibleMatchRow(new Point(0,2)),
+				"buildPossibleMatchRow on (0,2)");
+		unitTest(new Point[] {new Point(2,2)}, 
+				this.helper.buildPossibleMatchRow(new Point(2,2)),
+				"buildPossibleMatchRow on (2,2)");
+		
+		unitTest(new Point[]{new Point(0,0)},
+				this.helper.buildPossibleMatchColumn(new Point(0,0)),
+				"buildPossibleMatchColumn on (0,0)");
+		unitTest(new Point[] {new Point(0,2)}, 
+				this.helper.buildPossibleMatchColumn(new Point(0,2)),
+				"buildPossibleMatchColumn on (0,2)");
+		unitTest(new Point[] {new Point(2,2)}, 
+				this.helper.buildPossibleMatchColumn(new Point(2,2)),
+				"buildPossibleMatchColumn on (2,2)");
+
+		unitTest(new Point[] {new Point(2,0),new Point(1,1)},
+				this.helper.findPossibleSwaps(),
+				"findPossibleSwaps");		
+		
+		
+		this.size=4;
+		this.helper.size=4;
+		//1 1 2 1
+		//2 3 1 3
+		//3 2 2 1
+		//3 1 1 3
+		int[][] squares2 =  {{1,2,3,3},{1,3,2,1},{2,1,3,1},{1,3,1,3}};
+		this.fillInitialBoard(squares2);
+		System.out.println("\nRunning more unit tests...\nUsing the following board");
+		System.out.println(this);
+
+		
+		unitTest(new Point[][]{{}},
+				this.helper.findMatches(),
+				"findMatches");
+
+		this.helper.swap(new Point(2,0),new Point(2,1));
+		unitTest(new Point[][] {{new Point(0,0),new Point(1,0),new Point(2,0),new Point(3,0)}},
+				this.helper.findMatches(),
+				"findMatches");
+		this.helper.swap(new Point(2,0),new Point(2,1));
+
+		unitTest(new Point[] {new Point(0,0),new Point(1,0)}, 
+				this.helper.buildPossibleMatchRow(new Point(0,0)),
+				"buildPossibleMatchRow on (0,0)");
+		unitTest(new Point[] {new Point(0,2)}, 
+				this.helper.buildPossibleMatchRow(new Point(0,2)),
+				"buildPossibleMatchRow on (0,2)");
+		unitTest(new Point[] {new Point(2,2)}, 
+				this.helper.buildPossibleMatchRow(new Point(2,2)),
+				"buildPossibleMatchRow on (2,2)");
+		
+		unitTest(new Point[]{new Point(0,0)},
+				this.helper.buildPossibleMatchColumn(new Point(0,0)),
+				"buildPossibleMatchColumn on (0,0)");
+		unitTest(new Point[] {new Point(0,2),new Point(0,3)}, 
+				this.helper.buildPossibleMatchColumn(new Point(0,2)),
+				"buildPossibleMatchColumn on (0,2)");
+		unitTest(new Point[] {new Point(2,2)}, 
+				this.helper.buildPossibleMatchColumn(new Point(2,2)),
+				"buildPossibleMatchColumn on (2,2)");
+
+		unitTest(new Point[] {new Point(0,1),new Point(1,1),new Point(2,0),new Point(2,1),new Point(2,2),new Point(3,2)},
+				this.helper.findPossibleSwaps(),
+				"findPossibleSwaps");
+	}
+
+
+	private static void unitTest(Point[][] correct, Point[][] user, String method) {
+		System.out.println("\nTESTING "+method);
+		boolean works = true;
+		for(int k=0;k<correct.length;k++){
+			for(int i=0;i<user.length;i++){
+				if(user[i].length<3) works=false;
+				for(int j=0;j<user[i].length;j++){
+					works=Arrays.asList(correct[k]).contains(user[i][j])&&works;
+				}
+			}	
+		}
+		if(Arrays.deepEquals(new Point[][] {{}},correct) && Arrays.deepEquals(new Point[][] {{}},user))
+			works=true;
+		if(works)
+			System.out.println("PASSED");
+		else{
+			System.out.println("FAILED");
+			System.out.println("Correct output: "+Arrays.deepToString(correct));
+			System.out.println("Your output:    "+Arrays.deepToString(user));
+		}
+	}
+
+
+	public static void unitTest(Point[] correct, Point[] user, String method) {
+		System.out.println("\nTESTING "+method);
+		boolean works = true;
+		if(method.equals("findPossibleSwaps")){
+			for(int i=0;i<correct.length;i++){
+				if(correct[i]!=null)
+					works = Arrays.asList(user).contains(correct[i])&&works;
+			}
+			for(int i=0;i<user.length;i++){
+				if(user[i]!=null)
+				works = Arrays.asList(correct).contains(user[i])&&works;
+			}
+		}
+		else if(!Arrays.deepEquals(correct,user)){
+			works = false;
+		}
+		if(works){
+			System.out.println("PASSED");
+	}
+		else{
+			System.out.println("FAILED");
+			System.out.println("Correct output: "+Arrays.deepToString(correct));
+			System.out.println("Your output:    "+Arrays.deepToString(user));
+		}
+	}
+
 
 }

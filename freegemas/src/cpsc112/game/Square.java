@@ -85,13 +85,35 @@ public class Square  {
 			return Color.sqYellow;
 		case 7:
 			return Color.sqBlue;
-		case 15:
+		case 8:
 			return Color.sqGreenS;
 		default:
 			return Color.sqEmpty;
 		}
 	}
+	public static int typeToNum(Color type) {
+		switch (type) {
+		case sqWhite:
+			return 1;
+		case sqRed:
+			return 2;
+		case sqPurple:
+			return 3;
+		case sqOrange:
+			return 4;
+		case sqGreen:
+			return 5;
+		case sqYellow:
+			return 6;
+		case sqBlue:
+			return 7;
+		case sqGreenS:
+			return 8;
+		default:
+			return 0;
+		}
+	}
 	public String toString() {
-		return this._color.toString();
+		return typeToNum(this._color)+"";
 	}
 }

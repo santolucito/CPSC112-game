@@ -17,4 +17,21 @@ public class Point {
 	public String toString(){
 		return "("+x+","+y+")";
 	}
+	
+	@Override public boolean equals(Object other) {
+	    boolean result = false;
+	    if (other instanceof Point) {
+	        Point that = (Point) other;
+	        result = (this.getX() == that.getX() && this.getY() == that.getY());
+	    }
+	    return result;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public int getX() {
+		return x;
+	}
 }

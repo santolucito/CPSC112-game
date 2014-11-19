@@ -1,12 +1,13 @@
 package cpsc112.game;
 
+import java.util.Arrays;
 import java.util.Random;
 
 
 public class BoardHelper {
 
 	public Square[][] squares;
-	public int size = 8;
+	public int size;
 	public Point[] squaresThatCanBeSwapped;
 
 	public Random randomGenerator = new Random();
@@ -14,36 +15,11 @@ public class BoardHelper {
 
 	public static void main(String args[]){
 		Board b = new Board();
-		BoardHelper bb = new BoardHelper(b);
-		b.fillInitialBoard();
-		System.out.println(b.toHTML());
-		
-		
-		bb.findMatches();
-		bb.buildPossibleMatchRow(new Point(0,0));
-		bb.buildPossibleMatchColumn(new Point(0,0));
-		
-		Point[] x = bb.findPossibleSwaps();
-		
-		
-		System.out.print("TESTING EXPANDARRAY");
-		Point[] y = bb.expandArray(x);
-		boolean test=true;
-		for(int i=0;i<x.length;i++)
-			test=(x[i]==y[i])&&test;
-		if(y.length==x.length && test)
-			System.out.println("SUCESS");
-		else
-			System.out.println("FAILURE");
-		
-		Point [] foundSwaps = bb.findPossibleSwaps();
-		if(foundSwaps != null)
-		for(int i =0;i<foundSwaps.length;i++){
-			System.out.print(foundSwaps[i]);
-		}
-		
+		b.runTests();
 	}
-	
+
+
+
 	public BoardHelper(Board board) {
 		//Don't worry about what this means
 		//it is just connecting this file to the rest of the system
@@ -54,7 +30,31 @@ public class BoardHelper {
 	}
 
 	public Point[][] findMatches() {
-		Point[][] foundMatches = new Point[2][0];
+		Point[][] foundMatches = new Point[1][0];
+		int currPos = 0;
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				Point p = new Point(i, j);
+				Point[] temp = buildPossibleMatchRow(p);
+				if (temp.length > 2) {
+					if (currPos == foundMatches.length) {
+						foundMatches = expandArray(foundMatches);
+					}
+					foundMatches[currPos] = temp;
+					currPos++;
+				}
+				temp = buildPossibleMatchColumn(p);
+				if (temp.length > 2) {
+					if (currPos == foundMatches.length) {
+						foundMatches = expandArray(foundMatches);
+					}
+					foundMatches[currPos] = temp;
+					currPos++;
+				}
+			}
+		}
 		return foundMatches;
 	}
 
@@ -81,25 +81,86 @@ public class BoardHelper {
 	public Point[] buildPossibleMatchRow(Point p) {
 		int x = p.x;
 		int y = p.y;
-		boolean[] matches = b.getRowBools(p);
-		return null;
+		boolean[] matches = b.getRowBools(new Point(x,y));
+		//at this point x is the x location n,...
+
+		int count = 0;
+
+		for (int i = x; i < size && matches[i]; i++)
+		{
+			count++;
+		}
+		Point[] ps = new Point[count];
+		for (int i = 0; i < count; i++)
+		{
+			ps[i] = new Point(x+i, y);
+		}
+		return ps;
 	}
 
 	public Point[] buildPossibleMatchColumn(Point p) {
 		int x = p.x;
 		int y = p.y;
-		boolean[] matches = b.getColumnBools(p);
-		return null;
+		boolean[] matches = b.getColumnBools(new Point(x,y));
+		//at this point x is the x location n,...
+
+		int count = 0;
+
+		for (int i = y; i < size && matches[i]; i++)
+		{
+			count++;
+		}
+		Point[] ps = new Point[count];
+		for (int i = 0; i < count; i++)
+		{
+			ps[i] = new Point(x, y+i);
+		}
+		return ps;
 	}
 
+
 	public Point[] findPossibleSwaps() {
-		return null;
+		int currPos = 0;
+		Point[] returnVals = new Point[3];
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				if(i+1<size){
+					b.swap(i,j,i+1,j);
+					if (hasMatches()) {
+						if (currPos == returnVals.length) {
+							returnVals = expandArray(returnVals);
+						}
+						returnVals[currPos] = new Point(i,j);
+						currPos++;
+					}
+					b.swap(i,j,i+1,j);
+				}
+				if(j+1<size){
+					b.swap(i,j,i,j+1);
+					if (hasMatches()) {
+						if (currPos == returnVals.length) {
+							returnVals = expandArray(returnVals);
+						}
+						returnVals[currPos] = new Point(i,j);
+						currPos++;
+					}
+					b.swap(i,j,i,j+1);
+				}
+			}
+		}
+		return returnVals;
 
 	}
 
 	//return a new array with all the same elements, but twice the space
 	public Point[] expandArray(Point[] originalArray) {
-		return null;
+		Point[] newArray = new Point[originalArray.length*2];
+		for(int i=0; i<originalArray.length; i++){
+			newArray[i]=originalArray[i];
+		}
+		return newArray;
 	}
 
 
@@ -115,4 +176,5 @@ public class BoardHelper {
 	public void tester(){
 		System.out.println("test me");
 	}
+	
 }
