@@ -878,7 +878,7 @@ public class StateGame extends State {
 	            showHint();
 	        }
 	        else if (_musicButton.isClicked((int)_mousePos.x, (int)_mousePos.y)) {
-	            BoardHelper.tester();
+	            BoardHelper.tester(_board);
 
 	        	/*if (_song.isPlaying()) {
 	                _musicButton.setText(_lang.getString("Turn on music"));

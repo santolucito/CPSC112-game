@@ -63,8 +63,8 @@ public class BoardHelper {
 	}
 
 	public static Point[] buildPossibleMatchRow(Point p, Board b) {
-		int x = p.getX();
-		int y = p.getY();
+		int x = p.x;
+		int y = p.y;
 		boolean[] matches = b.getRowBools(new Point(x,y));
 		//at this point x is the x location
 
@@ -83,8 +83,8 @@ public class BoardHelper {
 	}
 
 	public static Point[] buildPossibleMatchColumn(Point p, Board b) {
-		int x = p.getX();
-		int y = p.getY();
+		int x = p.x;
+		int y = p.y;
 		boolean[] matches = b.getColumnBools(new Point(x,y));
 		//at this point x is the x location
 		int count = 0;
@@ -147,7 +147,7 @@ public class BoardHelper {
 	}
 
 	//call this from within the program with the "Run tester()" button
-	public static void tester(){
+	public static void tester(Board b){
 		System.out.println("test me");
 	}
 	
